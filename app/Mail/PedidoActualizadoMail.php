@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Mail;
+
+use App\Models\Pedido;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+
+class PedidoActualizadoMail extends Mailable implements ShouldQueue
+{
+    use Queueable, SerializesModels;
+
+    public function __construct(
+        public Pedido $pedido,
+        public string $titulo,
+        public ?string $observacion = null,
+    ) {
+        $this->afterCommit();
+    }
+
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: "{$this->titulo} - Pedido #{$this->pedido->id}",
+        );
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            view: 'emails.pedido-actualizado',
+        );
+    }
+}
