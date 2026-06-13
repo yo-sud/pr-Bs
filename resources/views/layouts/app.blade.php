@@ -27,9 +27,12 @@
                 </svg>
             </button>
 
-            {{-- Logo Principal --}}
+            {{-- Logo Principal (Icono cambiado a Libro Abierto) --}}
             <a href="{{ route('home') }}" class="flex items-center gap-2 text-xl font-bold font-serif text-[#B8500C]">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
                 BookShop
             </a>
         </div>
@@ -213,8 +216,12 @@
     <footer class="bg-[#421605] text-[#FDFBF7] px-[7%] pt-16 pb-8 border-t border-white/5">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8 pb-12 border-b border-white/10">
             <div>
+                {{-- Logo del Footer (También cambiado a Libro Abierto) --}}
                 <a href="{{ route('home') }}" class="flex items-center gap-2 text-2xl font-bold font-serif text-white mb-5">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                    </svg>
                     BookShop
                 </a>
                 <p class="text-sm leading-relaxed text-[#FDFBF7]/70 max-w-[280px]">
@@ -256,9 +263,7 @@
         <div class="pt-8 flex flex-col gap-4 text-xs text-[#FDFBF7]/60">
             <div class="flex flex-wrap items-center gap-2">
                 <span>Aceptamos:</span>
-                <span class="bg-white/10 text-white font-bold px-2.5 py-1 rounded">VISA</span>
-                <span class="bg-white/10 text-white font-bold px-2.5 py-1 rounded">BCP</span>
-                <span class="bg-white/10 text-white font-bold px-2.5 py-1 rounded">PAGO EFECTIVO</span>
+                <span class="bg-white/10 text-white font-bold px-2.5 py-1 rounded">Mercado Pago</span>
             </div>
             <p>&copy; {{ date('Y') }} BookShop Perú. Todos los derechos reservados. Precios en Soles (S/).</p>
         </div>
