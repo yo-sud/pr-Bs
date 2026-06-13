@@ -83,7 +83,7 @@ class AdminLibroController extends Controller
             return $libro;
         });
 
-        return redirect()->route('admin.libros.edit', $libro)
+        return redirect()->route('admin.libros.index')
             ->with('status', 'Libro creado correctamente.');
     }
 

@@ -34,7 +34,7 @@ class CategoriaController extends Controller
 
         Categoria::query()->create($datosValidados);
 
-        return back()->with('status', 'Categoría creada correctamente.');
+        return redirect()->route('admin.categorias')->with('status', 'Categoría creada correctamente.');
     }
 
     public function update(Request $request, Categoria $categoria): RedirectResponse
