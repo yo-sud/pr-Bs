@@ -98,7 +98,7 @@ class DatabaseSeeder extends Seeder
             ['9788466358118', 'Gente normal', 'Sally Rooney', 'Literatura', 59.00, 21, 256, false, 'Literatura Random House', '2018-08-28', '/images/portadas/GenteNormal.jpg'],
             ['9788417961312', 'Estudio en escarlata', 'Arthur Conan Doyle', 'Misterio', 49.00, 25, 192, false, 'Alma Europa', '1887-11-01', '/images/portadas/EstudioEscarlata.png'],
             ['9788417605735', 'Hábitos de ricos', 'Juan Diego Gómez', 'Desarrollo Personal', 41.30, 20, 240, false, 'Paisas', '2016-05-15', '/images/portadas/HabitosRicos.webp'],
-            ['9788433980854', 'Nuestra parte de noche', 'Mariana Enriquez', 'Terror', 85.32, 11, 680, true, 'Anagrama', '2019-11-05', '/images/portadas/NuestraParteNoche.jpg'],
+            ['9788433980854', 'Te receto un gato', 'Syou Ishida', 'Desarrollo Personal', 69.90, 11, 680, true, 'Planeta', '2019-11-05', '/images/portadas/RecetoGato.png'],
             ['9788499081373', 'Crónicas marcianas', 'Ray Bradbury', 'Ciencia Ficcion', 55.00, 14, 352, false, 'Minotauro', '1950-05-04', '/images/portadas/CronicasMarcianas.png'],
             ['9788408229049', 'La ciudad de vapor', 'Carlos Ruiz Zafón', 'Literatura', 98.79, 30, 224, false, 'Planeta', '2020-11-17', '/images/portadas/CiudadVapor.jpg'],
         ];
