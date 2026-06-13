@@ -100,9 +100,6 @@ class LibroController extends Controller
         ]);
     }
 
-    /**
-     * Muestra la vista estática de Quiénes Somos.
-     */
     public function quienesSomos(): View
     {
         return view('quienes-somos');

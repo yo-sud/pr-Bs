@@ -11,26 +11,22 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Muestra la vista de login.
-     */
+  
     public function create(): View
     {
         return view('auth.login');
     }
 
-    /**
-     * Procesa el inicio de sesión.
-     */
+
     public function store(Request $request): RedirectResponse
     {
-        // 1. Validamos que el email y la contraseña no estén vacíos
+        // Validamos que el email y la contraseña no estén vacíos
         $request->validate([
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
         ]);
 
-        // 2. Intentamos el login con el email, la contraseña y el "recuérdame"
+        // Intentamos el login con el email, la contraseña y el "recuérdame"
         $credenciales = $request->only('email', 'password');
         $recordar = $request->boolean('remember');
 
@@ -41,10 +37,10 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        // 3. Si el login es correcto, regeneramos la sesión por seguridad
+        // Si el login es correcto, regeneramos la sesión por seguridad
         $request->session()->regenerate();
 
-        // 4. Tu filtro de roles (Admin / Cliente)
+        // Tu filtro de roles (Admin / Cliente)
         if (Auth::user()?->isAdmin()) {
             return redirect()->route('admin.dashboard');
         }
@@ -52,9 +48,6 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended(route('libros.index', absolute: false));
     }
 
-    /**
-     * Cierra la sesión (Logout).
-     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();

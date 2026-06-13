@@ -34,9 +34,6 @@ class AdminPedidoController extends Controller
         ]);
     }
 
-    /**
-     * Reemplaza e integra la lógica de ActualizarPedidoEstadoRequest.php
-     */
     public function updateStatus(
         Request $request,
         Pedido $pedido,

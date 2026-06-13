@@ -130,16 +130,13 @@
         const panelFiltros = document.getElementById('panel-filtros');
         const iconFiltro = document.getElementById('icon-filtro');
 
-        // Función reutilizable para refrescar el estilo visual del botón según el estado del panel
         function actualizarEstiloBoton() {
             if (panelFiltros.classList.contains('hidden')) {
-                // Estado: Cerrado (Estilo por defecto)
                 btnToggle.classList.remove('bg-[#B8500C]', 'text-white', 'border-[#B8500C]');
                 btnToggle.classList.add('border-[#FFC107]', 'text-[#421605]');
                 iconFiltro.classList.remove('text-white');
                 iconFiltro.classList.add('text-[#421605]');
             } else {
-                // Estado: Abierto (Estilo Naranja Activo)
                 btnToggle.classList.remove('border-[#FFC107]', 'text-[#421605]');
                 btnToggle.classList.add('bg-[#B8500C]', 'text-white', 'border-[#B8500C]');
                 iconFiltro.classList.remove('text-[#421605]');
@@ -147,10 +144,8 @@
             }
         }
 
-        // Ejecutar al cargar la página por si inicia abierto mediante parámetros de URL
         actualizarEstiloBoton();
 
-        // Controlar el clic
         btnToggle.addEventListener('click', function () {
             panelFiltros.classList.toggle('hidden');
             actualizarEstiloBoton();

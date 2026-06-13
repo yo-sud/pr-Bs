@@ -7,16 +7,13 @@ use Illuminate\Http\Request;
 
 class CarritoController extends Controller
 {
-    /**
-     * Muestra la vista del carrito con una Colección compatible.
-     */
     public function index()
     {
         $carrito = session()->get('carrito', []);
         $subtotal = 0;
 
         foreach ($carrito as $id => $item) {
-            // Protección: Si por residuos de pruebas viejas algún elemento no es un array válido, 
+            // Si por residuos de pruebas viejas algún elemento no es un array válido, 
             // lo eliminamos automáticamente para que no rompa la app.
             if (!is_array($item) || !isset($item['precio'], $item['cantidad'])) {
                 unset($carrito[$id]);
@@ -27,7 +24,6 @@ class CarritoController extends Controller
             $subtotal += $item['precio'] * $item['cantidad'];
         }
 
-        // SOLUCIÓN: Envolvemos $carrito en collect() para que tu Blade pueda usar ->count() y ->isNotEmpty()
         return view('carrito', [
             'items' => collect($carrito),
             'subtotal' => $subtotal,
@@ -35,12 +31,8 @@ class CarritoController extends Controller
         ]);
     }
 
-    /**
-     * Reemplaza a: AgregarCarritoRequest.php
-     */
     public function store(Request $request, $id)
     {
-        // Validación integrada de AgregarCarritoRequest
         $datosValidados = $request->validate([
             'cantidad' => ['required', 'integer', 'min:1', 'max:99'],
         ]);
@@ -72,13 +64,8 @@ class CarritoController extends Controller
         return redirect()->route('carrito.index')->with('success', "¡Se añadió '{$libro->titulo}' al carrito!");
     }
 
-    /**
-     * CORREGIDO: Cambiado de 'actualizar' a 'update' para coincidir con web.php
-     * Se ejecuta cuando el usuario cambia la cantidad directamente en la página del carrito.
-     */
     public function update(Request $request, $id)
     {
-        // Validación integrada de ActualizarCarritoRequest
         $datosValidados = $request->validate([
             'cantidad' => ['required', 'integer', 'min:1', 'max:99'],
         ]);
@@ -98,10 +85,6 @@ class CarritoController extends Controller
         return redirect()->route('carrito.index')->with('error', 'El producto no se encuentra en el carrito.');
     }
 
-    /**
-     * CORREGIDO: Cambiado de 'eliminar' a 'destroy' para coincidir con web.php
-     * Elimina un producto.
-     */
     public function destroy($id)
     {
         $carrito = session()->get('carrito', []);
@@ -114,10 +97,6 @@ class CarritoController extends Controller
         return redirect()->route('carrito.index')->with('success', 'Producto eliminado del carrito.');
     }
 
-    /**
-     * CORREGIDO: Cambiado de 'vaciar' a 'clear' para coincidir con web.php
-     * Vacía el carrito.
-     */
     public function clear()
     {
         session()->forget('carrito');

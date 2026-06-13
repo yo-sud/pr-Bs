@@ -21,9 +21,7 @@ class CarritoService
         return session()->get(self::SESSION_KEY, []);
     }
 
-    /**
-     * Corregido: Suma las cantidades internas de cada item array.
-     */
+  
     public function cantidadTotal(): int
     {
         $total = 0;
@@ -33,9 +31,6 @@ class CarritoService
         return $total;
     }
 
-    /**
-     * Corregido: Agrega un libro adaptándose a la nueva estructura estructurada.
-     */
     public function agregar(Libro $libro, int $cantidad): void
     {
         $this->validarDisponible($libro, $cantidad);
@@ -70,9 +65,6 @@ class CarritoService
         session()->put(self::SESSION_KEY, $carrito);
     }
 
-    /**
-     * Corregido: Actualiza la estructura completa del item al cambiar la cantidad.
-     */
     public function actualizar(Libro $libro, int $cantidad): void
     {
         $this->validarDisponible($libro, $cantidad);
@@ -103,9 +95,7 @@ class CarritoService
         session()->forget(self::SESSION_KEY);
     }
 
-    /**
-     * Corregido: Remueve el tipado estricto "int $cantidad" que causaba el TypeError
-     */
+
     public function resumen(): array
     {
         $cantidades = $this->contenido();
@@ -149,10 +139,6 @@ class CarritoService
         ];
     }
 
-    /**
-     * Corregido: Resguarda que si el array $cantidades viene del nuevo carrito estructurado,
-     * extraiga correctamente el entero de la celda 'cantidad'.
-     */
     public function resumenDesdeLibros(Collection $libros, array $cantidades): array
     {
         $items = $libros->map(function (Libro $libro) use ($cantidades) {

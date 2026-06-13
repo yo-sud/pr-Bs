@@ -32,20 +32,16 @@ class CheckoutController extends Controller
         return view('checkout.create', $resumen);
     }
 
-    /**
-     * Reemplaza e integra por completo la lógica de ConfirmarPedidoRequest.php
-     */
     public function store(
         Request $request,
         CarritoService $carrito,
         PedidoEstadoService $estados,
     ): RedirectResponse {
-        // 1. Autorización integrada (Reemplaza al método authorize())
+
         if ($request->user() === null) {
             abort(401, 'Debes iniciar sesión para confirmar un pedido.');
         }
 
-        // 2. Reglas de Validación mapeadas del Request
         $reglas = [
             // Información Personal
             'nombre'          => ['required', 'string', 'max:100'],
@@ -68,7 +64,6 @@ class CheckoutController extends Controller
             'metodo_pago'     => ['required', 'string', Rule::in(['efectivo'])],
         ];
 
-        // 3. Mensajes personalizados del Request
         $mensajes = [
             'nombre.required'          => 'El nombre es obligatorio.',
             'apellidos.required'       => 'Los apellidos son obligatorios.',
@@ -89,7 +84,7 @@ class CheckoutController extends Controller
         // Ejecutar la validación interna
         $datosValidados = $request->validate($reglas, $mensajes);
 
-        // 4. Lógica de negocio y procesamiento del carrito
+        // Lógica de negocio y procesamiento del carrito
         $cantidades = $carrito->contenido();
 
         if ($cantidades === []) {

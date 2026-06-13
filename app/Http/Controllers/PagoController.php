@@ -29,9 +29,6 @@ class PagoController extends Controller
         ]);
     }
 
-    /**
-     * Reemplaza e integra por completo la lógica de ProcesarPagoRequest.php
-     */
     public function store(Request $request, Pedido $pedido, PagoService $pagos): RedirectResponse
     {
         $this->autorizar($request, $pedido);

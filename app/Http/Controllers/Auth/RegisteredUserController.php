@@ -15,17 +15,13 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
+
     public function create(): View
     {
         return view('auth.register');
     }
 
     /**
-     * Handle an incoming registration request.
-     *
      * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
@@ -46,7 +42,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // CORREGIDO: Redirige a la página de inicio ('home') en lugar de 'dashboard'
+        // Redirige a la página de inicio ('home') en lugar de 'dashboard'
         return redirect(route('home', absolute: false));
     }
 }

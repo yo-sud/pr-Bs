@@ -17,17 +17,14 @@ class ProveedorController extends Controller
         ]);
     }
 
-    /**
-     * Reemplaza e integra la lógica de ProveedorRequest.php para la creación
-     */
     public function store(Request $request): RedirectResponse
     {
-        // 1. Autorización integrada (Solo administradores)
+        // Autorización integrada (Solo administradores)
         if (!$request->user()?->isAdmin()) {
             abort(403, 'Acción no autorizada.');
         }
 
-        // 2. Validación integrada
+        // Validación integrada
         $datosValidados = $request->validate([
             'nombre'   => ['required', 'string', 'max:100'],
             'telefono' => ['nullable', 'string', 'max:20'],
@@ -44,17 +41,14 @@ class ProveedorController extends Controller
         return back()->with('status', 'Proveedor creado correctamente.');
     }
 
-    /**
-     * Reemplaza e integra la lógica de ProveedorRequest.php para la actualización
-     */
     public function update(Request $request, Proveedor $proveedor): RedirectResponse
     {
-        // 1. Autorización integrada (Solo administradores)
+        // Autorización integrada (Solo administradores)
         if (!$request->user()?->isAdmin()) {
             abort(403, 'Acción no autorizada.');
         }
 
-        // 2. Validación integrada ignorando el ID del proveedor actual
+        // Validación integrada ignorando el ID del proveedor actual
         $datosValidados = $request->validate([
             'nombre'   => ['required', 'string', 'max:100'],
             'telefono' => ['nullable', 'string', 'max:20'],

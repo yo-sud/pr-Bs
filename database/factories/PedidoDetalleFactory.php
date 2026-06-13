@@ -7,9 +7,6 @@ use App\Models\Pedido;
 use App\Models\PedidoDetalle;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<PedidoDetalle>
- */
 class PedidoDetalleFactory extends Factory
 {
     public function definition(): array

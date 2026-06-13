@@ -12,9 +12,6 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -22,13 +19,8 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     * Reemplaza e integra la lógica de ProfileUpdateRequest.php
-     */
     public function update(Request $request): RedirectResponse
     {
-        // Validación integrada usando las reglas exactas de ProfileUpdateRequest
         $datosValidados = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => [

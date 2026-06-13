@@ -7,9 +7,6 @@ use App\Models\Libro;
 use App\Models\Proveedor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<Libro>
- */
 class LibroFactory extends Factory
 {
     public function definition(): array

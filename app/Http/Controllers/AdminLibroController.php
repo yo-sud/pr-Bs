@@ -38,17 +38,14 @@ class AdminLibroController extends Controller
         return view('admin.libros.create', $this->catalogos());
     }
 
-    /**
-     * Reemplaza e integra la lógica de StoreLibroRequest.php
-     */
     public function store(Request $request): RedirectResponse
     {
-        // 1. Autorización integrada
+        // Autorización integrada
         if (!$request->user()?->isAdmin()) {
             abort(403, 'Acción no autorizada.');
         }
 
-        // 2. Validación integrada
+        // Validación integrada
         $datos = $request->validate([
             'isbn' => ['nullable', 'string', 'max:20', 'unique:libros,isbn'],
             'titulo' => ['required', 'string', 'max:150'],
@@ -103,9 +100,7 @@ class AdminLibroController extends Controller
         ]);
     }
 
-    /**
-     * Reemplaza e integra la lógica de UpdateLibroRequest.php
-     */
+
     public function update(Request $request, Libro $libro): RedirectResponse
     {
         // 1. Autorización integrada
@@ -161,9 +156,6 @@ class AdminLibroController extends Controller
             ->with('status', 'Libro desactivado correctamente.');
     }
 
-    /**
-     * Reemplaza e integra por completo la lógica de AjustarStockRequest.php
-     */
     public function ajustarStock(Request $request, Libro $libro): RedirectResponse
     {
         // 1. Autorización integrada
