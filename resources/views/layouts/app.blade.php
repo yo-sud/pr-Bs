@@ -27,8 +27,8 @@
                 </svg>
             </button>
 
-            {{-- Logo Principal (Icono cambiado a Libro Abierto) --}}
-            <a href="{{ route('home') }}" class="flex items-center gap-2 text-xl font-bold font-serif text-[#B8500C]">
+            {{-- LOGO PRINCIPAL ACTUALIZADO CON ESTILO FINO --}}
+            <a href="{{ route('home') }}" class="flex items-center gap-2 text-2xl font-medium font-serif text-[#963F0B] tracking-wide whitespace-nowrap no-underline">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                     <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
@@ -216,7 +216,6 @@
     <footer class="bg-gradient-to-b from-amber-900 to-amber-950 text-[#FDE68A] px-[7%] pt-16 pb-8 border-t border-white/5">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8 pb-12 border-b border-white/10">
             <div>
-                {{-- Logo del Footer (También cambiado a Libro Abierto) --}}
                 <a href="{{ route('home') }}" class="flex items-center gap-2 text-2xl font-bold font-serif text-white mb-5">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
