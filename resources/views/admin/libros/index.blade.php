@@ -6,8 +6,8 @@
 <div class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-bold text-[#2C1B12]">Libros e inventario</h2>
-            <p class="text-sm text-gray-500">Administra datos, estado y existencias.</p>
+            <h2 class="text-2xl font-bold text-[#2C1B12]">Libros</h2>
+            <p class="text-sm text-gray-500">Administra el catálogo.</p>
         </div>
         <a href="{{ route('admin.libros.create') }}" class="bg-[#B8500C] hover:bg-[#963F07] text-white px-5 py-2.5 rounded-xl text-sm font-semibold">Nuevo libro</a>
     </div>

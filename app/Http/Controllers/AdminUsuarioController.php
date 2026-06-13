@@ -17,7 +17,7 @@ class AdminUsuarioController extends Controller
     public function index()
     {
         try {
-            $usuarios = User::orderBy('name')->simplePaginate(20);
+            $usuarios = User::where('status',1)->orderBy('name')->simplePaginate(20);
             return view('admin.usuarios.index', compact('usuarios'));
 
         } catch (Exception $err) {
@@ -51,7 +51,6 @@ class AdminUsuarioController extends Controller
         $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8'],
             'role'     => ['required', 'string', 'in:admin,cliente']
         ]);
 
@@ -60,11 +59,11 @@ class AdminUsuarioController extends Controller
             User::create([
                 'name'     => $request->name,
                 'email'    => $request->email,
-                'password' => Hash::make($request->password), 
+                'password' => Hash::make('password'), 
                 'role'     => $request->role,
             ]);
 
-            return redirect()->route('usuarios.index')->with('success', 'Usuario creado.');
+            return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado.');
 
         } catch (Exception $err) {
             Log::error('Error creando un usuario: ' . $err->getMessage());
@@ -129,7 +128,7 @@ class AdminUsuarioController extends Controller
             }
 
             $usuario->save();
-            return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado.');
+            return redirect()->route('admin.usuarios.index')->with('success', 'Usuario actualizado.');
 
         } catch (Exception $err) {
             Log::error('Error al actualizar un usuario: ' . $err->getMessage());
@@ -138,24 +137,22 @@ class AdminUsuarioController extends Controller
     }
 
     /**
-     * ACCIÓN ELIMINAR: Borra permanentemente el registro de la base de datos.
+     * ACCIÓN ELIMINAR(desactivar): Cambia a desactivado
      */
     public function destroy(string $id)
     {
         try {
             $usuario = User::find($id);
 
-            // REGLA DE INTEGRIDAD: Si el usuario ya tiene pedidos de libros guardados, bloquea el borrado
-            if ($usuario->pedidos()->exists()) {
-                return back()->with('error', 'No se puede eliminar un usuario con pedidos.');
-            }
+            // BORRADO LÓGICO: En lugar de usar ->delete(), cambiamos su estado a 0 (Inactivo/Desactivado)
+            $usuario->status = 0;
+            $usuario->save();
 
-            $usuario->delete();
-            return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado.');
+            return redirect()->route('admin.usuarios.index')->with('success', 'Cuenta del usuario desactivada.');
 
         } catch (Exception $err) {
-            Log::error('Error al eliminar un usuario: ' . $err->getMessage());
-            return back()->withInput()->with('error', 'Ocurrió un error al intentar eliminar.');
+            Log::error('Error al desactivar un usuario: ' . $err->getMessage());
+            return back()->withInput()->with('error', 'Ocurrió un error al intentar desactivar.');
         }
     }
 }
