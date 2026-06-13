@@ -213,7 +213,7 @@
     </div>
 
     {{-- FOOTER HORIZONTAL CORPORATIVO --}}
-    <footer class="bg-[#421605] text-[#FDFBF7] px-[7%] pt-16 pb-8 border-t border-white/5">
+    <footer class="bg-gradient-to-b from-amber-900 to-amber-950 text-[#FDE68A] px-[7%] pt-16 pb-8 border-t border-white/5">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8 pb-12 border-b border-white/10">
             <div>
                 {{-- Logo del Footer (También cambiado a Libro Abierto) --}}
@@ -224,15 +224,15 @@
                     </svg>
                     BookShop
                 </a>
-                <p class="text-sm leading-relaxed text-[#FDFBF7]/70 max-w-[280px]">
+                <p class="text-sm leading-relaxed text-[oklch(0.91 0.12 95.75)]/70 max-w-[280px]">
                     Tu librería de confianza para descubrir historias maravillosas y conocimiento sin límites. Libros físicos al mejor precio.
                 </p>
             </div>
 
             <div class="flex flex-col gap-4">
                 <h3 class="font-serif text-lg font-bold text-white">Enlaces Rápidos</h3>
-                <div class="flex flex-col gap-2.5 text-sm text-[#FDFBF7]/70">
-                    <a href="{{ route('libros.index') }}" class="hover:text-white transition-colors">Todos los Libros</a>
+                <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70">
+                    <a href="{{ route('libros.index') }}" class="hover:text-white transition-colors" >Todos los Libros</a>
                     <a href="{{ route('libros.novedades') }}" class="hover:text-white transition-colors">Novedades</a>
                     <a href="{{ route('libros.populares') }}" class="hover:text-white transition-colors">Populares</a>
                 </div>
@@ -240,14 +240,14 @@
 
             <div class="flex flex-col gap-4">
                 <h3 class="font-serif text-lg font-bold text-white">Sobre Nosotros</h3>
-                <div class="flex flex-col gap-2.5 text-sm text-[#FDFBF7]/70">
+                <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70">
                     <a href="{{ route('quienes-somos') }}" class="hover:text-white transition-colors">Quiénes somos</a>
                 </div>
             </div>
 
             <div class="flex flex-col gap-4">
                 <h3 class="font-serif text-lg font-bold text-white">Contacto</h3>
-                <div class="flex flex-col gap-3.5 text-sm text-[#FDFBF7]/70">
+                <div class="flex flex-col gap-3.5 text-sm text-[oklch(0.91 0.12 95.75)]/70">
                     <div class="flex items-center gap-3">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                         <span>+51 967 750 523</span>
@@ -260,12 +260,12 @@
             </div>
         </div>
 
-        <div class="pt-8 flex flex-col gap-4 text-xs text-[#FDFBF7]/60">
+        <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[oklch(0.91_0.12_95.75)]/60">
             <div class="flex flex-wrap items-center gap-2">
                 <span>Aceptamos:</span>
-                <span class="bg-white/10 text-white font-bold px-2.5 py-1 rounded">Mercado Pago</span>
+                <span class="bg-white text-[#632E04] font-medium px-2.5 py-0.5 rounded text-xs border border-gray-100">Mercado Pago</span>
             </div>
-            <p>&copy; {{ date('Y') }} BookShop Perú. Todos los derechos reservados. Precios en Soles (S/).</p>
+            <p class="m-0 flex items-center leading-none">&copy; {{ date('Y') }} BookShop Perú. Todos los derechos reservados. Precios en Soles (S/).</p>
         </div>
     </footer>
 

@@ -145,17 +145,6 @@
                     {{ $libro->descripcion ?: 'Principios fundamentales del diseño web intuitivo.' }}
                 </p>
             </div>
-
-            <div>
-                <h3 class="font-bold text-xs text-[#78350F] mb-2.5">Palabras Clave</h3>
-                <div class="flex flex-wrap gap-2">
-                    <span class="bg-[#FEF3C7] text-[#78350F] text-[10px] px-3 py-1 rounded-full font-medium">diseño</span>
-                    <span class="bg-[#FEF3C7] text-[#78350F] text-[10px] px-3 py-1 rounded-full font-medium">ux</span>
-                    <span class="bg-[#FEF3C7] text-[#78350F] text-[10px] px-3 py-1 rounded-full font-medium">ui</span>
-                    <span class="bg-[#FEF3C7] text-[#78350F] text-[10px] px-3 py-1 rounded-full font-medium">web</span>
-                </div>
-            </div>
-
         </div>
     </section>
 </main>
