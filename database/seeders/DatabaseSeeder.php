@@ -98,6 +98,7 @@ class DatabaseSeeder extends Seeder
             ['9788433980854', 'Te receto un gato', 'Syou Ishida', 'Desarrollo Personal', 69.90, 11, 680, true, 'Planeta', '2019-11-05', '/images/portadas/RecetoGato.png'],
             ['9788499081373', 'Crónicas marcianas', 'Ray Bradbury', 'Ciencia Ficcion', 55.00, 14, 352, false, 'Minotauro', '1950-05-04', '/images/portadas/CronicasMarcianas.png'],
             ['9788408229049', 'La ciudad de vapor', 'Carlos Ruiz Zafón', 'Literatura', 98.79, 30, 224, false, 'Planeta', '2020-11-17', '/images/portadas/CiudadVapor.jpg'],
+            
         ];
 
         foreach ($libros as [$isbn, $titulo, $autor, $categoria, $precio, $stock, $ventas, $destacado, $editorial, $fecha, $portadaUrl]) {
