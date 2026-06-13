@@ -17,7 +17,7 @@ class AdminUsuarioController extends Controller
     public function index()
     {
         try {
-            $usuarios = User::orderBy('name')->simplePaginate(20);
+            $usuarios = User::where('status',1)->orderBy('name')->simplePaginate(20);
             return view('admin.usuarios.index', compact('usuarios'));
 
         } catch (Exception $err) {
@@ -51,7 +51,6 @@ class AdminUsuarioController extends Controller
         $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8'],
             'role'     => ['required', 'string', 'in:admin,cliente']
         ]);
 
@@ -60,8 +59,9 @@ class AdminUsuarioController extends Controller
             User::create([
                 'name'     => $request->name,
                 'email'    => $request->email,
-                'password' => Hash::make('password'), 
+                'password' => Hash::make('12345678'), 
                 'role'     => $request->role,
+                'status'   => 1,
             ]);
 
             return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado.');
@@ -143,10 +143,11 @@ class AdminUsuarioController extends Controller
     public function destroy(string $id)
     {
         try {
+            if (auth()->id() == $id) {
+                return back()->with('error', '¡Cuidado, estas desactivando la cuenta principal!');
+            }
             $usuario = User::find($id);
-
             // BORRADO LÓGICO: En lugar de usar ->delete(), cambiamos su estado a 0 (Inactivo/Desactivado)
-            $usuario->status = 0;
             $usuario->status = 0;
             $usuario->save();
 
@@ -154,7 +155,7 @@ class AdminUsuarioController extends Controller
 
         } catch (Exception $err) {
             Log::error('Error al desactivar un usuario: ' . $err->getMessage());
-            return back()->withInput()->with('error', 'Ocurrió un error al intentar desactivar.');
+            return back()->withInput()->with('error', 'Ocurrió un error al intentar desactivar la cuenta.');
         }
     }
 }
