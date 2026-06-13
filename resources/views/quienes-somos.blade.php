@@ -9,7 +9,6 @@
     
     <div class="max-w-4xl mx-auto">
         
-        {{-- CAMBIO AQUÍ: La tarjeta ahora es blanca translúcida (bg-white/80) y tiene un desenfoque de cristal (backdrop-blur-md) --}}
         <div class="bg-white/85 backdrop-blur-md border border-white/40 rounded-[32px] p-8 md:p-12 shadow-[0_30px_60px_-15px_rgba(42,22,5,0.25)]">
 
             {{-- BLOQUE 1 EN EL MEDIO --}}

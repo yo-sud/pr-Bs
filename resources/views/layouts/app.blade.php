@@ -207,67 +207,63 @@
         </div>
     </div>
 
-    {{-- CONTENIDO INYECTADO --}}
     <div class="flex-grow flex flex-col">
         @yield('content')
     </div>
 
-    {{-- FOOTER HORIZONTAL CORPORATIVO --}}
-    <footer class="bg-gradient-to-b from-amber-900 to-amber-950 text-[#FDE68A] px-[7%] pt-16 pb-8 border-t border-white/5">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8 pb-12 border-b border-white/10">
-            <div>
-                <a href="{{ route('home') }}" class="flex items-center gap-2 text-2xl font-bold font-serif text-white mb-5">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                    </svg>
-                    BookShop
-                </a>
-                <p class="text-sm leading-relaxed text-[oklch(0.91 0.12 95.75)]/70 max-w-[280px]">
-                    Tu librería de confianza para descubrir historias maravillosas y conocimiento sin límites. Libros físicos al mejor precio.
-                </p>
-            </div>
+    <footer class="bg-gradient-to-b from-amber-900 to-amber-950 text-[#FDE68A] px-[7%] pt-16 pb-8 border-t border-white/5 font-['Lora',_serif]">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8 pb-12 border-b border-white/10">
+        <div>
+            {{-- IDENTIDAD: MARCA PRINCIPAL CON SU TAMAÑO EN 2XL --}}
+            <a href="{{ route('home') }}" class="flex items-center gap-2.5 text-2xl font-serif text-white mb-5 no-underline tracking-wide">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E5A900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400">
+                    <path d="M12 7v14"></path>
+                    <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
+                </svg>
+                <span class="font-medium text-white">BookShop</span>
+            </a>
+            <p class="text-sm leading-relaxed text-[oklch(0.91 0.12 95.75)]/70 max-w-[280px] font-sans mb-4">
+                Tu librería de confianza para descubrir historias maravillosas y conocimiento sin límites. Libros físicos al mejor precio.
+            </p>
+        </div>
 
-            <div class="flex flex-col gap-4">
-                <h3 class="font-serif text-lg font-bold text-white">Enlaces Rápidos</h3>
-                <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70">
-                    <a href="{{ route('libros.index') }}" class="hover:text-white transition-colors" >Todos los Libros</a>
-                    <a href="{{ route('libros.novedades') }}" class="hover:text-white transition-colors">Novedades</a>
-                    <a href="{{ route('libros.populares') }}" class="hover:text-white transition-colors">Populares</a>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-4">
-                <h3 class="font-serif text-lg font-bold text-white">Sobre Nosotros</h3>
-                <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70">
-                    <a href="{{ route('quienes-somos') }}" class="hover:text-white transition-colors">Quiénes somos</a>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-4">
-                <h3 class="font-serif text-lg font-bold text-white">Contacto</h3>
-                <div class="flex flex-col gap-3.5 text-sm text-[oklch(0.91 0.12 95.75)]/70">
-                    <div class="flex items-center gap-3">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                        <span>+51 967 750 523</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                        <a href="mailto:contacto@bookshop.pe" class="hover:text-white transition-colors">contacto@bookshop.pe</a>
-                    </div>
-                </div>
+        <div class="flex flex-col gap-4">
+            {{-- TÍTULO CORREGIDO: TAMAÑO EQUILIBRADO (text-lg), MISMA TIPOGRAFÍA Y ESTILO --}}
+            <h3 class="font-serif text-lg font-medium text-white mb-1 tracking-wide">Enlaces Rápidos</h3>
+            <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70 font-sans">
+                <a href="{{ route('libros.index') }}" class="hover:text-white transition-colors">Todos los Libros</a>
+                <a href="{{ route('libros.novedades') }}" class="hover:text-white transition-colors">Novedades</a>
+                <a href="{{ route('libros.populares') }}" class="hover:text-white transition-colors">Populares</a>
             </div>
         </div>
 
-        <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[oklch(0.91_0.12_95.75)]/60">
-            <div class="flex flex-wrap items-center gap-2">
-                <span>Aceptamos:</span>
-                <span class="bg-white text-[#632E04] font-medium px-2.5 py-0.5 rounded text-xs border border-gray-100">Mercado Pago</span>
+        <div class="flex flex-col gap-4">
+            {{-- TÍTULO CORREGIDO: TAMAÑO EQUILIBRADO (text-lg), MISMA TIPOGRAFÍA Y ESTILO --}}
+            <h3 class="font-serif text-lg font-medium text-white mb-1 tracking-wide">Sobre Nosotros</h3>
+            <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70 font-sans">
+                <a href="{{ route('quienes-somos') }}" class="hover:text-white transition-colors">Quiénes somos</a>
             </div>
-            <p class="m-0 flex items-center leading-none">&copy; {{ date('Y') }} BookShop Perú. Todos los derechos reservados. Precios en Soles (S/).</p>
         </div>
-    </footer>
 
+        <div class="flex flex-col gap-4">
+            <h3 class="font-serif text-lg font-medium text-white mb-1 tracking-wide">Contacto</h3>
+            <div class="flex flex-col gap-3.5 text-sm text-[oklch(0.91 0.12 95.75)]/70 font-sans">
+                <div class="flex items-center gap-3">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <span>+51 934 008 523</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[oklch(0.91_0.12_95.75)]/60 font-sans">
+        <div class="flex flex-wrap items-center gap-2">
+            <span>Aceptamos:</span>
+            <span class="bg-white text-[#632E04] font-medium px-2.5 py-0.5 rounded text-xs border border-gray-100">Mercado Pago</span>
+        </div>
+        <p class="m-0 flex items-center leading-none">&copy; {{ date('Y') }} BookShop Perú. Todos los derechos reservados. Precios en Soles (S/).</p>
+    </div>
+</footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const menuToggle = document.getElementById('menu-toggle');
