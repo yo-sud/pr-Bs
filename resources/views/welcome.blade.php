@@ -3,7 +3,7 @@
 @section('title', 'BookShop - Inicio')
 
 @section('content')
-{{-- 1. SECCIÓN HERO (AHORA CON EL COLOR DE FONDO MÁS NOTORIO) --}}
+{{-- 1. SECCIÓN HERO --}}
 <div class="bg-[#EFE8DC] w-full flex-grow flex items-center border-b border-[#421605]/10">
     <section class="grid grid-cols-1 md:grid-cols-2 items-center px-[7%] py-12 md:py-16 gap-12 w-full">
         <div class="max-w-[540px] text-center md:text-left order-2 md:order-1">
@@ -27,10 +27,13 @@
                     <h3 class="font-serif text-[24px] sm:text-[28px] font-bold text-[#421605] mb-0.5">{{ number_format($totalLibros) }}</h3>
                     <p class="text-[10px] sm:text-[11px] text-[#6E7E80] uppercase tracking-wider font-semibold">Libros disponibles</p>
                 </div>
-                <div>
-                    <h3 class="font-serif text-[24px] sm:text-[28px] font-bold text-[#421605] mb-0.5">{{ number_format($totalCategorias) }}</h3>
-                    <p class="text-[10px] sm:text-[11px] text-[#6E7E80] uppercase tracking-wider font-semibold">Categorías</p>
-                </div>
+            <div>
+                 @php
+                   $totalCategorias = \App\Models\Categoria::count();
+                 @endphp
+                <h3 class="font-serif text-[24px] sm:text-[28px] font-bold text-[#421605] mb-0.5">{{ number_format($totalCategorias) }}</h3>
+                <p class="text-[10px] sm:text-[11px] text-[#6E7E80] uppercase tracking-wider font-semibold">Categorías</p>
+            </div>
                 <div>
                     <h3 class="font-serif text-[24px] sm:text-[28px] font-bold text-[#421605] mb-0.5">24/7</h3>
                     <p class="text-[10px] sm:text-[11px] text-[#6E7E80] uppercase tracking-wider font-semibold">Catálogo en línea</p>
