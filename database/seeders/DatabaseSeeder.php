@@ -13,9 +13,7 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
+
     public function run(): void
     {
         User::query()->updateOrCreate(
@@ -60,7 +58,6 @@ class DatabaseSeeder extends Seeder
             ],
         );
 
-        // Se agregó un décimo parámetro al final de cada fila con la URL de la portada real
         $libros = [
             ['9780307474728', 'Cien aÑos de soledad', 'Gabriel Garcia Marquez', 'Literatura', 59.00, 24, 980, true, 'Editorial Sudamericana', '1967-06-05', '/images/portadas/Soledad.jpg'],
             ['9780156012195', 'El Principito', 'Antoine de Saint-Exupery', 'Infantil', 39.90, 30, 820, true, 'Salamandra', '1943-04-06', '/images/portadas/Principito.jpg'],
