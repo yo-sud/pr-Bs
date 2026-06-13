@@ -73,21 +73,21 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Elimina una categoría si no tiene libros vinculados.
+     * Alterna el estado (Activo/Inactivo) de una categoría.
      */
     public function destroy(Categoria $categoria): RedirectResponse
     {
-        // Nota: Si quieres proteger también el borrado por seguridad, añade esto:
         if (!auth()->user()?->isAdmin()) {
             abort(403, 'Acción no autorizada.');
         }
 
-        if ($categoria->libros()->exists()) {
-            return back()->withErrors(['categoria' => 'No se puede eliminar una categoría con libros asociados.']);
-        }
+        // Cambia el estado al opuesto actual (si es 1 pasa a 0, si es 0 pasa a 1)
+        $categoria->update([
+            'activo' => !$categoria->activo
+        ]);
 
-        $categoria->delete();
+        $mensaje = $categoria->activo ? 'Categoría activada correctamente.' : 'Categoría desactivada correctamente.';
 
-        return back()->with('status', 'Categoría eliminada correctamente.');
+        return back()->with('status', $mensaje);
     }
 }
