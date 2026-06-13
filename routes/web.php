@@ -16,12 +16,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProveedorController;
 use Illuminate\Support\Facades\Route;
 
+// Rutas Públicas de la Tienda
 Route::get('/', [LibroController::class, 'inicio'])->name('home');
 Route::get('/todos-los-libros', [LibroController::class, 'index'])->name('libros.index');
 Route::get('/novedades', [LibroController::class, 'novedades'])->name('libros.novedades');
 Route::get('/populares', [LibroController::class, 'populares'])->name('libros.populares');
 Route::get('/libros/{libro}', [LibroController::class, 'show'])->name('libros.show');
+Route::get('/quienes-somos', [LibroController::class, 'quienesSomos'])->name('quienes-somos');
 
+// Rutas del Carrito de Compras
 Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
 Route::post('/carrito/{libro}', [CarritoController::class, 'store'])->name('carrito.store');
 Route::patch('/carrito/{libro}', [CarritoController::class, 'update'])->name('carrito.update');
@@ -29,11 +32,13 @@ Route::delete('/carrito/{libro}', [CarritoController::class, 'destroy'])->name('
 Route::delete('/carrito', [CarritoController::class, 'clear'])->name('carrito.clear');
 Route::post('/webhooks/pagos/falso', PagoWebhookController::class)->name('webhooks.pagos.falso');
 
+// Rutas Protegidas (Requieren inicio de sesión)
 Route::middleware('auth')->group(function () {
+    // Gestión del Perfil (Se removió destroy por limpieza de código)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Procesos de Compra y Pedidos del Cliente
     Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout.create');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/mis-pedidos', [PedidoController::class, 'index'])->name('pedidos.index');
@@ -43,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/mis-pedidos/{pedido}/pagar', [PagoController::class, 'store'])->name('pagos.store');
 });
 
+// Panel de Administración (Restringido para Administradores)
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', AdminDashboardController::class)->name('dashboard');
     Route::resource('libros', AdminLibroController::class)->except('show');

@@ -158,11 +158,6 @@
                         </a>
                     </aside>
 
-                    {{-- Banner inferior: Envío gratis en todos los pedidos --}}
-                    <div class="bg-[#FCF7F2] border border-[#B8500C]/10 rounded-2xl py-3 px-4 flex items-center justify-center gap-2 text-xs text-[#8A7A71] font-medium">
-                        <span>🎉</span>
-                        <span>Envío gratis en todos los pedidos</span>
-                    </div>
                 </div>
 
             </div>

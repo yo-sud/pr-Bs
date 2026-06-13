@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class CarritoController extends Controller
 {
-/**
+    /**
      * Muestra la vista del carrito con una Colección compatible.
      */
     public function index()
@@ -73,10 +73,10 @@ class CarritoController extends Controller
     }
 
     /**
-     * Reemplaza a: ActualizarCarritoRequest.php
+     * CORREGIDO: Cambiado de 'actualizar' a 'update' para coincidir con web.php
      * Se ejecuta cuando el usuario cambia la cantidad directamente en la página del carrito.
      */
-    public function actualizar(Request $request, $id)
+    public function update(Request $request, $id)
     {
         // Validación integrada de ActualizarCarritoRequest
         $datosValidados = $request->validate([
@@ -99,9 +99,10 @@ class CarritoController extends Controller
     }
 
     /**
+     * CORREGIDO: Cambiado de 'eliminar' a 'destroy' para coincidir con web.php
      * Elimina un producto.
      */
-    public function eliminar($id)
+    public function destroy($id)
     {
         $carrito = session()->get('carrito', []);
 
@@ -114,9 +115,10 @@ class CarritoController extends Controller
     }
 
     /**
+     * CORREGIDO: Cambiado de 'vaciar' a 'clear' para coincidir con web.php
      * Vacía el carrito.
      */
-    public function vaciar()
+    public function clear()
     {
         session()->forget('carrito');
         return redirect()->route('carrito.index')->with('success', 'El carrito se ha vaciado.');

@@ -11,38 +11,68 @@
 
     <div class="min-h-screen flex flex-col lg:flex-row">
         
+        {{-- HEADER MÓVIL: Mantiene la barra superior en pantallas pequeñas --}}
         <div class="bg-[#1F130B] text-white h-16 flex items-center justify-between px-4 lg:hidden w-full fixed top-0 left-0 z-50 border-b border-[#3D281C]">
             <div class="flex items-center">
-                <span class="material-symbols-outlined text-[#D4A373] mr-2 text-2xl">menu_book</span>
+                {{-- Corrección 1: Icono del libro en color naranja/terracota cálido --}}
+                <span class="material-symbols-outlined text-[#e07a16] mr-2 text-2xl">menu_book</span>
                 <span class="font-bold tracking-wider text-sm">BookShop Admin</span>
             </div>
             
-            <button id="btn-menu" class="text-white hover:text-[#D4A373] focus:outline-none">
+            <button id="btn-menu" class="text-white hover:text-[#e07a16] focus:outline-none">
                 <span class="material-symbols-outlined text-3xl">menu</span>
             </button>
         </div>
 
+        {{-- ASIDE / BARRA LATERAL: El menú izquierdo principal --}}
         <aside id="menu-lateral" class="bg-[#2C1B12] text-white w-64 fixed inset-y-0 left-0 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out border-r border-[#1F130B] flex flex-col pt-16 lg:pt-0">
 
-            <div class="h-20 hidden lg:flex items-center px-6 bg-[#1F130B] border-b border-[#3D281C]">
-                <span class="material-symbols-outlined text-[#D4A373] mr-3 text-3xl">menu_book</span>
+            {{-- LOGO DE ESCRITORIO --}}
+            <div class="h-24 hidden lg:flex items-center px-6 border-b border-[#2A190E] bg-[#150B05]">
+                <div class="w-10 h-10 bg-[#e07a16] rounded-xl flex items-center justify-center mr-3 shadow-md">
+                    <span class="material-symbols-outlined text-white text-2xl">menu_book</span>
+                </div>
                 <div>
-                    <h1 class="text-base font-bold tracking-wider">BookShop</h1>
-                    <p class="text-xs text-[#A89284] uppercase tracking-widest">Panel Admin</p>
+                    <h1 class="text-lg font-black tracking-tight text-white leading-tight">BookShop</h1>
+                    <p class="text-xs text-[#e07a16] font-bold uppercase tracking-widest text-[10px]">Panel Admin</p>
                 </div>
             </div>
 
-            <div class="px-6 py-4 border-b border-[#3D281C] bg-[#24160E] lg:bg-transparent">
+            <div class="px-6 py-5 border-b border-[#2A190E] bg-[#1A0F08] flex items-center space-x-3">
+                {{-- Foto circular con borde dorado --}}
+                <div class="relative flex-shrink-0">
+                        {{-- Ponemos un avatar genérico pulcro por si no tienes imagen real en la BD --}}
+                        <div class="w-12 h-12 rounded-full bg-[#E8DED5] text-[#1A0F08] flex items-center justify-center border-2 border-[#e07a16] shadow-md">
+                            <span class="material-symbols-outlined text-2xl font-bold">person</span>
+                        </div>
+                </div>
+                {{-- Nombre y la etiqueta naranja de la imagen --}}
+                <div class="overflow-hidden flex-1">
+                    <p class="text-sm font-bold text-white truncate leading-tight">{{ auth()->user()->name }}</p>
+                    <div class="mt-1">
+                        <span class="inline-block px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white bg-[#e07a16] rounded-full shadow-sm">
+                            Administrador
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- BLOQUE DEL USUARIO AUTENTICADO --}}
+            {{-- Corrección 3: Color de fondo adaptado para armonizar mejor con la barra lateral --}}
+            <div class="px-6 py-4 border-b border-[#3D281C] bg-[#21140d] lg:bg-transparent">
                 <p class="text-sm font-semibold truncate">{{ auth()->user()->name }}</p>
                 <p class="text-xs text-[#A89284] truncate">{{ auth()->user()->email }}</p>
             </div>
 
+            {{-- CONFIGURACIÓN DE ESTILOS DEL MENÚ --}}
             @php
-                $link = 'flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors';
-                $active = 'bg-[#D4A373] text-[#2C1B12]';
-                $inactive = 'text-[#C8B8AE] hover:bg-[#3D281C] hover:text-white';
+                // Corrección 4: Botón activo ahora es naranja/terracota con texto blanco y bordes más redondos (rounded-xl)
+                $link = 'flex items-center px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200';
+                $active = 'bg-[#e07a16] text-white shadow-md'; 
+                $inactive = 'text-[#e6d5c3] hover:bg-[#3D281C] hover:text-[#e3a857]';
             @endphp
 
+            {{-- NAVEGACIÓN PRINCIPAL --}}
             <nav class="p-4 space-y-1 flex-1 overflow-y-auto">
                 <a href="{{ route('admin.dashboard') }}" class="{{ $link }} {{ request()->routeIs('admin.dashboard') ? $active : $inactive }}">
                     <span class="material-symbols-outlined mr-2 text-xl">dashboard</span> Dashboard
@@ -65,6 +95,8 @@
                 <a href="{{ route('admin.pedidos.index') }}" class="{{ $link }} {{ request()->routeIs('admin.pedidos.*') ? $active : $inactive }}">
                     <span class="material-symbols-outlined mr-2 text-xl">receipt_long</span> Pedidos
                 </a>
+                
+                {{-- BOTÓN CERRAR SESIÓN --}}
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button class="{{ $link }} {{ $inactive }} w-full text-left">
@@ -74,8 +106,10 @@
             </nav>
         </aside>
 
+        {{-- FONDO OSCURO PARA MENÚ MÓVIL --}}
         <div id="fondo-menu" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"></div>
 
+        {{-- CONTENEDOR PRINCIPAL DE LAS VISTAS (@yield) --}}
         <main class="flex-1 lg:ml-64 p-4 md:p-8 pt-24 lg:pt-8 w-full">
             @if (session('status'))
                 <div class="mb-6 rounded-xl bg-green-50 border border-green-200 text-green-800 px-4 py-3 text-sm">
@@ -93,10 +127,12 @@
                 </div>
             @endif
 
+            {{-- Aquí se inyecta el index, create, edit, etc. --}}
             @yield('contenido')
         </main>
     </div>
 
+    {{-- SCRIPT INTERACTIVO DEL MENÚ RESPONSIVO --}}
     <script>
         const btnMenu = document.getElementById('btn-menu');
         const menuLateral = document.getElementById('menu-lateral');
