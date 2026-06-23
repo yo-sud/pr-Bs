@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,10 +15,8 @@
 </head>
 <body class="bg-[#FDFBF7] text-[#421605] font-sans antialiased min-h-screen flex flex-col">
 
-    {{-- NAVBAR SUPERIOR --}}
     <nav class="bg-[#FDFBF7] border-b border-[#6E7E80]/10 px-[7%] py-4 flex items-center justify-between gap-4 sticky top-0 z-50">
         <div class="flex items-center gap-3">
-            {{-- Botón Hamburguesa Móvil --}}
             <button id="menu-toggle" class="md:hidden text-[#421605] p-1.5 hover:bg-[#F3ECE0]/50 rounded-lg transition-colors" aria-label="Abrir menú">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -27,7 +25,6 @@
                 </svg>
             </button>
 
-            {{-- LOGO PRINCIPAL ACTUALIZADO CON ESTILO FINO --}}
             <a href="{{ route('home') }}" class="flex items-center gap-2 text-2xl font-medium font-serif text-[#963F0B] tracking-wide whitespace-nowrap no-underline">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
@@ -37,7 +34,6 @@
             </a>
         </div>
 
-        {{-- Enlaces de Navegación del Menú --}}
         <div class="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-[#554138]">
             <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-[#B8500C] font-semibold' : 'hover:text-[#B8500C]' }} transition-colors">Inicio</a>
             <a href="{{ route('libros.index') }}" class="{{ request()->routeIs('libros.index', 'libros.show') ? 'text-[#B8500C] font-semibold' : 'hover:text-[#B8500C]' }} transition-colors">Todos los Libros</a>
@@ -45,17 +41,14 @@
             <a href="{{ route('libros.populares') }}" class="{{ request()->routeIs('libros.populares') ? 'text-[#B8500C] font-semibold' : 'hover:text-[#B8500C]' }} transition-colors">Populares</a>
         </div>
 
-        {{-- Barra de Herramientas del Navbar (Buscar, Login y Carrito) --}}
         <div class="flex items-center gap-3 sm:gap-5">
-            {{-- MODIFICADO: Se trasladaron las clases responsivas al contenedor del formulario para aplicar tu input al 100% --}}
-            <form action="{{ route('libros.index') }}" method="GET" class="relative hidden sm:block w-40 lg:w-64">
+            <form action="{{ route('libros.index') }}" method="GET" class="relative">
                 <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 </span>
-                <input type="search" name="search" value="{{ request('search') }}" placeholder="Buscar" class="w-full pl-10 pr-4 bg-gray-100 border-none outline-none text-sm transition-all focus:bg-white focus:ring-2 focus:ring-amber-500/20 py-2 rounded-full text-[#421605]">
+                <input type="search" name="search" value="{{ request('search') }}" placeholder="Buscar" class="hidden sm:block w-40 lg:w-64 bg-[#F3ECE0]/60 text-sm pl-9 pr-4 py-2 rounded-full border border-transparent focus:outline-none focus:border-[#B8500C]/30 focus:bg-white text-[#421605]">
             </form>
 
-            {{-- GESTIÓN DINÁMICA DE AUTENTICACIÓN MEJORADA CON MENÚ FLOTANTE --}}
             @auth
                 <div x-data="{ open: false }" class="relative inline-block text-left font-sans z-50">
                     <button @click="open = !open" @click.away="open = false" class="focus:outline-none flex items-center">
@@ -137,118 +130,17 @@
                 </a>
             @endauth
 
-            {{-- Icono Carrito de Compras --}}
-            <div class="relative hidden sm:block" 
-                 x-data="{ open: false }" 
-                 @mouseenter="open = true" 
-                 @mouseleave="open = false">
-                
-                <a class="relative p-2 hover:bg-gray-100 rounded-full transition-colors block" href="/carrito" data-discover="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart w-6 h-6 text-gray-700">
-                        <circle cx="8" cy="21" r="1"></circle>
-                        <circle cx="19" cy="21" r="1"></circle>
-                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
-                    </svg>
-                    @if ($cantidadCarrito > 0)
-                        <span class="absolute -top-1 -right-1 min-w-4 h-4 px-1 rounded-full bg-[#B8500C] text-white text-[10px] font-bold flex items-center justify-center">
-                            {{ $cantidadCarrito }}
-                        </span>
-                    @endif
-                </a>
-
-                {{-- VENTANITA FLOTANTE (MINI-CART ACTUALIZADA CON ESTILOS COMPLETOS) --}}
-                <div x-show="open" 
-                     x-transition:enter="transition ease-out duration-200"
-                     x-transition:enter-start="opacity-0 translate-y-2"
-                     x-transition:enter-end="opacity-100 translate-y-0"
-                     x-transition:leave="transition ease-in duration-150"
-                     x-transition:leave-start="opacity-100 translate-y-0"
-                     x-transition:leave-end="opacity-0 translate-y-2"
-                     class="absolute right-0 mt-2 w-96 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 font-sans"
-                     style="display: none;">
-                    
-                    @if($cantidadCarrito == 0)
-                        {{-- VISTA CUANDO EL CARRITO ESTÁ VACÍO --}}
-                        <div class="p-6 text-center">
-                            <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart w-8 h-8 text-amber-600">
-                                    <circle cx="8" cy="21" r="1"></circle>
-                                    <circle cx="19" cy="21" r="1"></circle>
-                                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
-                                </svg>
-                            </div>
-                            <p class="text-gray-700 font-medium mb-1">Tu carrito está vacío</p>
-                            <p class="text-gray-500 text-sm">Añade algunos libros para comenzar</p>
-                        </div>
-                    @else
-                        {{-- VISTA CUANDO TIENE ELEMENTOS --}}
-                        <div class="p-4">
-                            {{-- ARREGLO DEL SUB-TOTAL: Calculamos el total reactivo directo en la vista desde la sesión --}}
-                            @php
-                                $subtotalCalculado = collect(session('carrito', []))->sum(function($item) {
-                                    return ($item['precio'] ?? 0) * ($item['cantidad'] ?? 0);
-                                });
-                            @endphp
-
-                            <div class="max-h-64 overflow-y-auto mb-4 space-y-3">
-                                @foreach(session('carrito', []) as $id => $item)
-                                    <div class="flex items-center gap-3 group">
-                                        <img src="{{ $item['portada_url'] ?? $item['imagen'] ?? 'https://via.placeholder.com/40x60' }}" 
-                                             alt="{{ $item['titulo'] }}" 
-                                             class="w-12 h-16 object-cover rounded shadow-sm">
-                                        
-                                        <div class="flex-1 min-w-0 flex flex-col text-left">
-                                            <p class="text-sm font-medium text-gray-900 truncate">{{ $item['titulo'] }}</p>
-                                            <p class="text-xs text-gray-500 truncate">{{ $item['autor'] ?? 'Autor desconocido' }}</p>
-                                            <p class="text-sm font-bold text-amber-900 mt-0.5">
-                                                {{ $item['cantidad'] }} × S/ {{ number_format($item['precio'], 2) }}
-                                            </p>
-                                        </div>
-
-                                        {{-- Botón para Eliminar Item Individual --}}
-                                        <form action="{{ route('carrito.destroy', $id) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-50 rounded-full transition-all">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-red-600">
-                                                    <path d="M18 6 6 18"></path>
-                                                    <path d="m6 6 12 12"></path>
-                                                </svg>
-                                            </button>
-                                        </form>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            {{-- Subtotal Calculado Corregido --}}
-                            <div class="border-t border-gray-200 pt-4 mb-4">
-                                <div class="flex items-center justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Subtotal ({{ $cantidadCarrito }} artículos)</span>
-                                    <span class="text-lg font-bold text-amber-900">S/ {{ number_format($subtotalCalculado, 2) }}</span>
-                                </div>
-                            </div>
-
-                            {{-- Acciones del Carrito --}}
-                            <div class="space-y-2">
-                                <a class="block w-full bg-amber-500 hover:bg-amber-600 text-white py-2.5 px-4 rounded-xl text-center font-medium transition-colors" href="/carrito" data-discover="true">
-                                    Ver Carrito Completo
-                                </a>
-                                <a class="flex items-center justify-center gap-2 w-full border-2 border-amber-500 text-amber-700 hover:bg-amber-50 py-2.5 px-4 rounded-xl text-center font-medium transition-colors" href="/checkout" data-discover="true">
-                                    Finalizar Compra
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-4 h-4">
-                                        <path d="M5 12h14"></path>
-                                        <path d="m12 5 7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            </div>
+            <a href="{{ route('carrito.index') }}" class="text-[#421605] hover:text-[#B8500C] transition-colors relative" aria-label="Ver Carrito">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                @if ($cantidadCarrito > 0)
+                    <span class="absolute -top-2 -right-2 min-w-4 h-4 px-1 rounded-full bg-[#B8500C] text-white text-[10px] font-bold flex items-center justify-center">
+                        {{ $cantidadCarrito }}
+                    </span>
+                @endif
+            </a>
         </div>
     </nav>
 
-    {{-- INTERFAZ DEL MENÚ MÓVIL DESPLEGABLE --}}
     <div id="mobile-menu" class="fixed inset-0 z-50 translate-x-full transition-transform duration-300 ease-in-out md:hidden" aria-hidden="true">
         <div id="menu-overlay" class="absolute inset-0 bg-[#421605]/40 backdrop-blur-sm"></div>
         
@@ -263,12 +155,11 @@
                 </button>
             </div>
             
-            {{-- MODIFICADO: Barra de búsqueda móvil adaptada al mismo diseño estilizado --}}
             <form action="{{ route('libros.index') }}" method="GET" class="relative w-full sm:hidden">
                 <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 </span>
-                <input type="search" name="search" value="{{ request('search') }}" placeholder="Buscar" class="w-full pl-10 pr-10 bg-gray-100 border-none outline-none text-sm transition-all focus:bg-white focus:ring-2 focus:ring-amber-500/20 py-2 rounded-full text-[#421605]">
+                <input type="search" name="search" value="{{ request('search') }}" placeholder="Buscar libro..." class="w-full bg-[#F3ECE0]/60 text-sm pl-9 pr-4 py-2.5 rounded-full border border-transparent text-[#421605]">
             </form>
 
             <div class="flex flex-col gap-4 text-base font-medium text-[#554138]">
@@ -313,56 +204,57 @@
     </div>
 
     <footer class="bg-gradient-to-b from-amber-900 to-amber-950 text-[#FDE68A] px-[7%] pt-16 pb-8 border-t border-white/5 font-['Lora',_serif]">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8 pb-12 border-b border-white/10">
-            <div>
-                <a href="{{ route('home') }}" class="flex items-center gap-2.5 text-2xl font-serif text-white mb-5 no-underline tracking-wide">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E5A900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400">
-                        <path d="M12 7v14"></path>
-                        <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
-                    </svg>
-                    <span class="font-medium text-white">BookShop</span>
-                </a>
-                <p class="text-sm leading-relaxed text-[oklch(0.91 0.12 95.75)]/70 max-w-[280px] font-sans mb-4">
-                    Tu librería de confianza para descubrir historias maravillosas y conocimiento sin límites. Libros físicos al mejor precio.
-                </p>
-            </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8 pb-12 border-b border-white/10">
+        <div>
+            <a href="{{ route('home') }}" class="flex items-center gap-2.5 text-2xl font-serif text-white mb-5 no-underline tracking-wide">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E5A900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400">
+                    <path d="M12 7v14"></path>
+                    <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
+                </svg>
+                <span class="font-medium text-white">BookShop</span>
+            </a>
+            <p class="text-sm leading-relaxed text-[oklch(0.91 0.12 95.75)]/70 max-w-[280px] font-sans mb-4">
+                Tu librería de confianza para descubrir historias maravillosas y conocimiento sin límites. Libros físicos al mejor precio.
+            </p>
+        </div>
 
-            <div class="flex flex-col gap-4">
-                <h3 class="font-serif text-lg font-medium text-white mb-1 tracking-wide">Enlaces Rápidos</h3>
-                <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70 font-sans">
-                    <a href="{{ route('libros.index') }}" class="hover:text-white transition-colors">Todos los Libros</a>
-                    <a href="{{ route('libros.novedades') }}" class="hover:text-white transition-colors">Novedades</a>
-                    <a href="{{ route('libros.populares') }}" class="hover:text-white transition-colors">Populares</a>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-4">
-                <h3 class="font-serif text-lg font-medium text-white mb-1 tracking-wide">Sobre Nosotros</h3>
-                <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70 font-sans">
-                    <a href="{{ route('quienes-somos') }}" class="hover:text-white transition-colors">Quiénes somos</a>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-4">
-                <h3 class="font-serif text-lg font-medium text-white mb-1 tracking-wide">Contacto</h3>
-                <div class="flex flex-col gap-3.5 text-sm text-[oklch(0.91 0.12 95.75)]/70 font-sans">
-                    <div class="flex items-center gap-3">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                        <span>+51 907 210 407</span>
-                    </div>
-                </div>
+        <div class="flex flex-col gap-4">
+        
+            <h3 class="font-serif text-lg font-medium text-white mb-1 tracking-wide">Enlaces Rápidos</h3>
+            <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70 font-sans">
+                <a href="{{ route('libros.index') }}" class="hover:text-white transition-colors">Todos los Libros</a>
+                <a href="{{ route('libros.novedades') }}" class="hover:text-white transition-colors">Novedades</a>
+                <a href="{{ route('libros.populares') }}" class="hover:text-white transition-colors">Populares</a>
             </div>
         </div>
 
-        <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[oklch(0.91_0.12_95.75)]/60 font-sans">
-            <div class="flex flex-wrap items-center gap-2">
-                <span>Aceptamos:</span>
-                <span class="bg-white text-[#632E04] font-medium px-2.5 py-0.5 rounded text-xs border border-gray-100">Mercado Pago</span>
-            </div>
-            <p class="m-0 flex items-center leading-none">&copy; {{ date('Y') }} BookShop Perú. Todos los derechos reservados. Precios en Soles (S/).</p>
-        </div>
-    </footer>
+        <div class="flex flex-col gap-4">
 
+            <h3 class="font-serif text-lg font-medium text-white mb-1 tracking-wide">Sobre Nosotros</h3>
+            <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70 font-sans">
+                <a href="{{ route('quienes-somos') }}" class="hover:text-white transition-colors">Quiénes somos</a>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-4">
+            <h3 class="font-serif text-lg font-medium text-white mb-1 tracking-wide">Contacto</h3>
+            <div class="flex flex-col gap-3.5 text-sm text-[oklch(0.91 0.12 95.75)]/70 font-sans">
+                <div class="flex items-center gap-3">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <span>+51 934 008 523</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[oklch(0.91_0.12_95.75)]/60 font-sans">
+        <div class="flex flex-wrap items-center gap-2">
+            <span>Aceptamos:</span>
+            <span class="bg-white text-[#632E04] font-medium px-2.5 py-0.5 rounded text-xs border border-gray-100">Mercado Pago</span>
+        </div>
+        <p class="m-0 flex items-center leading-none">&copy; {{ date('Y') }} BookShop Perú. Todos los derechos reservados. Precios en Soles (S/).</p>
+    </div>
+</footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const menuToggle = document.getElementById('menu-toggle');

@@ -36,7 +36,7 @@ Route::post('/webhooks/pagos/falso', PagoWebhookController::class)->name('webhoo
 
 // Rutas Protegidas (Requieren inicio de sesión)
 Route::middleware('auth')->group(function () {
-    // Gestión del Perfil
+    // Gestión del Perfil (Se removió destroy por limpieza de código)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
@@ -48,9 +48,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/mis-pedidos/{pedido}/cancelar', [PedidoController::class, 'cancel'])->name('pedidos.cancel');
     Route::get('/mis-pedidos/{pedido}/pagar', [PagoController::class, 'create'])->name('pagos.create');
     Route::post('/mis-pedidos/{pedido}/pagar', [PagoController::class, 'store'])->name('pagos.store');
-    
-    // ✅ AQUÍ ESTÁ LA NUEVA RUTA DE RETORNO DE MERCADO PAGO
-    Route::get('/pago/retorno', [PagoController::class, 'retorno'])->name('pago.retorno');
 });
 
 // Panel de Administración (Restringido para Administradores)

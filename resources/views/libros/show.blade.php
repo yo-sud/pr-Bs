@@ -5,7 +5,6 @@
 @section('content')
 <main class="px-[8%] py-10 flex-grow bg-white min-h-screen text-[#78350F] font-sans antialiased">
     
-    {{-- ENLACE VOLVER CON EFECTO HOVER DE NARANJA A MARRÓN --}}
     <div class="max-w-5xl mx-auto mb-6">
         <a href="{{ route('home') }}" class="text-[#D97706] hover:text-[#78350F] text-sm font-medium flex items-center gap-1 transition-colors duration-200">
             <span class="text-base select-none">&lt;</span>
@@ -14,8 +13,6 @@
     </div>
 
     <section class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[410px_1fr] gap-12 items-start">
-        
-        {{-- UNICO CAMBIO: Se agregaron las clases 'lg:sticky lg:top-10' para que suba y baje con el scroll --}}
         <div class="flex flex-col gap-4 w-full lg:sticky lg:top-10">
             <div class="bg-white border border-gray-100 rounded-[24px] p-6 shadow-[0_25px_50px_-12px_rgba(66,22,5,0.18),0_12px_20px_-8px_rgba(66,22,5,0.12)] flex justify-center items-center">
                 <img src="{{ $libro->portada_url }}" alt="Portada de {{ $libro->titulo }}" class="w-full h-auto object-contain rounded-xl">
@@ -46,7 +43,6 @@
                 <form method="POST" action="{{ route('carrito.store', $libro) }}" class="w-full flex flex-col gap-6">
                     @csrf
                     
-                    {{-- SECCIÓN CANTIDAD COMPLETA ALINEADA AL COSTADO --}}
                     <div class="flex flex-col gap-2">
                         <span class="text-sm font-bold text-[#78350F]">Cantidad</span>
                         <div class="flex items-center gap-3">
@@ -71,16 +67,15 @@
                                 </button>
                             </div>
                             
-                            {{-- Cantidad disponible agregada dinámicamente al costado --}}
                             <span class="text-sm text-[#C2410C]/70 font-medium">
                                 ({{ $libro->stock }} disponibles)
                             </span>
                         </div>
                     </div>
                     
-                    {{-- BOTÓN AMBER RECIÉN IMPLEMENTADO (CON REDIRECCIÓN NATIVA DE TU FORMULARIO) --}}
-                    <button type="submit" class="w-full py-4 bg-amber-500 hover:bg-amber-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-colors shadow-lg hover:shadow-xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart w-6 h-6">
+                    <button type="submit" class="w-full bg-[#FF9F00] hover:bg-[#EA580C] text-white py-4 px-6 rounded-2xl font-bold text-base tracking-wide transition-all duration-300 transform shadow-[0_12px_24px_-6px_rgba(255,159,0,0.35)] hover:shadow-[0_16px_32px_-6px_rgba(234,88,12,0.45)] flex items-center justify-center gap-2.5 mt-1">
+                        {{-- Tu SVG exacto de la captura --}}
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
                             <circle cx="8" cy="21" r="1"></circle>
                             <circle cx="19" cy="21" r="1"></circle>
                             <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
@@ -90,30 +85,33 @@
                 </form>
             @endif
 
-            {{-- NUEVA SECCIÓN DE BENEFICIOS IMPLEMENTADA --}}
-            <div class="grid grid-cols-3 gap-4 pt-6 border-t border-amber-200">
-                <div class="text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck w-8 h-8 text-amber-600 mx-auto mb-2">
-                        <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
-                        <path d="M15 18H9"></path>
-                        <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
-                        <circle cx="17" cy="18" r="2"></circle>
-                        <circle cx="7" cy="18" r="2"></circle>
+            <hr class="border-t border-[#FDE68A] mt-4 mb-1">
+
+            <div class="grid grid-cols-3 gap-2 py-3 text-center text-[10px] text-[#C2410C] font-semibold">
+                <div class="flex flex-col items-center gap-2">
+                    <svg class="w-9 h-9 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M15 18H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="17" cy="18" r="2" stroke="currentColor" stroke-width="2" fill="white"/>
+                        <circle cx="7" cy="18" r="2" stroke="currentColor" stroke-width="2" fill="white"/>
                     </svg>
-                    <p class="text-xs text-amber-700">Envío Gratis</p>
+                    <span>Envío Gratis</span>
                 </div>
-                <div class="text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-8 h-8 text-amber-600 mx-auto mb-2">
-                        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+
+                <div class="flex flex-col items-center gap-2">
+                    <svg class="w-9 h-9 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <p class="text-xs text-amber-700">Compra Segura</p>
+                    <span>Compra Segura</span>
                 </div>
-                <div class="text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open w-8 h-8 text-amber-600 mx-auto mb-2">
-                        <path d="M12 7v14"></path>
-                        <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
+
+                <div class="flex flex-col items-center gap-2">
+                    <svg class="w-9 h-9 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 21a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1M12 21c-3-1.5-7-1.5-9-1V4c2-.5 6-.5 9 1v16z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 5c3-1.5 7-1.5 9-1v16c-2-.5-6-.5-9 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <p class="text-xs text-amber-700">Original</p>
+                    <span>Original</span>
                 </div>
             </div>
 

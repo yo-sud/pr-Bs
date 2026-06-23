@@ -28,13 +28,12 @@
                         <span class="block text-sm font-semibold mb-1">Motivo</span>
                         <input name="motivo" required maxlength="255" placeholder="Compra a proveedor, corrección..." class="w-full rounded-lg border-gray-300">
                     </label>
-                    <button class="w-full bg-[#2C1B12] text-white py-2.5 rounded-full text-sm font-semibold">Aplicar ajustes
-                    </button>
+                    <button class="w-full bg-[#2C1B12] text-white py-2.5 rounded-lg text-sm font-semibold">Aplicar ajuste</button>
                 </form>
             </section>
 
             <section class="bg-white rounded-xl border shadow-sm overflow-hidden">
-                <h3 class="font-bold text-[#FFC0CB] p-5 border-b">Últimos movimientos</h3>
+                <h3 class="font-bold text-[#2C1B12] p-5 border-b">Últimos movimientos</h3>
                 <div class="divide-y">
                     @forelse ($movimientos as $movimiento)
                         <div class="p-4 text-sm">
