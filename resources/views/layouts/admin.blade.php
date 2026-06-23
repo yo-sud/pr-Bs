@@ -92,6 +92,9 @@
                 <a href="{{ route('admin.proveedores.index') }}" class="{{ $link }} {{ request()->routeIs('admin.proveedores.*') ? $active : $inactive }}">
                     <span class="material-symbols-outlined mr-2 text-xl">local_shipping</span> Proveedores
                 </a>
+                <a href="{{ route('admin.repartidores.index') }}" class="{{ $link }} {{ request()->routeIs('admin.repartidores.*') ? $active : $inactive }}">
+                    <span class="material-symbols-outlined mr-2 text-xl">delivery_dining</span> Repartidores
+                </a>
                 <a href="{{ route('admin.pedidos.index') }}" class="{{ $link }} {{ request()->routeIs('admin.pedidos.*') ? $active : $inactive }}">
                     <span class="material-symbols-outlined mr-2 text-xl">receipt_long</span> Pedidos
                 </a>

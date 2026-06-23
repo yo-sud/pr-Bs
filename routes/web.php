@@ -14,7 +14,9 @@ use App\Http\Controllers\PagoWebhookController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\AdminRepartidorController;
 use Illuminate\Support\Facades\Route;
+
 
 // Rutas Públicas de la Tienda
 Route::get('/', [LibroController::class, 'inicio'])->name('home');
@@ -62,6 +64,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('proveedores', ProveedorController::class)
         ->parameters(['proveedores' => 'proveedor'])
         ->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('repartidores', AdminRepartidorController::class);
     Route::get('pedidos', [AdminPedidoController::class, 'index'])->name('pedidos.index');
     Route::get('pedidos/{pedido}', [AdminPedidoController::class, 'show'])->name('pedidos.show');
     Route::patch('pedidos/{pedido}/estado', [AdminPedidoController::class, 'updateStatus'])->name('pedidos.update-status');
