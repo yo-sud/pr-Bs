@@ -5,7 +5,6 @@
 @section('content')
 <main class="px-[8%] py-10 flex-grow bg-white min-h-screen text-[#78350F] font-sans antialiased">
     
-    {{-- ENLACE VOLVER CON EFECTO HOVER DE NARANJA A MARRÓN --}}
     <div class="max-w-5xl mx-auto mb-6">
         <a href="{{ route('home') }}" class="text-[#D97706] hover:text-[#78350F] text-sm font-medium flex items-center gap-1 transition-colors duration-200">
             <span class="text-base select-none">&lt;</span>
@@ -14,8 +13,6 @@
     </div>
 
     <section class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[410px_1fr] gap-12 items-start">
-        
-        {{-- UNICO CAMBIO: Se agregaron las clases 'lg:sticky lg:top-10' para que suba y baje con el scroll --}}
         <div class="flex flex-col gap-4 w-full lg:sticky lg:top-10">
             <div class="bg-white border border-gray-100 rounded-[24px] p-6 shadow-[0_25px_50px_-12px_rgba(66,22,5,0.18),0_12px_20px_-8px_rgba(66,22,5,0.12)] flex justify-center items-center">
                 <img src="{{ $libro->portada_url }}" alt="Portada de {{ $libro->titulo }}" class="w-full h-auto object-contain rounded-xl">
@@ -46,7 +43,6 @@
                 <form method="POST" action="{{ route('carrito.store', $libro) }}" class="w-full flex flex-col gap-6">
                     @csrf
                     
-                    {{-- SECCIÓN CANTIDAD COMPLETA ALINEADA AL COSTADO --}}
                     <div class="flex flex-col gap-2">
                         <span class="text-sm font-bold text-[#78350F]">Cantidad</span>
                         <div class="flex items-center gap-3">
@@ -71,14 +67,12 @@
                                 </button>
                             </div>
                             
-                            {{-- Cantidad disponible agregada dinámicamente al costado --}}
                             <span class="text-sm text-[#C2410C]/70 font-medium">
                                 ({{ $libro->stock }} disponibles)
                             </span>
                         </div>
                     </div>
                     
-                    {{-- BOTÓN CON TU SVG DE LUCIDE CARGO INCORPORADO Y MEDIDAS PRO --}}
                     <button type="submit" class="w-full bg-[#FF9F00] hover:bg-[#EA580C] text-white py-4 px-6 rounded-2xl font-bold text-base tracking-wide transition-all duration-300 transform shadow-[0_12px_24px_-6px_rgba(255,159,0,0.35)] hover:shadow-[0_16px_32px_-6px_rgba(234,88,12,0.45)] flex items-center justify-center gap-2.5 mt-1">
                         {{-- Tu SVG exacto de la captura --}}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">

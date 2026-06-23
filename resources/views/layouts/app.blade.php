@@ -15,10 +15,8 @@
 </head>
 <body class="bg-[#FDFBF7] text-[#421605] font-sans antialiased min-h-screen flex flex-col">
 
-    {{-- NAVBAR SUPERIOR --}}
     <nav class="bg-[#FDFBF7] border-b border-[#6E7E80]/10 px-[7%] py-4 flex items-center justify-between gap-4 sticky top-0 z-50">
         <div class="flex items-center gap-3">
-            {{-- Botón Hamburguesa Móvil --}}
             <button id="menu-toggle" class="md:hidden text-[#421605] p-1.5 hover:bg-[#F3ECE0]/50 rounded-lg transition-colors" aria-label="Abrir menú">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -27,7 +25,6 @@
                 </svg>
             </button>
 
-            {{-- LOGO PRINCIPAL ACTUALIZADO CON ESTILO FINO --}}
             <a href="{{ route('home') }}" class="flex items-center gap-2 text-2xl font-medium font-serif text-[#963F0B] tracking-wide whitespace-nowrap no-underline">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
@@ -37,7 +34,6 @@
             </a>
         </div>
 
-        {{-- Enlaces de Navegación del Menú --}}
         <div class="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-[#554138]">
             <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-[#B8500C] font-semibold' : 'hover:text-[#B8500C]' }} transition-colors">Inicio</a>
             <a href="{{ route('libros.index') }}" class="{{ request()->routeIs('libros.index', 'libros.show') ? 'text-[#B8500C] font-semibold' : 'hover:text-[#B8500C]' }} transition-colors">Todos los Libros</a>
@@ -45,7 +41,6 @@
             <a href="{{ route('libros.populares') }}" class="{{ request()->routeIs('libros.populares') ? 'text-[#B8500C] font-semibold' : 'hover:text-[#B8500C]' }} transition-colors">Populares</a>
         </div>
 
-        {{-- Barra de Herramientas del Navbar (Buscar, Login y Carrito) --}}
         <div class="flex items-center gap-3 sm:gap-5">
             <form action="{{ route('libros.index') }}" method="GET" class="relative">
                 <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
@@ -54,7 +49,6 @@
                 <input type="search" name="search" value="{{ request('search') }}" placeholder="Buscar" class="hidden sm:block w-40 lg:w-64 bg-[#F3ECE0]/60 text-sm pl-9 pr-4 py-2 rounded-full border border-transparent focus:outline-none focus:border-[#B8500C]/30 focus:bg-white text-[#421605]">
             </form>
 
-            {{-- GESTIÓN DINÁMICA DE AUTENTICACIÓN MEJORADA CON MENÚ FLOTANTE --}}
             @auth
                 <div x-data="{ open: false }" class="relative inline-block text-left font-sans z-50">
                     <button @click="open = !open" @click.away="open = false" class="focus:outline-none flex items-center">
@@ -136,7 +130,6 @@
                 </a>
             @endauth
 
-            {{-- Icono Carrito de Compras --}}
             <a href="{{ route('carrito.index') }}" class="text-[#421605] hover:text-[#B8500C] transition-colors relative" aria-label="Ver Carrito">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                 @if ($cantidadCarrito > 0)
@@ -148,7 +141,6 @@
         </div>
     </nav>
 
-    {{-- INTERFAZ DEL MENÚ MÓVIL DESPLEGABLE --}}
     <div id="mobile-menu" class="fixed inset-0 z-50 translate-x-full transition-transform duration-300 ease-in-out md:hidden" aria-hidden="true">
         <div id="menu-overlay" class="absolute inset-0 bg-[#421605]/40 backdrop-blur-sm"></div>
         
@@ -214,7 +206,6 @@
     <footer class="bg-gradient-to-b from-amber-900 to-amber-950 text-[#FDE68A] px-[7%] pt-16 pb-8 border-t border-white/5 font-['Lora',_serif]">
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8 pb-12 border-b border-white/10">
         <div>
-            {{-- IDENTIDAD: MARCA PRINCIPAL CON SU TAMAÑO EN 2XL --}}
             <a href="{{ route('home') }}" class="flex items-center gap-2.5 text-2xl font-serif text-white mb-5 no-underline tracking-wide">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E5A900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400">
                     <path d="M12 7v14"></path>
@@ -228,7 +219,7 @@
         </div>
 
         <div class="flex flex-col gap-4">
-            {{-- TÍTULO CORREGIDO: TAMAÑO EQUILIBRADO (text-lg), MISMA TIPOGRAFÍA Y ESTILO --}}
+        
             <h3 class="font-serif text-lg font-medium text-white mb-1 tracking-wide">Enlaces Rápidos</h3>
             <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70 font-sans">
                 <a href="{{ route('libros.index') }}" class="hover:text-white transition-colors">Todos los Libros</a>
@@ -238,7 +229,7 @@
         </div>
 
         <div class="flex flex-col gap-4">
-            {{-- TÍTULO CORREGIDO: TAMAÑO EQUILIBRADO (text-lg), MISMA TIPOGRAFÍA Y ESTILO --}}
+
             <h3 class="font-serif text-lg font-medium text-white mb-1 tracking-wide">Sobre Nosotros</h3>
             <div class="flex flex-col gap-2.5 text-sm text-[oklch(0.91 0.12 95.75)]/70 font-sans">
                 <a href="{{ route('quienes-somos') }}" class="hover:text-white transition-colors">Quiénes somos</a>
