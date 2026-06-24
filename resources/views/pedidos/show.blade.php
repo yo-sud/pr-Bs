@@ -67,7 +67,8 @@
                                     {{ $detalle->cantidad }} x <span class="text-[#9C4309] font-medium">S/ {{ number_format((float) $detalle->precio_unitario, 2) }}</span>
                                 </p>
                             </div>
-                            <div class="text-left sm:text-right font-serif text-base sm:text-lg font-bold text-[#421605] shrink-0 pt-1 sm:pt-0">
+                            {{-- MODIFICADO: Cambiado font-serif por font-sans para modernizar el número --}}
+                            <div class="text-left sm:text-right font-sans text-base sm:text-lg font-bold text-[#421605] shrink-0 pt-1 sm:pt-0">
                                 <span class="text-sm font-sans mr-0.5">S/</span>{{ number_format((float) $detalle->subtotal, 2) }}
                             </div>
                         </div>
@@ -93,7 +94,8 @@
                         </div>
                         <div class="flex justify-between items-baseline font-bold text-[#421605] border-t border-[#421605]/10 pt-3.5">
                             <dt class="text-base">Total</dt>
-                            <dd class="font-serif text-xl sm:text-2xl text-[#9C4309] tracking-tight">
+                            {{-- MODIFICADO: Cambiado font-serif por font-sans para unificar el estilo de la cifra --}}
+                            <dd class="font-sans text-xl sm:text-2xl text-[#9C4309] tracking-tight">
                                 <span class="text-lg font-sans mr-0.5">S/</span>{{ number_format((float) $pedido->total, 2) }}
                             </dd>
                         </div>

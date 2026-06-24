@@ -80,7 +80,7 @@
                                                 <button type="submit" class="w-6 h-6 flex items-center justify-center text-[#554138] hover:bg-[#EAE6E1] rounded-full text-lg font-medium" {{ $item['cantidad'] <= 1 ? 'disabled' : '' }}>-</button>
                                             </form>
                                             
-                                            <span class="text-sm font-semibold text-[#421605] w-4 text-center select-none">{{ $item['cantidad'] }}</span>
+                                            <span class="text-sm font-sans font-semibold text-[#421605] w-4 text-center select-none">{{ $item['cantidad'] }}</span>
                                             
                                             {{-- Botón de subir cantidad --}}
                                             <form method="POST" action="{{ route('carrito.update', $libro) }}" class="inline">
@@ -110,10 +110,10 @@
                                 </div>
                             </div>
 
-                            {{-- Precio por Ítem con tipografía Serif y Marrón Claro --}}
+                            {{-- MODIFICADO: Se cambió font-serif por font-sans para modernizar el precio individual (Recuadro izquierdo de la imagen_50a6f1.png) --}}
                             <div class="text-right shrink-0">
-                                <span class="font-serif text-2xl text-[#9C4309] tracking-tight">
-                                    <span class="text-xl mr-0.5">S/</span>{{ number_format((float) ($libro->precio * $item['cantidad']), 2) }}
+                                <span class="font-sans text-2xl font-bold text-[#9C4309] tracking-tight">
+                                    <span class="text-xl mr-0.5 font-sans">S/</span>{{ number_format((float) ($libro->precio * $item['cantidad']), 2) }}
                                 </span>
                             </div>
                         </article>
@@ -129,7 +129,7 @@
                             {{-- Subtotal --}}
                             <div class="flex justify-between text-[#554138]">
                                 <dt class="font-medium text-[#8A7A71]">Subtotal</dt>
-                                <dd class="font-medium text-[#421605]">S/ {{ number_format((float) $subtotal, 2) }}</dd>
+                                <dd class="font-medium text-[#421605] font-sans">S/ {{ number_format((float) $subtotal, 2) }}</dd>
                             </div>
                             
                             {{-- Envío --}}
@@ -140,11 +140,12 @@
                                 </dd>
                             </div>
                             
-                            {{-- Total en Marrón Claro con tipografía Serif --}}
+                            {{-- Total --}}
                             <div class="border-t border-[#421605]/10 pt-4 flex justify-between items-baseline font-bold text-[#421605]">
                                 <dt class="text-base font-bold">Total</dt>
-                                <dd class="font-serif text-2xl text-[#9C4309] tracking-tight">
-                                    <span class="text-xl mr-0.5">S/</span>{{ number_format((float) $total, 2) }}
+                                {{-- MODIFICADO: Se cambió font-serif por font-sans para el Monto Final (Recuadro derecho de la imagen_50a6f1.png) --}}
+                                <dd class="font-sans text-2xl font-bold text-[#9C4309] tracking-tight">
+                                    <span class="text-xl mr-0.5 font-sans">S/</span>{{ number_format((float) $total, 2) }}
                                 </dd>
                             </div>
                         </dl>
