@@ -18,6 +18,7 @@
             ['Stock total', $stockTotal, 'inventory_2', 'text-emerald-600 bg-emerald-50', 'admin.inventario.index'],
             ['Categorías', $categorias, 'category', 'text-purple-600 bg-purple-50', 'admin.categorias.index'],
             ['Proveedores', $proveedores, 'local_shipping', 'text-indigo-600 bg-indigo-50', 'admin.proveedores.index'],
+            ['Repartidores', $repartidores, 'delivery_dining', 'text-cyan-600 bg-cyan-50', 'admin.repartidores.index'],  
             ['Usuarios', $usuarios, 'group', 'text-rose-600 bg-rose-50', 'admin.usuarios.index'],
         ] as [$etiqueta, $valor, $icono, $color, $ruta])
 

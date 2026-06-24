@@ -13,9 +13,13 @@ class Proveedor extends Model
     protected $table = 'proveedores';
 
     protected $fillable = [
-        'nombre',
-        'telefono',
-        'correo',
+        'nombre_empresa',        
+        'ruc',                  
+        'telefono',               
+        'correo',                
+        'contacto_ejecutivo',     
+        'observaciones',         
+        'activo',
     ];
 
     public function libros(): HasMany

@@ -8,6 +8,7 @@ use App\Models\Pedido;
 use App\Models\MovimientoInventario;
 use App\Models\Proveedor;
 use App\Models\User;
+use App\Models\Repartidor;
 use Illuminate\Contracts\View\View;
 
 class AdminDashboardController extends Controller
@@ -19,6 +20,7 @@ class AdminDashboardController extends Controller
         $stockTotal = Libro::sum('stock');
         $categorias = Categoria::count();
         $proveedores = Proveedor::count();
+        $repartidores = Repartidor::count();
         $usuarios = User::count();
 
         $LibrosStockBajo = Libro::with('categoria')
@@ -27,7 +29,7 @@ class AdminDashboardController extends Controller
         
         return view('admin.dashboard', compact(
             'totalventas', 'totalLibros', 'stockTotal',
-            'categorias', 'proveedores', 'usuarios', 'LibrosStockBajo'
+            'categorias', 'proveedores', 'repartidores', 'usuarios', 'LibrosStockBajo'
         ));
     }
 }
