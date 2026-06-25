@@ -58,6 +58,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('libros/{libro}/stock', [AdminLibroController::class, 'ajustarStock'])->name('libros.stock');
     Route::get('inventario', [AdminInventarioController::class, 'index'])->name('inventario.index');
     Route::resource('usuarios', AdminUsuarioController::class);
+    Route::patch('usuarios/{usuario}/toggle-status', [AdminUsuarioController::class, 'toggleStatus'])->name('usuarios.toggle-status');
     Route::resource('categorias', CategoriaController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('proveedores', ProveedorController::class)
         ->parameters(['proveedores' => 'proveedor'])

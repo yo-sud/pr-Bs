@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
                 'password' => env('USER_PASSWORD', 'password'),
                 'role' => 'user',
                 'email_verified_at' => now(),
+                'phone' => '+51 987 654 321',
             ],
         );
 
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
                 'password' => env('ADMIN_PASSWORD', 'password'),
                 'role' => 'admin',
                 'email_verified_at' => now(),
+                'phone' => '+51 999 888 777',
             ],
         );
 

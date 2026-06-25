@@ -5,7 +5,7 @@
 <div class="space-y-6">
 
     <div>
-        <h2 class="text-2xl font-bold text-[#2C1B12]">Categorías</h2>
+        <h2 class="font-serif text-2xl font-semibold text-amber-900">Categorías</h2>
         <p class="text-sm text-gray-500">Organiza los libros del catálogo.</p>
     </div>
 

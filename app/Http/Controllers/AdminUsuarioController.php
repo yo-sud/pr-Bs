@@ -10,14 +10,24 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminUsuarioController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $usuarios = User::where('status',1)->orderBy('name')->simplePaginate(20);
+            $query = User::orderBy('name');
+
+            if ($search = $request->input('search')) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%")
+                      ->orWhere('role', 'like', "%{$search}%");
+                });
+            }
+
+            $usuarios = $query->paginate(20)->withQueryString();
+
             return view('admin.usuarios.index', compact('usuarios'));
 
         } catch (Exception $err) {
-            //Guarda la falla real en secreto y avisa al usuario
             Log::error('Error obteniendo la lista de usuarios: ' . $err->getMessage());
             return back()->withInput()->with('error', 'Ocurrió un error al cargar la lista.');
         }
@@ -115,6 +125,25 @@ class AdminUsuarioController extends Controller
         } catch (Exception $err) {
             Log::error('Error al actualizar un usuario: ' . $err->getMessage());
             return back()->withInput()->with('error', 'Ocurrió un error al guardar cambios.');
+        }
+    }
+
+    public function toggleStatus(User $usuario)
+    {
+        try {
+            if (auth()->id() === $usuario->id) {
+                return back()->with('error', 'No puedes cambiar tu propio estado.');
+            }
+
+            $usuario->status = $usuario->status ? 0 : 1;
+            $usuario->save();
+
+            $mensaje = $usuario->status ? 'Usuario activado.' : 'Usuario desactivado.';
+            return back()->with('success', $mensaje);
+
+        } catch (Exception $err) {
+            Log::error('Error al cambiar estado del usuario: ' . $err->getMessage());
+            return back()->with('error', 'Ocurrió un error al cambiar el estado.');
         }
     }
 
