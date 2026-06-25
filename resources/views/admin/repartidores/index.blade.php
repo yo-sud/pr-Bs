@@ -7,7 +7,7 @@
     {{-- Encabezado --}}
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h2 class="font-serif text-2xl font-semibold text-amber-900">Gestión de Repartidores</h2>
+            <h2 class="font-serif text-2xl font-semibold text-amber-900">Gestión de Empresas Repartidoras</h2>
             <p class="text-sm text-gray-500">Administra el personal de entregas.</p>
         </div>
         <a href="{{ route('admin.repartidores.create') }}" class="bg-[#B8500C] hover:bg-[#963F07] text-white px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-1">
@@ -48,7 +48,7 @@
         <table class="w-full text-sm text-left">
             <thead class="bg-gray-50 text-xs uppercase text-gray-500 font-bold border-b border-gray-100">
                 <tr>
-                    <th class="px-5 py-3">Repartidor</th>
+                    <th class="px-5 py-3">Empresa Repartidora</th>
                     <th class="px-5 py-3">Email</th>
                     <th class="px-5 py-3">Teléfono</th>
                     <th class="px-5 py-3">Zona</th>
