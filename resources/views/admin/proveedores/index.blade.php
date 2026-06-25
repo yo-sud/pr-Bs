@@ -91,7 +91,7 @@
                         {{-- Estado --}}
                         <td class="px-5 py-4">
                             <form method="POST" action="{{ route('admin.proveedores.toggle-status', $proveedor) }}">
-                                @csrf
+                                
                                 @method('PATCH')
                                 <button type="submit"
                                     class="px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors

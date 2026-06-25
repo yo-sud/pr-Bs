@@ -22,12 +22,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'webhooks/pagos/falso',
         ]);
 
-        // 👇 AGREGA ESTA PARTE 👇
         $middleware->redirectTo(
             guests: '/login',
-            users: '/inicio' // <-- Cambia '/inicio' por la ruta principal de tu tienda Oxxo
+            users: '/inicio'
         );
-        // 👆 HASTA AQUÍ 👆
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

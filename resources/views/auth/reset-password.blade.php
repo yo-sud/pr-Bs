@@ -1,6 +1,6 @@
 <x-guest-layout>
     <form method="POST" action="{{ route('password.store') }}">
-        @csrf
+        
 
         <!--  Token de restablecimiento de contraseña  -->
         <input type="hidden" name="token" value="{{ $request->route('token') }}">

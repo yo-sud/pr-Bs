@@ -40,7 +40,7 @@
 
     {{-- Formulario hacia el controlador --}}
     <form action="{{ route('admin.reposicion.procesarPaso1') }}" method="POST" class="space-y-3">
-        @csrf
+        
 
         <div class="bg-white rounded-xl border divide-y shadow-sm">
             @foreach($libros as $libro)

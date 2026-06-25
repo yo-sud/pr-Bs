@@ -33,7 +33,7 @@
             @endif
 
             <form method="POST" action="{{ route('password.email') }}">
-                @csrf
+                
 
                 <div class="mb-8">
                     <label for="email" class="block text-sm font-medium text-[#202124] mb-2">

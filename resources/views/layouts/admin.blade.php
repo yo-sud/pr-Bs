@@ -101,7 +101,7 @@
                 
                 {{-- BOTÓN CERRAR SESIÓN --}}
                 <form method="POST" action="{{ route('logout') }}">
-                    @csrf
+                    
                     <button class="{{ $link }} {{ $inactive }} w-full text-left">
                         <span class="material-symbols-outlined mr-2 text-xl">logout</span> Cerrar sesión
                     </button>

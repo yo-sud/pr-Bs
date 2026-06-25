@@ -14,7 +14,7 @@
 
     <form method="POST" action="{{ route('admin.proveedores.store') }}"
           class="bg-white rounded-xl border border-amber-100 shadow-sm p-6 space-y-4">
-        @csrf
+        
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>

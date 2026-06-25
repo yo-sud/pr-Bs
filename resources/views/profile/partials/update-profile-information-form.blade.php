@@ -2,11 +2,11 @@
     {{-- Se eliminó el header duplicado en inglés para limpiar la vista --}}
 
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-        @csrf
+        
     </form>
 
     <form method="post" action="{{ route('profile.update') }}" class="mt-4 space-y-4">
-        @csrf
+        
         @method('patch')
 
         {{-- Campo: Nombre --}}

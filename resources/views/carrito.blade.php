@@ -22,7 +22,7 @@
             </div>
             @if ($items->isNotEmpty())
                 <form method="POST" action="{{ route('carrito.clear') }}">
-                    @csrf
+                    
                     @method('DELETE')
                     <button class="text-sm font-semibold text-red-600 hover:text-red-800 transition-colors">Vaciar carrito</button>
                 </form>
@@ -74,7 +74,7 @@
                                         <div class="flex items-center bg-[#F4F1ED] rounded-full px-2 py-1 gap-3 border border-[#421605]/5">
                                             {{-- Botón de bajar cantidad --}}
                                             <form method="POST" action="{{ route('carrito.update', $libro) }}" class="inline">
-                                                @csrf
+                                                
                                                 @method('PATCH')
                                                 <input type="hidden" name="cantidad" value="{{ max(1, $item['cantidad'] - 1) }}">
                                                 <button type="submit" class="w-6 h-6 flex items-center justify-center text-[#554138] hover:bg-[#EAE6E1] rounded-full text-lg font-medium" {{ $item['cantidad'] <= 1 ? 'disabled' : '' }}>-</button>
@@ -84,7 +84,7 @@
                                             
                                             {{-- Botón de subir cantidad --}}
                                             <form method="POST" action="{{ route('carrito.update', $libro) }}" class="inline">
-                                                @csrf
+                                                
                                                 @method('PATCH')
                                                 <input type="hidden" name="cantidad" value="{{ min($libro->stock, $item['cantidad'] + 1) }}">
                                                 <button type="submit" class="w-6 h-6 flex items-center justify-center text-[#554138] hover:bg-[#EAE6E1] rounded-full text-lg font-medium" {{ $item['cantidad'] >= $libro->stock ? 'disabled' : '' }}>+</button>
@@ -93,7 +93,7 @@
 
                                         {{-- Botón Eliminar --}}
                                         <form method="POST" action="{{ route('carrito.destroy', $libro) }}" class="inline">
-                                            @csrf
+                                            
                                             @method('DELETE')
                                             <button class="text-[#8A7A71] hover:text-red-600 p-1.5 rounded-lg transition-colors ml-1" aria-label="Eliminar {{ $libro->titulo }}">
                                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

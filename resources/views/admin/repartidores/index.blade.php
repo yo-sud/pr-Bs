@@ -95,7 +95,7 @@
                                     <span class="material-symbols-outlined text-lg">edit</span>
                                 </a>
                                 <form action="{{ route('admin.repartidores.destroy', $repartidor) }}" method="POST" onsubmit="return confirm('¿Estás seguro de desactivar este repartidor?')" class="inline">
-                                    @csrf
+                                    
                                     @method('DELETE')
                                     <button type="submit" class="text-gray-400 hover:text-red-600 transition-colors pt-1">
                                         <span class="material-symbols-outlined text-lg">delete</span>

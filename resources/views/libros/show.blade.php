@@ -41,7 +41,7 @@
 
             @if ($libro->stock > 0)
                 <form method="POST" action="{{ route('carrito.store', $libro) }}" class="w-full flex flex-col gap-6">
-                    @csrf
+                    
                     
                     <div class="flex flex-col gap-2">
                         <span class="text-sm font-bold text-[#78350F]">Cantidad</span>

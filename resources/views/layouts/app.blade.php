@@ -108,7 +108,7 @@
                             <div class="border-t border-gray-100 my-1.5"></div>
 
                             <form method="POST" action="{{ route('logout') }}">
-                                @csrf
+                                
                                 <button type="submit" class="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50 rounded-xl transition-colors text-left">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -189,7 +189,7 @@
 
                 @auth
                     <form method="POST" action="{{ route('logout') }}" class="mt-4 pt-4 border-t border-[#6E7E80]/10">
-                        @csrf
+                        
                         <button type="submit" class="w-full text-left text-sm text-red-600 font-medium py-2">
                             Cerrar Sesión
                         </button>

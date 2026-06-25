@@ -1,4 +1,4 @@
-@csrf
+
 @if (isset($libro))
     @method('PUT')
 @endif
