@@ -63,7 +63,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('categorias', CategoriaController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('proveedores', ProveedorController::class)
         ->parameters(['proveedores' => 'proveedor'])
-        ->only(['index', 'store', 'update', 'destroy']);
+        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    Route::patch('proveedores/{proveedor}/toggle-status', [ProveedorController::class, 'toggleStatus'])->name('proveedores.toggle-status');
     Route::resource('repartidores', AdminRepartidorController::class);
     Route::get('pedidos', [AdminPedidoController::class, 'index'])->name('pedidos.index');
     Route::get('pedidos/{pedido}', [AdminPedidoController::class, 'show'])->name('pedidos.show');

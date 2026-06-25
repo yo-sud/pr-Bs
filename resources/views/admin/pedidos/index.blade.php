@@ -5,7 +5,7 @@
 @section('contenido')
 <div class="flex items-center justify-between gap-4 mb-7">
     <div>
-        <h2 class="text-2xl font-bold text-[#2C1B12]">Pedidos</h2>
+        <h2 class="font-serif text-2xl font-semibold text-amber-900">Pedidos</h2>
         <p class="text-sm text-gray-500 mt-1">Pagos, preparacion, envio y entrega.</p>
     </div>
 </div>

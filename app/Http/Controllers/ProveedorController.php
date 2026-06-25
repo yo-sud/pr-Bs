@@ -13,14 +13,20 @@ class ProveedorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            // Buscamos los proveedores ordenados por el nuevo campo y paginados
-            $proveedores = Proveedor::query()
-                ->withCount('libros')
-                ->orderBy('nombre_empresa')
-                ->simplePaginate(15);
+            $query = Proveedor::query()->withCount('libros')->orderBy('nombre_empresa');
+
+            if ($search = $request->input('search')) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('nombre_empresa', 'like', "%{$search}%")
+                      ->orWhere('contacto_ejecutivo', 'like', "%{$search}%")
+                      ->orWhere('correo', 'like', "%{$search}%");
+                });
+            }
+
+            $proveedores = $query->paginate(15)->withQueryString();
 
             return view('admin.proveedores.index', compact('proveedores'));
 
@@ -57,6 +63,7 @@ class ProveedorController extends Controller
             'telefono'           => ['nullable', 'string', 'max:20'],
             'correo'             => ['nullable', 'email', 'max:100', 'unique:proveedores,correo'],
             'contacto_ejecutivo' => ['nullable', 'string', 'max:100'],
+            'direccion'          => ['nullable', 'string', 'max:200'],
             'observaciones'      => ['nullable', 'string'],
         ]);
 
@@ -67,11 +74,12 @@ class ProveedorController extends Controller
                 'telefono'           => $request->telefono,
                 'correo'             => $request->correo,
                 'contacto_ejecutivo' => $request->contacto_ejecutivo,
+                'direccion'          => $request->direccion,
                 'observaciones'      => $request->observaciones,
-                'activo'             => true // Inicia activo por defecto
+                'activo'             => true,
             ]);
 
-            return redirect()->route('proveedores.index')
+            return redirect()->route('admin.proveedores.index')
                              ->with('success', 'Proveedor creado exitosamente.');
 
         } catch (Exception $err) {
@@ -132,8 +140,9 @@ class ProveedorController extends Controller
             'telefono'           => ['nullable', 'string', 'max:20'],
             'correo'             => ['nullable', 'email', 'max:100', Rule::unique('proveedores', 'correo')->ignore($id)],
             'contacto_ejecutivo' => ['nullable', 'string', 'max:100'],
+            'direccion'          => ['nullable', 'string', 'max:200'],
             'observaciones'      => ['nullable', 'string'],
-            'activo'             => ['required', 'boolean'], // Permite activar/desactivar en el formulario
+            'activo'             => ['boolean'],
         ]);
 
         try {
@@ -144,18 +153,34 @@ class ProveedorController extends Controller
             $proveedor->telefono           = $request->telefono;
             $proveedor->correo             = $request->correo;
             $proveedor->contacto_ejecutivo = $request->contacto_ejecutivo;
+            $proveedor->direccion          = $request->direccion;
             $proveedor->observaciones      = $request->observaciones;
-            $proveedor->activo             = $request->activo;
-            
+            $proveedor->activo             = $request->boolean('activo', true);
+
             $proveedor->save();
 
-            return redirect()->route('proveedores.index')
+            return redirect()->route('admin.proveedores.index')
                              ->with('success', 'Proveedor actualizado exitosamente.');
 
         } catch (Exception $err) {
             Log::error('Error al actualizar un proveedor: ' . $err->getMessage());
             return back()->withInput()
                          ->with('error', 'Ocurrió un error al actualizar el proveedor.');
+        }
+    }
+
+    public function toggleStatus(Proveedor $proveedor)
+    {
+        try {
+            $proveedor->activo = !$proveedor->activo;
+            $proveedor->save();
+
+            $mensaje = $proveedor->activo ? 'Proveedor activado.' : 'Proveedor desactivado.';
+            return back()->with('success', $mensaje);
+
+        } catch (Exception $err) {
+            Log::error('Error al cambiar estado del proveedor: ' . $err->getMessage());
+            return back()->with('error', 'Ocurrió un error al cambiar el estado.');
         }
     }
 
@@ -171,7 +196,7 @@ class ProveedorController extends Controller
             $proveedor->activo = false;
             $proveedor->save();
 
-            return redirect()->route('proveedores.index')
+            return redirect()->route('admin.proveedores.index')
                              ->with('success', 'Proveedor desactivado correctamente.');
 
         } catch (Exception $err) {
