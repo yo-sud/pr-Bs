@@ -222,7 +222,7 @@ public function index(Request $request): View
     {
         return [
             'categorias' => Categoria::query()->orderBy('nombre')->get(),
-            'proveedores' => Proveedor::query()->orderBy('nombre')->get(),
+            'proveedores' => Proveedor::query()->orderBy('nombre_empresa')->get(),
         ];
     }
 }
