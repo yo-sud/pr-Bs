@@ -26,7 +26,7 @@
                 </div>
 
                 <form method="POST" action="{{ route('register') }}" class="space-y-5">
-                    @csrf
+                    
 
                     <div>
                         <label class="block text-sm font-medium text-stone-700 mb-2">Nombre Completo</label>

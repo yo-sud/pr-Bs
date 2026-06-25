@@ -2,7 +2,7 @@
     {{-- Se eliminó el header duplicado en inglés para mantener la consistencia visual --}}
 
     <form method="post" action="{{ route('password.update') }}" class="mt-4 space-y-4">
-        @csrf
+        
         @method('put')
 
         {{-- Campo: Contraseña Actual --}}

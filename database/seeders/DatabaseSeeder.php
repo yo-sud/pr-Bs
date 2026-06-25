@@ -52,11 +52,13 @@ class DatabaseSeeder extends Seeder
             $nombre => Categoria::query()->firstOrCreate(['nombre' => $nombre]),
         ]);
 
-        $proveedor = Proveedor::query()->firstOrCreate(
+        $proveedor = Proveedor::query()->updateOrCreate(
             ['correo' => 'catalogo@distribuidorape.pe'],
             [
-                'nombre_empresa' => 'Distribuidora Peruana de Libros', 
-                'telefono' => '+51 999 555 111',
+                'nombre_empresa'     => 'Distribuidora Peruana de Libros',
+                'telefono'           => '+51 999 555 111',
+                'contacto_ejecutivo' => 'Carlos Mendoza',
+                'direccion'          => 'Av. Arequipa 1234, Lima',
             ],
         );
 

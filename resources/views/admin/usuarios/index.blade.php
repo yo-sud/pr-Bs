@@ -52,7 +52,7 @@
                         <td class="px-5 py-4 text-stone-500">{{ $usuario->phone ?? '—' }}</td>
                         <td class="px-5 py-4">
                             <form method="POST" action="{{ route('admin.usuarios.toggle-status', $usuario) }}">
-                                @csrf
+                                
                                 @method('PATCH')
                                 <button type="submit"
                                     class="px-2 py-1 rounded-full text-xs font-semibold transition-colors

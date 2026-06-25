@@ -19,7 +19,7 @@
                 <h3 class="font-bold text-[#2C1B12] mb-1">Ajustar stock</h3>
                 <p class="text-xs text-gray-500 mb-4">Usa cantidades negativas para descontar.</p>
                 <form method="POST" action="{{ route('admin.libros.stock', $libro) }}" class="space-y-4">
-                    @csrf
+                    
                     <label>
                         <span class="block text-sm font-semibold mb-1">Cantidad</span>
                         <input type="number" name="cantidad" required placeholder="Ej. 10 o -2" class="w-full rounded-lg border-gray-300">
@@ -52,7 +52,7 @@
 
             @if ($libro->estado === 'activo')
                 <form method="POST" action="{{ route('admin.libros.destroy', $libro) }}" onsubmit="return confirm('¿Desactivar este libro?')">
-                    @csrf
+                    
                     @method('DELETE')
                     <button class="w-full border border-red-300 text-red-700 py-2.5 rounded-lg text-sm font-semibold">Desactivar libro</button>
                 </form>

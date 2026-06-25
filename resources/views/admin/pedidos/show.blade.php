@@ -78,7 +78,7 @@
                 };
             @endphp
             <form method="POST" action="{{ route('admin.pedidos.update-status', $pedido) }}" class="bg-white rounded-xl border p-6 space-y-4">
-                @csrf
+                
                 @method('PATCH')
                 <input type="hidden" name="estado" value="{{ $siguienteEstado }}">
                 <h3 class="font-bold text-lg">Actualizar despacho</h3>

@@ -24,7 +24,7 @@
 
         {{-- Formulario principal con Grid de 2 columnas en pantallas grandes (lg) --}}
         <form method="POST" action="{{ route('checkout.store') }}" class="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start">
-            @csrf
+            
 
             {{-- COLUMNA IZQUIERDA: Agrupa los 3 bloques de datos --}}
             <div class="space-y-6">

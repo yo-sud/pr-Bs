@@ -42,7 +42,7 @@
             </div>
             @if ($libro->stock > 0)
                 <form method="POST" action="{{ route('carrito.store', $libro) }}">
-                    @csrf
+                    
                     <input type="hidden" name="cantidad" value="1">
 <button
     class="w-8 h-8 bg-[#F09200] hover:bg-[#d68200] text-white rounded-full flex items-center justify-center transition-colors"

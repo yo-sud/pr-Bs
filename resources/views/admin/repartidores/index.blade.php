@@ -7,7 +7,7 @@
     {{-- Encabezado --}}
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-bold text-[#2C1B12]">Gestión de Repartidores</h2>
+            <h2 class="font-serif text-2xl font-semibold text-amber-900">Gestión de Repartidores</h2>
             <p class="text-sm text-gray-500">Administra el personal de entregas.</p>
         </div>
         <a href="{{ route('admin.repartidores.create') }}" class="bg-[#B8500C] hover:bg-[#963F07] text-white px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-1">
@@ -95,7 +95,7 @@
                                     <span class="material-symbols-outlined text-lg">edit</span>
                                 </a>
                                 <form action="{{ route('admin.repartidores.destroy', $repartidor) }}" method="POST" onsubmit="return confirm('¿Estás seguro de desactivar este repartidor?')" class="inline">
-                                    @csrf
+                                    
                                     @method('DELETE')
                                     <button type="submit" class="text-gray-400 hover:text-red-600 transition-colors pt-1">
                                         <span class="material-symbols-outlined text-lg">delete</span>

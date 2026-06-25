@@ -26,7 +26,7 @@
                 </div>
 
                 <form method="POST" action="{{ route('login') }}" class="space-y-6">
-                    @csrf
+                    
 
                     <div>
                         <label class="block text-sm font-medium text-stone-700 mb-2">Correo Electrónico</label>

@@ -111,7 +111,7 @@
                 {{-- Acción Cancelar Pedido --}}
                 @if (in_array($pedido->estado_pedido, ['pendiente', 'pagado', 'preparando'], true))
                     <form method="POST" action="{{ route('pedidos.cancel', $pedido) }}">
-                        @csrf
+                        
                         <button class="w-full border border-red-200 hover:border-red-300 text-red-700 hover:bg-red-50/50 bg-white rounded-full py-3 text-sm font-semibold transition-colors shadow-sm">
                             Cancelar pedido
                         </button>

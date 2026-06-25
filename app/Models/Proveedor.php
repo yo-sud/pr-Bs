@@ -15,12 +15,13 @@ class Proveedor extends Model
     protected $fillable = [
         'nombre_empresa',
         'tiempo_entrega_dias',
-        'costo_envio',        
-        'ruc',                  
-        'telefono',               
-        'correo',                
-        'contacto_ejecutivo',     
-        'observaciones',         
+        'costo_envio',
+        'ruc',
+        'telefono',
+        'correo',
+        'contacto_ejecutivo',
+        'direccion',
+        'observaciones',
         'activo',
     ];
 
