@@ -14,12 +14,13 @@ class Repartidor extends Model
 
     protected $fillable = [
         'nombre_empresa',
+        'contacto_ejecutivo',
         'ruc',
         'telefono',
         'correo',
-        'tiempo_entrega_estimado', 
-        'observaciones',          
-        'activo',                  
+        'tiempo_entrega_estimado',
+        'observaciones',
+        'activo',
     ];
 
     public function pedidos(): HasMany

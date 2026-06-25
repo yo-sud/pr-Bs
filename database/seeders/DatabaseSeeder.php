@@ -127,5 +127,6 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call(PedidoSeeder::class);
+        $this->call(RepartidorSeeder::class);
     }
 }
