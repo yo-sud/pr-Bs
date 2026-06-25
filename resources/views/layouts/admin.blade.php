@@ -113,7 +113,7 @@
         <div id="fondo-menu" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"></div>
 
         {{-- CONTENEDOR PRINCIPAL DE LAS VISTAS (@yield) --}}
-        <main class="flex-1 lg:ml-64 p-4 md:p-8 pt-24 lg:pt-8 w-full">
+        <main class="flex-1 lg:ml-64 p-4 md:p-8 pt-24 lg:pt-8 w-full @yield('mainClass')" >
             @if (session('status'))
                 <div class="mb-6 rounded-xl bg-green-50 border border-green-200 text-green-800 px-4 py-3 text-sm">
                     {{ session('status') }}

@@ -2,6 +2,8 @@
 
 @section('title', 'Libros - Administración')
 
+@section('mainClass', 'bg-white')
+
 @section('contenido')
 <div class="space-y-6">
     {{-- Encabezado --}}
