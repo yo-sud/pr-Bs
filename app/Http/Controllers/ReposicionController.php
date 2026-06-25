@@ -33,7 +33,8 @@ class ReposicionController extends Controller
         $totalSeleccionados = count($librosEnSesion);
         $inversionEstimada = 0; 
 
-        return view('admin.inventario.reposicion.paso1', compact(
+        // Abre tu archivo físico en admin/inventario/reposicioninteligente/primerpaso.blade.php
+        return view('admin.inventario.reposicioninteligente.primerpaso', compact(
             'libros', 
             'totalLibros', 
             'totalSeleccionados', 
@@ -41,8 +42,8 @@ class ReposicionController extends Controller
         ));
     }
 
-    // Recibe el formulario y guarda las elecciones en la Sesión
-    public function procesarPaso1(Request $request)
+    // Recibe el formulario y guarda las elecciones en la Sesión (todo en minúsculas)
+    public function procesarpaso1(Request $request)
     {
         $request->validate([
             'libros' => 'required|array|min:1',
@@ -55,11 +56,12 @@ class ReposicionController extends Controller
             'reposicion.cantidades' => $request->cantidades // Array asociativo [ID => Cantidad]
         ]);
 
+        // Redirecciona al paso2
         return redirect()->route('admin.reposicion.paso2');
     }
 
     // Pantalla temporal del Paso 2
-    public function paso2()
+    public function segundopaso()
     {
         if (!session()->has('reposicion.libros')) {
             return redirect()->route('admin.reposicion.paso1');

@@ -14,7 +14,7 @@
             <p class="text-sm text-gray-500 mt-1">Monitorea el stock de todos los libros</p>
         </div>
         <div class="flex-shrink-0 pt-1">
-            <a href="#"
+            <a href="{{ route('admin.reposicion.paso1') }}"
                class="inline-flex items-center gap-2 bg-[#FF6B00] text-white hover:bg-[#E05E00] px-5 py-2.5 rounded-xl font-semibold text-sm shadow-sm transition-colors whitespace-nowrap">
                 <span class="material-symbols-outlined text-lg">trending_up</span>
                 Cálculo de Reposición Inteligente

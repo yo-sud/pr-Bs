@@ -69,9 +69,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('pedidos/{pedido}', [AdminPedidoController::class, 'show'])->name('pedidos.show');
     Route::patch('pedidos/{pedido}/estado', [AdminPedidoController::class, 'updateStatus'])->name('pedidos.update-status');
     Route::prefix('inventario/reposicion')->name('reposicion.')->group(function () {
-        Route::get('/paso1', [ReposicionController::class, 'paso1'])->name('paso1');
-        Route::post('/paso1/procesar', [ReposicionController::class, 'procesarPaso1'])->name('procesarPaso1');
-        Route::get('/paso2', [ReposicionController::class, 'paso2'])->name('paso2');
+        Route::get('/paso1', [ReposicionController::class, 'primerpaso'])->name('paso1');
+        Route::post('/procesarpaso1', [ReposicionController::class, 'procesarpaso1'])->name('procesarpaso1');
+        Route::get('/paso2', [ReposicionController::class, 'segundopaso'])->name('paso2');
     });
 });
 
