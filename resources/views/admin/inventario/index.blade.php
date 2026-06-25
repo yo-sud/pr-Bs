@@ -3,10 +3,22 @@
 @section('title', 'Inventario - Administración')
 
 @section('contenido')
-<div class="space-y-6">
-    <div>
-        <h2 class="text-2xl font-bold text-[#2C1B12]">Inventario</h2>
-        <p class="text-sm text-gray-500 mt-1">Movimientos registrados por libro, usuario y motivo.</p>
+<div class="space-y-6 pt-20 px-4 sm:px-0">
+    {{-- Cabecera con elementos distribuidos a los extremos (Izquierda y Derecha) --}}
+    <div class="flex items-start justify-between w-full gap-6">
+        {{-- Bloque Izquierdo: Título y Descripción juntos --}}
+        <div class="flex-1">
+            <h2 class="text-3xl font-bold text-[#2C1B12]">Inventario</h2>
+            <p class="text-sm text-gray-500 mt-1">Monitorea el stock de todos los libros</p>
+        </div>
+        
+        {{-- Bloque Derecho: Botón empujado al extremo derecho --}}
+        <div class="flex-shrink-0 pt-1">
+            <a href="#" class="inline-flex items-center gap-2 bg-[#FF6B00] text-white hover:bg-[#E05E00] px-5 py-2.5 rounded-xl font-semibold text-sm shadow-sm transition-colors whitespace-nowrap">
+                <span class="material-symbols-outlined text-lg">trending_up</span>
+                Cálculo de Reposición Inteligente
+            </a>
+        </div>
     </div>
 
     <div class="bg-white rounded-xl border shadow-sm overflow-x-auto">
