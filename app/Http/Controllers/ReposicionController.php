@@ -59,13 +59,43 @@ class ReposicionController extends Controller
         // Redirecciona al paso2
         return redirect()->route('admin.reposicion.paso2');
     }
-
-    // Pantalla temporal del Paso 2
+    
     public function segundopaso()
     {
+        // 1. Validar que existan datos en la sesión
         if (!session()->has('reposicion.libros')) {
             return redirect()->route('admin.reposicion.paso1');
         }
-        return "¡Éxito total! Los datos del Paso 1 se guardaron correctamente en la sesión. Listos para programar la pantalla de Proveedores.";
+
+        $librosIds = session('reposicion.libros');
+        $cantidades = session('reposicion.cantidades');
+
+        // 2. Calcular los totales para la tarjeta informativa superior
+        $totalTitulos = 0;
+        $totalUnidades = 0;
+
+        foreach ($librosIds as $id) {
+            $cant = intval($cantidades[$id] ?? 0);
+            if ($cant > 0) {
+                $totalTitulos++;
+                $totalUnidades += $cant;
+            }
+        }
+
+        // Si no seleccionó cantidades válidas, regresar al paso 1
+        if ($totalTitulos === 0) {
+            return redirect()->route('admin.reposicion.paso1');
+        }
+
+        $resumen = [
+            'titulos' => $totalTitulos,
+            'unidades' => $totalUnidades
+        ];
+
+        // 3. Traer todos los proveedores con sus datos logísticos
+        $proveedores = \App\Models\Proveedor::all();
+
+        // 4. Renderizar la vista con el diseño idéntico
+        return view('admin.inventario.reposicioninteligente.segundopaso', compact('resumen', 'proveedores'));
     }
 }

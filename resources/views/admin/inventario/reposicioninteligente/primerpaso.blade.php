@@ -39,8 +39,8 @@
     </div>
 
     {{-- Formulario hacia el controlador --}}
-    <form action="{{ route('admin.reposicion.procesarPaso1') }}" method="POST" class="space-y-3">
-        
+    <form action="{{ route('admin.reposicion.procesarpaso1') }}" method="POST" class="space-y-3">
+        @csrf {{-- 🚀 ¡AQUÍ SE PONE EL CSRF PARA QUE NO SE EXPIRE LA PÁGINA! --}}
 
         <div class="bg-white rounded-xl border divide-y shadow-sm">
             @foreach($libros as $libro)
@@ -83,7 +83,7 @@
 
         {{-- Botonera --}}
         <div class="flex justify-end pt-2">
-            <button type="submit" class="bg-[#FF6B00] text-white px-5 py-2 rounded-xl font-bold text-xs shadow-sm hover:bg-[#E05E00] transition-colors">
+            <button type="submit" class="bg-[#FF6B00] text-white px-5 py-2 rounded-xl font-bold text-xs shadow-sm hover:bg-[#E05E00] transition-colors cursor-pointer">
                 Siguiente Paso ➔
             </button>
         </div>
