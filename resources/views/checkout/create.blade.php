@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('title', 'Finalizar Compra - BookShop')
 
 @section('content')
@@ -270,7 +269,7 @@
                     {{-- Total --}}
                     <div class="flex justify-between items-baseline font-bold border-t border-[#421605]/10 pt-3 text-[#421605]">
                         <dt class="text-base font-bold">Total</dt>
-                        <dd class="font-serif text-2xl text-[#9C4309] tracking-tight">
+                        <dd class="text-2xl text-[#9C4309] tracking-tight font-sans font-bold">
                             <span class="text-xl mr-0.5">S/</span>{{ number_format((float) $total, 2) }}
                         </dd>
                     </div>
