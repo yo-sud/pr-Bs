@@ -13,7 +13,9 @@ class Proveedor extends Model
     protected $table = 'proveedores';
 
     protected $fillable = [
-        'nombre_empresa',        
+        'nombre_empresa',
+        'tiempo_entrega_dias',
+        'costo_envio',        
         'ruc',                  
         'telefono',               
         'correo',                
