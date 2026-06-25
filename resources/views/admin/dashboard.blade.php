@@ -13,12 +13,12 @@
         {{-- Bucle para definir una lista de arreglo, esto representa las tarjetas del dashboard con todo lo necesario para trabajar --}}
         @foreach ([
             ['Ventas del Mes', 'S/ . ' . number_format($totalventas, 2), 'payments', 'text-amber-600 bg-amber-50', false],
-            ['Libros', $totalLibros, 'book_2', 'text-blue-600 bg-blue-50', 'admin.libros.index'],
-            ['Stock total', $stockTotal, 'inventory_2', 'text-emerald-600 bg-emerald-50', 'admin.inventario.index'],
-            ['Categorías', $categorias, 'category', 'text-purple-600 bg-purple-50', 'admin.categorias.index'],
-            ['Proveedores', $proveedores, 'local_shipping', 'text-indigo-600 bg-indigo-50', 'admin.proveedores.index'],
-            ['Repartidores', $repartidores, 'delivery_dining', 'text-cyan-600 bg-cyan-50', 'admin.repartidores.index'],
-            ['Usuarios', $usuarios, 'group', 'text-rose-600 bg-rose-50', 'admin.usuarios.index'],
+            ['Libros', $totalLibros, 'book_2', 'text-amber-600 bg-amber-50', 'admin.libros.index'],
+            ['Stock total', $stockTotal, 'inventory_2', 'text-amber-600 bg-amber-50', 'admin.inventario.index'],
+            ['Categorías', $categorias, 'category', 'text-amber-600 bg-amber-50', 'admin.categorias.index'],
+            ['Proveedores', $proveedores, 'local_shipping', 'text-amber-600 bg-amber-50', 'admin.proveedores.index'],
+            ['Repartidores', $repartidores, 'delivery_dining', 'text-amber-600 bg-amber-50', 'admin.repartidores.index'],
+            ['Usuarios', $usuarios, 'group', 'text-amber-600 bg-amber-50', 'admin.usuarios.index'],
         ] as [$etiqueta, $valor, $icono, $color, $ruta])
 
         {{-- Si la tarjeta tiene ruta, se vuelve dinámica, si no, se queda estática --}}
