@@ -8,7 +8,8 @@ use App\Services\PagoService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Http; 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
 class PagoController extends Controller
@@ -61,11 +62,10 @@ class PagoController extends Controller
             ],
             'external_reference' => $referenciaUuid, 
             
-            // === EL TRUCO: URLs seguras temporales para que Mercado Pago no nos bloquee ===
             'back_urls' => [
-                'success' => 'https://www.google.com', 
-                'failure' => 'https://www.google.com',
-                'pending' => 'https://www.google.com'
+                'success' => 'https://pounce-relatable-snooper.ngrok-free.dev/pago/retorno',
+                'failure' => 'https://pounce-relatable-snooper.ngrok-free.dev/pago/retorno',
+                'pending' => 'https://pounce-relatable-snooper.ngrok-free.dev/pago/retorno',
             ],
             'auto_return' => 'approved',
         ];
@@ -93,7 +93,14 @@ class PagoController extends Controller
         $referenciaUuid = $request->query('external_reference');
 
         $transaccion = TransaccionPago::where('referencia', $referenciaUuid)->firstOrFail();
-        $pedido = clone $transaccion->pedido; 
+        $pedido = clone $transaccion->pedido;
+
+        if (!Auth::check()) {
+            $usuario = \App\Models\User::find($pedido->user_id);
+            if ($usuario) {
+                Auth::login($usuario);
+            }
+        }
 
         $estadoFinal = match ($estadoMercadoPago) {
             'approved' => 'aprobado',

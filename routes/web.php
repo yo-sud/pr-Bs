@@ -33,6 +33,7 @@ Route::patch('/carrito/{libro}', [CarritoController::class, 'update'])->name('ca
 Route::delete('/carrito/{libro}', [CarritoController::class, 'destroy'])->name('carrito.destroy');
 Route::delete('/carrito', [CarritoController::class, 'clear'])->name('carrito.clear');
 Route::post('/webhooks/pagos/falso', PagoWebhookController::class)->name('webhooks.pagos.falso');
+Route::get('/pago/retorno', [PagoController::class, 'retorno'])->name('pago.retorno');
 
 // Rutas Protegidas (Requieren inicio de sesión)
 Route::middleware('auth')->group(function () {
@@ -48,9 +49,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/mis-pedidos/{pedido}/cancelar', [PedidoController::class, 'cancel'])->name('pedidos.cancel');
     Route::get('/mis-pedidos/{pedido}/pagar', [PagoController::class, 'create'])->name('pagos.create');
     Route::post('/mis-pedidos/{pedido}/pagar', [PagoController::class, 'store'])->name('pagos.store');
-    
-    // ✅ AQUÍ ESTÁ LA NUEVA RUTA DE RETORNO DE MERCADO PAGO
-    Route::get('/pago/retorno', [PagoController::class, 'retorno'])->name('pago.retorno');
 });
 
 // Panel de Administración (Restringido para Administradores)

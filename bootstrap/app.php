@@ -12,12 +12,22 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'admin' => EnsureUserIsAdmin::class,
         ]);
+        
         $middleware->validateCsrfTokens(except: [
             'webhooks/pagos/falso',
         ]);
+
+        // 👇 AGREGA ESTA PARTE 👇
+        $middleware->redirectTo(
+            guests: '/login',
+            users: '/inicio' // <-- Cambia '/inicio' por la ruta principal de tu tienda Oxxo
+        );
+        // 👆 HASTA AQUÍ 👆
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
