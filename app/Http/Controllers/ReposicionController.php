@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class ReposicionController extends Controller
 {
     // Carga la interfaz del Paso 1
-    public function paso1()
+    public function primerpaso()
     {
         // 1. Rango de 30 días para promediar las ventas del semáforo
         $hace30Dias = Carbon::now()->subDays(30);
