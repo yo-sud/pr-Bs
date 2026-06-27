@@ -66,7 +66,7 @@
                              x-transition:leave="transition ease-in duration-75"
                              x-transition:leave-start="transform opacity-100 scale-100"
                              x-transition:leave-end="transform opacity-0 scale-95"
-                             class="absolute right-0 mt-3 w-72 bg-white border border-[#421605]/10 rounded-2xl shadow-xl p-4 hidden">
+                             class="absolute right-0 mt-3 w-72 bg-white border border-[#421605]/10 rounded-2xl shadow-xl p-4">
                             
                             <div class="flex items-center gap-3 pb-3 mb-2 border-b border-gray-100">
                                 <div class="h-10 w-10 rounded-full bg-[#F3ECE0]/50 text-[#421605] flex items-center justify-center font-bold text-base">
@@ -130,14 +130,66 @@
                     </a>
                 @endauth
 
-                <a href="{{ route('carrito.index') }}" class="text-[#421605] hover:text-[#B8500C] transition-colors relative" aria-label="Ver Carrito">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                    @if ($cantidadCarrito > 0)
-                        <span class="absolute -top-2 -right-2 min-w-4 h-4 px-1 rounded-full bg-[#B8500C] text-white text-[10px] font-bold flex items-center justify-center">
-                            {{ $cantidadCarrito }}
-                        </span>
-                    @endif
-                </a>
+                <div x-data="{ openCart: false }" class="relative">
+                    <button @click="openCart = !openCart" @click.away="openCart = false" class="text-[#421605] hover:text-[#B8500C] transition-colors relative focus:outline-none" aria-label="Ver Carrito">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        @if ($cantidadCarrito > 0)
+                            <span class="absolute -top-2 -right-2 min-w-4 h-4 px-1 rounded-full bg-[#B8500C] text-white text-[10px] font-bold flex items-center justify-center">
+                                {{ $cantidadCarrito }}
+                            </span>
+                        @endif
+                    </button>
+
+                    <div x-show="openCart"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="transform opacity-0 scale-95"
+                         x-transition:enter-end="transform opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75"
+                         x-transition:leave-start="transform opacity-100 scale-100"
+                         x-transition:leave-end="transform opacity-0 scale-95"
+                         class="absolute right-0 mt-3 w-80 bg-white border border-[#421605]/10 rounded-2xl shadow-xl p-4 z-50">
+
+                        @if (count($carritoItems) > 0)
+                            <div class="flex flex-col gap-3 max-h-60 overflow-y-auto mb-3">
+                                @foreach ($carritoItems as $item)
+                                    @if (is_array($item) && isset($item['titulo']))
+                                        <div class="flex items-center gap-3">
+                                            @if (!empty($item['portada_url']))
+                                                <img src="{{ $item['portada_url'] }}" alt="{{ $item['titulo'] }}" class="w-12 h-16 object-cover rounded-lg flex-shrink-0 border border-[#421605]/10">
+                                            @else
+                                                <div class="w-12 h-16 bg-[#F3ECE0] rounded-lg flex-shrink-0 flex items-center justify-center">
+                                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8500C" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                                                </div>
+                                            @endif
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-semibold text-[#421605] truncate">{{ $item['titulo'] }}</p>
+                                                <p class="text-xs text-[#8A7A71]">{{ $item['cantidad'] }} × S/ {{ number_format($item['precio'], 2) }}</p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+
+                            <div class="border-t border-gray-100 pt-3 mb-3 flex justify-between items-center">
+                                <span class="text-sm text-[#554138]">Subtotal ({{ $cantidadCarrito }} {{ $cantidadCarrito === 1 ? 'artículo' : 'artículos' }})</span>
+                                <span class="text-sm font-bold text-[#421605]">S/ {{ number_format($carritoSubtotal, 2) }}</span>
+                            </div>
+
+                            <a href="{{ route('carrito.index') }}" class="block w-full text-center bg-[#F59E0B] hover:bg-[#D97706] text-white font-semibold py-2.5 rounded-xl transition-colors mb-2 text-sm">
+                                Ver Carrito Completo
+                            </a>
+                            <a href="{{ route('checkout.create') }}" class="block w-full text-center border-2 border-[#F59E0B] text-[#B8500C] hover:bg-[#FFF9EE] font-semibold py-2.5 rounded-xl transition-colors text-sm">
+                                Finalizar Compra →
+                            </a>
+                        @else
+                            <div class="text-center py-6">
+                                <svg class="mx-auto mb-3 text-[#8A7A71]" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                                <p class="text-sm text-[#8A7A71] mb-3">Tu carrito está vacío</p>
+                                <a href="{{ route('libros.index') }}" class="text-sm font-semibold text-[#B8500C] hover:underline">Explorar libros</a>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
