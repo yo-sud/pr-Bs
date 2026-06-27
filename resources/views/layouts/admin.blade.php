@@ -72,7 +72,7 @@
                     <span class="material-symbols-outlined mr-2 text-xl">dashboard</span> Dashboard
                 </a>
                 <a href="{{ route('admin.libros.index') }}" class="{{ $link }} {{ request()->routeIs('admin.libros.*') ? $active : $inactive }}">
-                    <span class="material-symbols-outlined mr-2 text-xl">book_2</span> Libros
+                    <span class="material-symbols-outlined mr-2 text-xl">menu_book</span> Libros
                 </a>
                 <a href="{{ route('admin.inventario.index') }}" class="{{ $link }} {{ request()->routeIs('admin.inventario.*') ? $active : $inactive }}">
                     <span class="material-symbols-outlined mr-2 text-xl">inventory_2</span> Inventario
