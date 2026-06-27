@@ -23,19 +23,19 @@
     </a>
 
     <div class="p-4 text-left flex flex-col flex-grow">
-        <span class="text-[10px] font-medium tracking-wide text-[#C48C45] mb-1">
+        <span class="text-[11px] font-medium tracking-wide text-[#D97706] mb-1">
             {{ $libro->categoria->nombre }}
         </span>
         <a href="{{ route('libros.show', $libro) }}" class="hover:text-[#B8500C] transition-colors">
-            <h3 class="font-serif text-sm font-bold text-[#421605] mb-0.5 line-clamp-1">
+            <h3 class="font-sans text-[18px] font-bold text-[#78350F] tracking-tight leading-tight mb-1">
                 {{ $libro->titulo }}
             </h3>
         </a>
-        <p class="text-[11px] text-[#8A7A71] mb-4">{{ $libro->autor }}</p>
+        <p class="text-[12px] text-[#D97706] mb-4">{{ $libro->autor }}</p>
 
         <div class="mt-auto flex items-center justify-between gap-3">
-            <div>
-                <span class="block text-sm font-bold text-[#421605]">S/ {{ number_format((float) $libro->precio, 2) }}</span>
+            <div class="flex flex-col text-left">
+                <span class="font-sans text-[18px] font-bold text-[#78350F] tracking-tight leading-tight mb-2">S/ {{ number_format((float) $libro->precio, 2) }}</span>
                 <span class="text-[10px] {{ $libro->stock > 0 ? 'text-orange-900' : 'text-red-600' }}">
                     {{ $libro->stock > 0 ? $libro->stock.' disponibles' : 'Sin stock' }}
                 </span>

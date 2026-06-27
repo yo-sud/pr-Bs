@@ -14,7 +14,7 @@
                 Explora nuestra colección cuidadosamente seleccionada de libros que inspiran, educan y entretienen. Tu próxima aventura literaria te espera.
             </p>
 
-            <a href="{{ route('libros.index') }}" class="inline-flex items-center gap-2 bg-[#B8500C] hover:bg-[#963F07] text-white px-10 py-4 rounded-full font-medium text-lg transition-all hover:-translate-y-0.5 shadow-sm mb-12">
+            <a href="{{ route('libros.index') }}" class="inline-flex items-center gap-2 bg-[#B8500C] hover:bg-[#963F07] text-white px-10 py-4 rounded-full font-medium text-lg transition-all transform ease-out hover:scale-105 active:scale-98 shadow-sm mb-12">
                 Explorar libros
                 <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path d="M5 12h14"></path>
@@ -67,7 +67,6 @@
 
                 <span class="w-12 h-12 bg-[#FFF9EE] text-[#B8500C] rounded-xl flex items-center justify-center shrink-0 border border-[#B8500C]/15 shadow-inner">
                     @if($categoria->nombre === 'Literatura')
-                    {{-- Icono: Pluma estilográfica clásica (Feather) con relleno premium --}}
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
                         <line x1="16" y1="8" x2="2" y2="22" />
@@ -75,7 +74,6 @@
                     </svg>
 
                     @elseif($categoria->nombre === 'Ciencia Ficción' || $categoria->nombre === 'Ciencia Ficcion')
-                    {{-- Icono: Cohete espacial futurista (Rocket) con relleno premium --}}
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
                         <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
