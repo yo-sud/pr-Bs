@@ -63,7 +63,7 @@ class CarritoController extends Controller
 
         // 🛠️ SOLUCIÓN REAL: Forzamos la redirección directa al catálogo de libros.
         // Así no dependemos del historial del navegador y no hay forma de que te mande a la de inicio.
-        return redirect()->route('libros.index')->with('status', "✔ ¡Se añadió '{$libro->titulo}' al carrito!");
+        return redirect()->route('libros.index')->with('status', "Se añadió '{$libro->titulo}' al carrito.");
     }
 
     public function update(Request $request, $id)
