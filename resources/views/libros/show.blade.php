@@ -74,7 +74,6 @@
                     </div>
                     
                     <button type="submit" class="w-full bg-[#FF9F00] hover:bg-[#EA580C] text-white py-4 px-6 rounded-2xl font-bold text-base tracking-wide transition-all duration-300 transform shadow-[0_12px_24px_-6px_rgba(255,159,0,0.35)] hover:shadow-[0_16px_32px_-6px_rgba(234,88,12,0.45)] flex items-center justify-center gap-2.5 mt-1">
-                        {{-- Tu SVG exacto de la captura --}}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
                             <circle cx="8" cy="21" r="1"></circle>
                             <circle cx="19" cy="21" r="1"></circle>
@@ -86,7 +85,6 @@
             @endif
 
             <hr class="border-t border-[#FDE68A] mt-4 mb-1">
-
             <div class="grid grid-cols-3 gap-2 py-3 text-center text-[10px] text-[#C2410C] font-semibold">
                 <div class="flex flex-col items-center gap-2">
                     <svg class="w-9 h-9 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
