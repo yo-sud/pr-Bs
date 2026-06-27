@@ -129,6 +129,8 @@
         </main>
     </div>
 
+    @stack('scripts')
+
     {{-- SCRIPT INTERACTIVO DEL MENÚ RESPONSIVO --}}
     <script>
         const btnMenu = document.getElementById('btn-menu');

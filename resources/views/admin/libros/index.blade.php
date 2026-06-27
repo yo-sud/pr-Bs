@@ -95,13 +95,33 @@
                             </span>
                         </td>
                         <td class="px-5 py-4 text-right">
-                            <a href="{{ route('admin.libros.edit', $libro) }}" 
-                               class="inline-flex items-center text-[#B8500C] hover:text-[#963F07] transition-colors"
-                               title="Editar">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </a>
+                            <div class="inline-flex items-center gap-3">
+                                <button type="button"
+                                    onclick="verLibro(this)"
+                                    data-titulo="{{ $libro->titulo }}"
+                                    data-autor="{{ $libro->autor }}"
+                                    data-categoria="{{ $libro->categoria->nombre }}"
+                                    data-precio="{{ number_format((float) $libro->precio, 2) }}"
+                                    data-stock="{{ $libro->stock }}"
+                                    data-editorial="{{ $libro->editorial ?? '' }}"
+                                    data-anio="{{ $libro->fecha_publicacion?->format('Y') ?? '' }}"
+                                    data-isbn="{{ $libro->isbn ?? '' }}"
+                                    data-descripcion="{{ $libro->descripcion ?? '' }}"
+                                    data-portada="{{ $libro->portada_url }}"
+                                    class="text-stone-400 hover:text-amber-700 transition-colors" title="Ver detalle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </button>
+                                <a href="{{ route('admin.libros.edit', $libro) }}"
+                                   class="inline-flex items-center text-[#B8500C] hover:text-[#963F07] transition-colors"
+                                   title="Editar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 @empty
@@ -115,4 +135,78 @@
 
     {{ $libros->links() }}
 </div>
+
+{{-- Modal Detalle del Libro --}}
+<div id="modalLibro" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
+        {{-- Header --}}
+        <div class="flex items-center justify-between bg-[#B8500C] px-6 py-4">
+            <h3 class="text-white font-bold text-lg">Detalle del Libro</h3>
+            <button onclick="cerrarModal()" class="text-white/80 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        {{-- Body --}}
+        <div class="p-6 flex gap-5">
+            <img id="ml-portada" src="" alt="Portada" class="w-28 h-40 object-cover rounded-lg shadow-md flex-shrink-0">
+            <div class="flex-1 min-w-0">
+                <h4 id="ml-titulo" class="text-xl font-bold text-[#B8500C] leading-tight mb-1"></h4>
+                <p id="ml-autor" class="text-stone-600 mb-2"></p>
+                <span id="ml-categoria" class="inline-block bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1 rounded-full mb-4"></span>
+                <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-sm">
+                    <dt class="text-stone-400 font-medium">Precio</dt>
+                    <dd id="ml-precio" class="text-stone-800 font-semibold"></dd>
+                    <dt class="text-stone-400 font-medium">Stock</dt>
+                    <dd id="ml-stock" class="text-stone-800"></dd>
+                    <dt id="ml-editorial-label" class="text-stone-400 font-medium">Editorial</dt>
+                    <dd id="ml-editorial" class="text-stone-800"></dd>
+                    <dt id="ml-anio-label" class="text-stone-400 font-medium">Año</dt>
+                    <dd id="ml-anio" class="text-stone-800"></dd>
+                    <dt id="ml-isbn-label" class="text-stone-400 font-medium">ISBN</dt>
+                    <dd id="ml-isbn" class="text-stone-800"></dd>
+                </dl>
+                <p id="ml-descripcion" class="mt-3 text-sm text-stone-600 leading-relaxed"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+function verLibro(btn) {
+    const d = btn.dataset;
+    document.getElementById('ml-portada').src    = d.portada;
+    document.getElementById('ml-titulo').textContent    = d.titulo;
+    document.getElementById('ml-autor').textContent     = d.autor;
+    document.getElementById('ml-categoria').textContent = d.categoria;
+    document.getElementById('ml-precio').textContent    = 'S/ ' + d.precio;
+    document.getElementById('ml-stock').textContent     = d.stock + ' unidades';
+    document.getElementById('ml-descripcion').textContent = d.descripcion;
+
+    const setFila = (labelId, valueId, value) => {
+        const show = value && value.trim() !== '';
+        document.getElementById(labelId).classList.toggle('hidden', !show);
+        document.getElementById(valueId).classList.toggle('hidden', !show);
+        document.getElementById(valueId).textContent = value;
+    };
+    setFila('ml-editorial-label', 'ml-editorial', d.editorial);
+    setFila('ml-anio-label',      'ml-anio',      d.anio);
+    setFila('ml-isbn-label',      'ml-isbn',      d.isbn);
+
+    const modal = document.getElementById('modalLibro');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+function cerrarModal() {
+    const modal = document.getElementById('modalLibro');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+document.getElementById('modalLibro').addEventListener('click', function(e) {
+    if (e.target === this) cerrarModal();
+});
+</script>
+@endpush
 @endsection
