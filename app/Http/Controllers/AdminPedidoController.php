@@ -17,7 +17,8 @@ class AdminPedidoController extends Controller
     {
         return view('admin.pedidos.index', [
             'pedidos' => Pedido::query()
-                ->with('usuario')
+                ->with(['usuario', 'repartidor'])
+                ->withCount('detalles')
                 ->latest()
                 ->paginate(15),
         ]);
@@ -25,16 +26,36 @@ class AdminPedidoController extends Controller
 
     public function show(Pedido $pedido): View
     {
-        return view('admin.pedidos.show', [
-            'pedido' => $pedido->load([
-                'usuario',
-                'repartidor',
-                'detalles',
-                'transaccionesPago',
-                'historialEstados.usuario',
-            ]),
-            'repartidores' => Repartidor::where('activo', true)->orderBy('nombre_empresa')->get(),
+        $pedido->load([
+            'usuario',
+            'repartidor',
+            'detalles',
+            'transaccionesPago',
+            'historialEstados.usuario',
         ]);
+
+        $ciudadPedido = $this->extraerCiudad($pedido->direccion);
+
+        $repartidores = Repartidor::where('activo', true)
+            ->orderByRaw("CASE WHEN ciudad = ? THEN 0 ELSE 1 END", [$ciudadPedido])
+            ->orderBy('nombre_empresa')
+            ->get();
+
+        return view('admin.pedidos.show', compact('pedido', 'repartidores', 'ciudadPedido'));
+    }
+
+    private function extraerCiudad(?string $direccion): string
+    {
+        if (!$direccion) return '';
+
+        $partes = array_map('trim', explode(',', $direccion));
+
+        // Quitar código postal si el último segmento es numérico
+        if (count($partes) > 1 && is_numeric(end($partes))) {
+            array_pop($partes);
+        }
+
+        return ucfirst(strtolower(trim(end($partes))));
     }
 
     public function updateStatus(
