@@ -56,6 +56,7 @@ class AdminRepartidorController extends Controller
         // Validación manual estricta adaptada a los campos de tu migración
         $request->validate([
             'nombre_empresa'           => ['required', 'string', 'max:150'],
+            'contacto_ejecutivo'       => ['nullable', 'string', 'max:150'],
             'ruc'                      => ['nullable', 'string', 'size:11', 'unique:repartidores,ruc'],
             'telefono'                 => ['nullable', 'string', 'max:20'],
             'correo'                   => ['nullable', 'email', 'max:100', 'unique:repartidores,correo'],
@@ -66,6 +67,7 @@ class AdminRepartidorController extends Controller
         try {
             Repartidor::create([
                 'nombre_empresa'          => $request->nombre_empresa,
+                'contacto_ejecutivo'      => $request->contacto_ejecutivo,
                 'ruc'                     => $request->ruc,
                 'telefono'                => $request->telefono,
                 'correo'                  => $request->correo,
@@ -126,6 +128,7 @@ class AdminRepartidorController extends Controller
         // Validación ignorando el registro actual para campos únicos (RUC y Correo)
         $request->validate([
             'nombre_empresa'           => ['required', 'string', 'max:150'],
+            'contacto_ejecutivo'       => ['nullable', 'string', 'max:150'],
             'ruc'                      => ['nullable', 'string', 'size:11', Rule::unique('repartidores', 'ruc')->ignore($id)],
             'telefono'                 => ['nullable', 'string', 'max:20'],
             'correo'                   => ['nullable', 'email', 'max:100', Rule::unique('repartidores', 'correo')->ignore($id)],
@@ -138,6 +141,7 @@ class AdminRepartidorController extends Controller
             $repartidor = Repartidor::find($id);
 
             $repartidor->nombre_empresa          = $request->nombre_empresa;
+            $repartidor->contacto_ejecutivo      = $request->contacto_ejecutivo;
             $repartidor->ruc                     = $request->ruc;
             $repartidor->telefono                = $request->telefono;
             $repartidor->correo                  = $request->correo;
