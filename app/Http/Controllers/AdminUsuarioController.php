@@ -36,7 +36,6 @@ class AdminUsuarioController extends Controller
     public function create()
     {
         try {
-            // Al no depender de otra tabla, va directo a la vista sin buscar nada más
             return view('admin.usuarios.create');
 
         } catch (Exception $err) {
@@ -47,7 +46,6 @@ class AdminUsuarioController extends Controller
 
     public function store(Request $request)
     {
-        // Revisa que las cajas de texto cumplan las reglas (correo único y rol válido)
         $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
@@ -55,11 +53,10 @@ class AdminUsuarioController extends Controller
         ]);
 
         try {
-            // Crea la fila en la tabla 'users' encriptando la contraseña por seguridad
             User::create([
                 'name'     => $request->name,
                 'email'    => $request->email,
-                'password' => Hash::make('12345678'), 
+                'password' => Hash::make('12345678'),
                 'role'     => $request->role,
                 'status'   => 1,
             ]);
@@ -85,7 +82,7 @@ class AdminUsuarioController extends Controller
     }
 
     public function edit(string $id)
-    {        
+    {
         try {
             $usuario = User::find($id);
             return view('admin.usuarios.edit', compact('usuario'));
@@ -98,7 +95,6 @@ class AdminUsuarioController extends Controller
 
     public function update(Request $request, string $id)
     {
-        // El correo debe ser único, pero ignora el ID del usuario editado para que no choque consigo mismo
         $request->validate([
             'name'  => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $id],
@@ -108,12 +104,10 @@ class AdminUsuarioController extends Controller
         try {
             $usuario = User::find($id);
 
-            // Reemplaza los datos de texto básicos
             $usuario->name = $request->name;
             $usuario->email = $request->email;
             $usuario->role = $request->role;
-            
-            // Si la caja no está vacía, la valida, la encripta y la actualiza
+
             if ($request->filled('password')) {
                 $request->validate(['password' => ['string', 'min:8']]);
                 $usuario->password = Hash::make($request->password);
@@ -154,7 +148,7 @@ class AdminUsuarioController extends Controller
                 return back()->with('error', '¡Cuidado, estas desactivando la cuenta principal!');
             }
             $usuario = User::find($id);
-            // En lugar de usar ->delete(), cambiamos su estado a 0 (Inactivo/Desactivado)
+            // Desactiva el registro en lugar de eliminarlo.
             $usuario->status = 0;
             $usuario->save();
 

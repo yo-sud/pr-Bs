@@ -50,7 +50,7 @@ class AdminPedidoController extends Controller
 
         $partes = array_map('trim', explode(',', $direccion));
 
-        // Quitar código postal si el último segmento es numérico
+        // Descarta el código postal si el último segmento de la dirección es numérico.
         if (count($partes) > 1 && is_numeric(end($partes))) {
             array_pop($partes);
         }
@@ -63,19 +63,16 @@ class AdminPedidoController extends Controller
         Pedido $pedido,
         PedidoEstadoService $estados,
     ): RedirectResponse {
-        // 1. Autorización integrada (Solo administradores)
         if (!$request->user()?->isAdmin()) {
             abort(403, 'Acción no autorizada.');
         }
 
-        // 2. Validación integrada
         $datosValidados = $request->validate([
             'estado' => ['required', Rule::in(['preparando', 'enviado', 'entregado'])],
             'observacion' => ['required', 'string', 'min:3', 'max:500'],
             'repartidor_id' => ['nullable', 'exists:repartidores,id'],
         ]);
 
-        // 3. Reglas de negocio existentes
         if ($pedido->estado_pago !== 'pagado') {
             throw ValidationException::withMessages([
                 'pedido' => 'Solo se puede despachar un pedido con pago aprobado.',
@@ -97,7 +94,6 @@ class AdminPedidoController extends Controller
             ]);
         }
 
-        // 4. Ejecución del cambio de estado usando los datos validados internamente
         if ($siguienteEstado === 'enviado' && !empty($datosValidados['repartidor_id'])) {
             $pedido->update(['repartidor_id' => $datosValidados['repartidor_id']]);
         }

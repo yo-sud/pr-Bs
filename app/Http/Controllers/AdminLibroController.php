@@ -17,16 +17,14 @@ class AdminLibroController extends Controller
 {
 public function index(Request $request): View
     {
-        // 1. Validar filtros
         $filtros = $request->validate([
             'search' => ['nullable', 'string', 'max:100'],
             'estado' => ['nullable', 'in:disponibles,bajo,agotados'],
         ]);
 
-        // 2. Query base
         $query = Libro::query()->with(['categoria', 'proveedor']);
 
-        // 3. Calcular totales (clonamos para no afectar la consulta de la tabla)
+        // Clona la consulta base para calcular totales sin afectar los filtros.
         $totales = [
             'todos' => (clone $query)->count(),
             'disponibles' => (clone $query)->where('stock', '>', 5)->count(),
@@ -34,7 +32,6 @@ public function index(Request $request): View
             'agotados' => (clone $query)->where('stock', 0)->count(),
         ];
 
-        // 4. Aplicar filtros a la query principal
         $query->when($filtros['search'] ?? null, function ($query, string $search) {
             $query->where(function ($query) use ($search) {
                 $query->where('titulo', 'like', "%{$search}%")
@@ -50,7 +47,6 @@ public function index(Request $request): View
             }
         });
 
-        // 5. Retornar vista con libros y totales
         return view('admin.libros.index', [
             'libros' => $query->orderBy('titulo')->paginate(15)->withQueryString(),
             'totales' => $totales
@@ -64,12 +60,10 @@ public function index(Request $request): View
 
     public function store(Request $request): RedirectResponse
     {
-        // Autorización integrada
         if (!$request->user()?->isAdmin()) {
             abort(403, 'Acción no autorizada.');
         }
 
-        // Validación integrada
         $datos = $request->validate([
             'isbn' => ['nullable', 'string', 'max:20', 'unique:libros,isbn'],
             'titulo' => ['required', 'string', 'max:150'],
@@ -127,12 +121,10 @@ public function index(Request $request): View
 
     public function update(Request $request, Libro $libro): RedirectResponse
     {
-        // 1. Autorización integrada
         if (!$request->user()?->isAdmin()) {
             abort(403, 'Acción no autorizada.');
         }
 
-        // 2. Validación integrada
         $datos = $request->validate([
             'isbn' => [
                 'nullable',
@@ -182,12 +174,10 @@ public function index(Request $request): View
 
     public function ajustarStock(Request $request, Libro $libro): RedirectResponse
     {
-        // 1. Autorización integrada
         if (!$request->user()?->isAdmin()) {
             abort(403, 'Acción no autorizada.');
         }
 
-        // 2. Validación integrada
         $datosValidados = $request->validate([
             'cantidad' => ['required', 'integer', 'not_in:0', 'between:-1000000,1000000'],
             'motivo'   => ['required', 'string', 'max:255'],

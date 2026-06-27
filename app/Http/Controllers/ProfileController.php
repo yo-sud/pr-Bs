@@ -33,7 +33,6 @@ class ProfileController extends Controller
             ],
         ]);
 
-        // Llenamos el modelo con los datos que ya pasaron la validación
         $request->user()->fill($datosValidados);
 
         if ($request->user()->isDirty('email')) {

@@ -37,7 +37,7 @@ class CarritoService
 
         $carrito = $this->contenido();
         
-        // Obtenemos la cantidad actual manejando si ya es array o entero antiguo
+        // Maneja el formato antiguo (entero) y el nuevo (array) de sesión.
         $cantidadActual = 0;
         if (isset($carrito[$libro->id])) {
             $cantidadActual = is_array($carrito[$libro->id]) 
@@ -52,7 +52,6 @@ class CarritoService
 
         $this->validarDisponible($libro, $nuevaCantidad);
 
-        // Guardamos la nueva estructura idéntica a la del controlador
         $carrito[$libro->id] = [
             'libro' => $libro,
             'titulo' => $libro->titulo,
@@ -113,7 +112,7 @@ class CarritoService
                     return null;
                 }
 
-                // Extrae la cantidad si viene como array estructurado
+                // Extrae la cantidad si el ítem proviene del formato estructurado de sesión.
                 $cantidad = is_array($item) ? ($item['cantidad'] ?? 1) : (int)$item;
                 $precioCentimos = $this->aCentimos($libro->precio);
 

@@ -41,7 +41,7 @@ class PagoController extends Controller
 
         abort_if($pedido->estado_pedido === 'cancelado', 404);
 
-        // Cancelar transacciones pendientes anteriores para evitar ambigüedad en verificar()
+        // Cancela transacciones previas pendientes para evitar ambigüedad al verificar el pago.
         TransaccionPago::where('pedido_id', $pedido->id)
             ->where('estado', 'pendiente')
             ->update(['estado' => 'cancelado']);
@@ -147,13 +147,13 @@ class PagoController extends Controller
     {
         $this->autorizar($request, $pedido);
 
-        // Si ya fue pagado (ej: retorno() lo procesó en otra pestaña)
+        // Detecta el caso en que retorno() ya procesó el pago en otra pestaña.
         if ($pedido->estado_pago === 'pagado') {
             return redirect()->route('pedidos.show', $pedido)
                 ->with('status', '¡Tu pago ya fue confirmado! Tu pedido está en proceso.');
         }
 
-        // Buscar la transacción por referencia guardada en sesión, o la única pendiente
+        // Localiza la transacción por referencia de sesión o la última pendiente.
         $referencia = $request->input('referencia') ?? session('pago_ref_' . $pedido->id);
 
         $transaccion = $referencia

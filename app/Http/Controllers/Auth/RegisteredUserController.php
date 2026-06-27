@@ -46,7 +46,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // Redirige a la página de inicio ('home') en lugar de 'dashboard'
+        // Redirige a la portada en lugar del dashboard predeterminado de Laravel.
         return redirect(route('home', absolute: false));
     }
 }

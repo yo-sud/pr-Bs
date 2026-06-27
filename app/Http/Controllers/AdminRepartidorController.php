@@ -10,26 +10,21 @@ use Illuminate\Validation\Rule;
 
 class AdminRepartidorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         try {
-            // Buscamos los repartidores filtrados o paginados según tu necesidad
             $repartidores = Repartidor::query()
                 ->orderBy('nombre_empresa')
                 ->simplePaginate(15);
 
-            // Métrica de ejemplo para las tarjetas superiores de tu vista index
             $repartidoresCount = Repartidor::count();
             $repartidoresActivosCount = Repartidor::where('activo', true)->count();
-            $pedidosAsignadosCount = 15; // Aquí puedes meter tu lógica real de pedidos en el futuro
+            $pedidosAsignadosCount = 15;
 
             return view('admin.repartidores.index', compact(
-                'repartidores', 
-                'repartidoresCount', 
-                'repartidoresActivosCount', 
+                'repartidores',
+                'repartidoresCount',
+                'repartidoresActivosCount',
                 'pedidosAsignadosCount'
             ));
 
@@ -40,27 +35,20 @@ class AdminRepartidorController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.repartidores.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // Validación manual estricta adaptada a los campos de tu migración
         $request->validate([
             'nombre_empresa'           => ['required', 'string', 'max:150'],
             'contacto_ejecutivo'       => ['nullable', 'string', 'max:150'],
             'ruc'                      => ['nullable', 'string', 'size:11', 'unique:repartidores,ruc'],
             'telefono'                 => ['nullable', 'string', 'max:20'],
             'correo'                   => ['nullable', 'email', 'max:100', 'unique:repartidores,correo'],
-            'tiempo_entrega_estimado'  => ['nullable', 'string', 'max:100'], // Tu campo clave (Zona/Tiempo)
+            'tiempo_entrega_estimado'  => ['nullable', 'string', 'max:100'],
             'observaciones'            => ['nullable', 'string'],
         ]);
 
@@ -73,7 +61,7 @@ class AdminRepartidorController extends Controller
                 'correo'                  => $request->correo,
                 'tiempo_entrega_estimado' => $request->tiempo_entrega_estimado,
                 'observaciones'           => $request->observaciones,
-                'activo'                  => true // Activo por defecto al crearse
+                'activo'                  => true,
             ]);
 
             return redirect()->route('admin.repartidores.index')
@@ -86,9 +74,6 @@ class AdminRepartidorController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         try {
@@ -103,9 +88,6 @@ class AdminRepartidorController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         try {
@@ -120,12 +102,8 @@ class AdminRepartidorController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        // Validación ignorando el registro actual para campos únicos (RUC y Correo)
         $request->validate([
             'nombre_empresa'           => ['required', 'string', 'max:150'],
             'contacto_ejecutivo'       => ['nullable', 'string', 'max:150'],
@@ -134,7 +112,7 @@ class AdminRepartidorController extends Controller
             'correo'                   => ['nullable', 'email', 'max:100', Rule::unique('repartidores', 'correo')->ignore($id)],
             'tiempo_entrega_estimado'  => ['nullable', 'string', 'max:100'],
             'observaciones'            => ['nullable', 'string'],
-            'activo'                   => ['required', 'boolean'], // Permite activar/desactivar en el formulario
+            'activo'                   => ['required', 'boolean'],
         ]);
 
         try {
@@ -148,7 +126,7 @@ class AdminRepartidorController extends Controller
             $repartidor->tiempo_entrega_estimado = $request->tiempo_entrega_estimado;
             $repartidor->observaciones           = $request->observaciones;
             $repartidor->activo                  = $request->activo;
-            
+
             $repartidor->save();
 
             return redirect()->route('admin.repartidores.index')
@@ -170,15 +148,12 @@ class AdminRepartidorController extends Controller
         return back()->with('success', $msg);
     }
 
-    /**
-     * Remove the specified resource from storage (Borrado Lógico / Solo Desactivar).
-     */
     public function destroy(string $id)
     {
         try {
             $repartidor = Repartidor::find($id);
-            
-            // Lógica solicitada: Solo cambiamos el estado a inactivo
+
+            // Desactiva sin eliminar el registro.
             $repartidor->activo = false;
             $repartidor->save();
 

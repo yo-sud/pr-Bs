@@ -13,6 +13,7 @@ class CarritoController extends Controller
         $subtotal = 0;
 
         foreach ($carrito as $id => $item) {
+            // Descarta entradas inválidas de versiones anteriores de la sesión.
             if (!is_array($item) || !isset($item['precio'], $item['cantidad'])) {
                 unset($carrito[$id]);
                 session()->put('carrito', $carrito);
@@ -44,7 +45,6 @@ class CarritoController extends Controller
             if ($carrito[$id]['cantidad'] > 99) {
                 $carrito[$id]['cantidad'] = 99;
             }
-            // Recalculamos el subtotal en céntimos también al incrementar
             $carrito[$id]['subtotal_centimos'] = ($carrito[$id]['precio'] * 100) * $carrito[$id]['cantidad'];
         } else {
             $carrito[$id] = [
@@ -72,9 +72,7 @@ class CarritoController extends Controller
         $carrito = session()->get('carrito', []);
 
         if (isset($carrito[$id]) && is_array($carrito[$id])) {
-            // Actualizamos la cantidad por el nuevo valor ingresado
             $carrito[$id]['cantidad'] = $datosValidados['cantidad'];
-            // Actualizamos también el subtotal en céntimos
             $carrito[$id]['subtotal_centimos'] = ($carrito[$id]['precio'] * 100) * $datosValidados['cantidad'];
             
             session()->put('carrito', $carrito);

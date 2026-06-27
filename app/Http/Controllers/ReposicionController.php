@@ -8,26 +8,22 @@ use Carbon\Carbon;
 
 class ReposicionController extends Controller
 {
-    // Carga la interfaz del Paso 1
     public function primerpaso()
     {
-        // 1. Rango de 30 días para promediar las ventas del semáforo
+        // Período de referencia para calcular el promedio de ventas del semáforo.
         $hace30Dias = Carbon::now()->subDays(30);
 
-        // 2. Jalamos los libros sumando las cantidades vendidas en pedidos concretados
         $libros = Libro::withSum(['pedidoDetalles as unidades_vendidas' => function ($query) use ($hace30Dias) {
             $query->whereHas('pedido', function ($q) {
                 $q->whereIn('estado', ['completado', 'pagado']); 
             })->where('created_at', '>=', $hace30Dias);
         }], 'cantidad')->get();
 
-        // 3. Calculamos las ventas diarias promedio
         foreach ($libros as $libro) {
             $totalUnidades = $libro->unidades_vendidas ?? 0;
             $libro->ventas_diarias = round($totalUnidades / 30, 2);
         }
 
-        //  Datos informativos para las tarjetas superiores
         $totalLibros = $libros->count();
         $librosEnSesion = session('reposicion.libros', []);
         $totalSeleccionados = count($librosEnSesion);
@@ -39,7 +35,6 @@ class ReposicionController extends Controller
             }
         } 
 
-        // Abre tu archivo físico en admin/inventario/reposicioninteligente/primerpaso.blade.php
         return view('admin.inventario.reposicioninteligente.primerpaso', compact(
             'libros', 
             'totalLibros', 
@@ -48,7 +43,6 @@ class ReposicionController extends Controller
         ));
     }
 
-    // Recibe el formulario y guarda las elecciones en la Sesión (todo en minúsculas)
     public function procesarpaso1(Request $request)
     {
         $request->validate([
@@ -76,7 +70,6 @@ class ReposicionController extends Controller
     
     public function segundopaso()
     {
-        // 1. Validar que existan datos en la sesión
         if (!session()->has('reposicion.libros')) {
             return redirect()->route('admin.reposicion.paso1');
         }
@@ -88,10 +81,8 @@ class ReposicionController extends Controller
             'unidades' => array_sum($librosData),
         ];
 
-        // 3. Traer todos los proveedores con sus datos logísticos
         $proveedores = \App\Models\Proveedor::all();
 
-        // 4. Renderizar la vista con el diseño idéntico
         return view('admin.inventario.reposicioninteligente.segundopaso', compact('resumen', 'proveedores'));
     }
 
@@ -222,7 +213,6 @@ class ReposicionController extends Controller
         return view('admin.inventario.reposicioninteligente.cuartopaso', compact('resumenFinal'));
     }
 
-    // Acción final: Guarda las órdenes de compra reales y limpia la sesión
     public function confirmarOrdenes(Request $request)
     {
         $request->validate([

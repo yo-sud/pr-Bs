@@ -37,10 +37,8 @@ class PagoService
                 return $eventoExistente->transaccion;
             }
 
-            // Formateamos el monto recibido de la pasarela externa
             $monto = number_format((float) $evento['monto'], 2, '.', '');
 
-            // Comparamos el monto recibido contra la transacción local y el total del pedido
             if ($monto !== $transaccion->monto || $monto !== $transaccion->pedido->total) {
                 throw ValidationException::withMessages([
                     'monto' => "El monto del evento (S/ $monto) no coincide con el total registrado en el pedido (S/ {$transaccion->pedido->total}).",
@@ -85,7 +83,7 @@ class PagoService
                     ]);
                 }
 
-                // Asignar el repartidor activo con menos pedidos en curso
+                // Asigna el repartidor activo con menor carga de pedidos en curso.
                 $repartidor = Repartidor::where('activo', true)
                     ->withCount(['pedidos as pedidos_activos_count' => function ($q) {
                         $q->whereNotIn('estado_pedido', ['entregado', 'cancelado']);

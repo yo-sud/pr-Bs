@@ -10,9 +10,6 @@ use Illuminate\Validation\Rule;
 
 class ProveedorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         try {
@@ -37,26 +34,17 @@ class ProveedorController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        // Retorna la vista para crear un proveedor nuevo
         return view('admin.proveedores.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // Autorización integrada (Solo administradores)
         if (!$request->user()?->isAdmin()) {
             abort(403, 'Acción no autorizada.');
         }
 
-        // Validación estricta usando tus nuevos campos del Modelo
         $request->validate([
             'nombre_empresa'     => ['required', 'string', 'max:150'],
             'ruc'                => ['nullable', 'string', 'size:11', 'unique:proveedores,ruc'],
@@ -89,9 +77,6 @@ class ProveedorController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         try {
@@ -106,9 +91,6 @@ class ProveedorController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         try {
@@ -123,17 +105,12 @@ class ProveedorController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        // Autorización integrada (Solo administradores)
         if (!$request->user()?->isAdmin()) {
             abort(403, 'Acción no autorizada.');
         }
 
-        // Validación ignorando el registro actual para campos únicos
         $request->validate([
             'nombre_empresa'     => ['required', 'string', 'max:150'],
             'ruc'                => ['nullable', 'string', 'size:11', Rule::unique('proveedores', 'ruc')->ignore($id)],
@@ -184,15 +161,12 @@ class ProveedorController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage (Borrado Lógico / Desactivar).
-     */
     public function destroy(string $id)
     {
         try {
             $proveedor = Proveedor::find($id);
-            
-            // Aplicamos tu requerimiento de solo desactivar cambiando el estado a false
+
+            // Desactiva el registro en lugar de eliminarlo.
             $proveedor->activo = false;
             $proveedor->save();
 

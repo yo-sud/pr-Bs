@@ -25,7 +25,7 @@ class CheckoutController extends Controller
                 ->withErrors(['carrito' => 'Agrega al menos un libro antes de continuar.']);
         }
 
-        // Forzamos que la vista reciba el costo de envío en 0 y el total igual al subtotal
+        // Establece el envío en S/ 0 para el resumen inicial de checkout.
         $resumen['envio'] = 0.00;
         $resumen['total'] = $resumen['subtotal'];
 
@@ -43,14 +43,14 @@ class CheckoutController extends Controller
         }
 
         $reglas = [
-            // Información Personal
+            // Datos personales.
             'nombre'          => ['required', 'string', 'max:100'],
             'apellidos'       => ['required', 'string', 'max:100'],
             'tipo_documento'  => ['required', 'string', Rule::in(['DNI', 'CE', 'PASAPORTE'])],
             'documento'       => ['required', 'string', 'min:8', 'max:15'],
             'telefono'        => ['required', 'string', 'regex:/^9[0-9]{8}$/'],
 
-            // Dirección de Envío
+            // Dirección de envío.
             'calle'           => ['required', 'string', 'max:255'],
             'numero'          => ['required', 'string', 'max:20'],
             'piso_dpto'       => ['nullable', 'string', 'max:50'],
@@ -60,7 +60,7 @@ class CheckoutController extends Controller
             'ciudad'          => ['required', 'string', 'max:100'],
             'codigo_postal'   => ['nullable', 'string', 'max:20'],
 
-            // Método de Pago
+            // Método de pago.
             'metodo_pago'     => ['required', 'string', Rule::in(['efectivo'])],
         ];
 
@@ -81,10 +81,8 @@ class CheckoutController extends Controller
             'metodo_pago.in'           => 'El método de pago seleccionado no está disponible.',
         ];
 
-        // Ejecutar la validación interna
         $datosValidados = $request->validate($reglas, $mensajes);
 
-        // Lógica de negocio y procesamiento del carrito
         $cantidades = $carrito->contenido();
 
         if ($cantidades === []) {
@@ -117,7 +115,6 @@ class CheckoutController extends Controller
 
             $resumen = $carrito->resumenDesdeLibros($libros, $cantidades);
 
-            // Unificamos los componentes usando los datos validados del array local
             $direccionCompleta = implode(', ', array_filter([
                 $datosValidados['calle'] . ' ' . $datosValidados['numero'],
                 $datosValidados['piso_dpto'] ?? null,
@@ -128,12 +125,11 @@ class CheckoutController extends Controller
             ]));
 
             $envioGratis = 0.00;
-            $totalReal = $resumen['subtotal']; 
+            $totalReal = $resumen['subtotal'];
 
-            // Insertamos el registro
             $pedido = Pedido::query()->create([
                 'user_id' => $request->user()->id,
-                'direccion' => $direccionCompleta, 
+                'direccion' => $direccionCompleta,
                 'subtotal' => $resumen['subtotal'],
                 'envio' => $envioGratis,
                 'total' => $totalReal,

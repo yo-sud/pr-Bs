@@ -53,18 +53,16 @@ class Libro extends Model
             return $this->portada;
         }
 
-        // Si ya incluye la ruta manual
         if (str_starts_with($this->portada, '/images/') || str_starts_with($this->portada, 'images/')) {
             return '/'.ltrim($this->portada, '/');
         }
 
-        // Si viene desde el almacenamiento público de Laravel
+        // Resuelve la ruta desde el almacenamiento público de Laravel.
         if (str_starts_with($this->portada, 'portadas/') || str_contains($this->portada, '/')) {
             return '/storage/'.ltrim($this->portada, '/');
         }
 
-        // Si solo es el nombre del archivo (como lo tienes en tu seeder actual)
-        // lo busca directamente en tu carpeta de la laptop public/images/portadas/
+        // Resuelve la ruta desde la carpeta local de portadas.
         if (str_ends_with($this->portada, '.jpg') || str_ends_with($this->portada, '.png') || str_ends_with($this->portada, '.jpeg')) {
             return '/images/portadas/'.ltrim($this->portada, '/');
         }
