@@ -14,6 +14,7 @@ class Repartidor extends Model
 
     protected $fillable = [
         'nombre_empresa',
+        'ciudad',
         'contacto_ejecutivo',
         'ruc',
         'telefono',

@@ -35,7 +35,7 @@
             </div>
             <div>
                 <span class="text-xs uppercase font-semibold text-orange-100 tracking-widest block">Inversión Total</span>
-                <span class="text-2xl font-serif font-bold block leading-tight">S/ {{ number_format($resumenFinal['inversion_total'], 2) }}</span>
+                <span class="text-2xl font-sans font-black tabular-nums block leading-tight">S/ {{ number_format($resumenFinal['inversion_total'], 2) }}</span>
                 <span class="text-xs text-orange-100/80 block mt-0.5">Incluye envío: S/ {{ number_format($resumenFinal['costo_envio'], 2) }}</span>
             </div>
         </div>
@@ -46,7 +46,7 @@
             </div>
             <div>
                 <span class="text-xs uppercase font-semibold text-orange-100 tracking-widest block">Fecha Estimada de Entrega</span>
-                <span class="text-2xl font-serif font-bold block leading-tight">{{ $resumenFinal['fecha_entrega'] }}</span>
+                <span class="text-2xl font-sans font-black tabular-nums block leading-tight">{{ $resumenFinal['fecha_entrega'] }}</span>
             </div>
         </div>
 
@@ -56,7 +56,7 @@
             </div>
             <div>
                 <span class="text-xs uppercase font-semibold text-orange-100 tracking-widest block">Total de Unidades</span>
-                <span class="text-2xl font-serif font-bold block leading-tight">{{ $resumenFinal['total_unidades'] }}</span>
+                <span class="text-2xl font-sans font-black tabular-nums block leading-tight">{{ $resumenFinal['total_unidades'] }}</span>
                 <span class="text-xs text-orange-100/80 block mt-0.5">{{ $resumenFinal['total_titulos'] }} {{ $resumenFinal['total_titulos'] === 1 ? 'título' : 'títulos' }}</span>
             </div>
         </div>
