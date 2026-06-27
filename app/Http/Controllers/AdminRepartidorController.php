@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pedido;
 use App\Models\Repartidor;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,12 +15,19 @@ class AdminRepartidorController extends Controller
     {
         try {
             $repartidores = Repartidor::query()
+                ->withCount(['pedidos' => fn ($q) => $q
+                    ->whereMonth('created_at', now()->month)
+                    ->whereYear('created_at', now()->year)
+                ])
                 ->orderBy('nombre_empresa')
                 ->simplePaginate(15);
 
             $repartidoresCount = Repartidor::count();
             $repartidoresActivosCount = Repartidor::where('activo', true)->count();
-            $pedidosAsignadosCount = 15;
+            $pedidosAsignadosCount = Pedido::whereNotNull('repartidor_id')
+                ->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->count();
 
             return view('admin.repartidores.index', compact(
                 'repartidores',
