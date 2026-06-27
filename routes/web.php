@@ -67,6 +67,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
     Route::patch('proveedores/{proveedor}/toggle-status', [ProveedorController::class, 'toggleStatus'])->name('proveedores.toggle-status');
     Route::resource('repartidores', AdminRepartidorController::class);
+    Route::patch('repartidores/{repartidor}/toggle-status', [AdminRepartidorController::class, 'toggleStatus'])->name('repartidores.toggle-status');
     Route::get('pedidos', [AdminPedidoController::class, 'index'])->name('pedidos.index');
     Route::get('pedidos/{pedido}', [AdminPedidoController::class, 'show'])->name('pedidos.show');
     Route::patch('pedidos/{pedido}/estado', [AdminPedidoController::class, 'updateStatus'])->name('pedidos.update-status');
