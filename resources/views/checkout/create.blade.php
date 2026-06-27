@@ -5,7 +5,7 @@
 <main class="px-[7%] py-12 flex-grow bg-[#F9F6F3]">
     <div class="max-w-6xl mx-auto">
 
-        {{-- Enlace Volver al carrito y Título calificado con la imagen image_bcab47.png --}}
+        {{-- Enlace Volver al carrito y Título calificado--}}
         <div class="mb-8">
             <a href="{{ route('carrito.index') }}" class="inline-flex items-center gap-2 text-sm text-[#9C4309] hover:underline mb-3 font-medium transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
@@ -22,7 +22,6 @@
             </div>
         @endif
 
-        {{-- Formulario principal con Grid de 2 columnas en pantallas grandes (lg) --}}
         <form method="POST" action="{{ route('checkout.store') }}" class="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start">
             
 
