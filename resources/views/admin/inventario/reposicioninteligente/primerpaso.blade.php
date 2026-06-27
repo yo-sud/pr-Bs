@@ -71,7 +71,6 @@
                     <label class="text-[10px] text-stone-400 uppercase font-semibold tracking-wide">Cant.</label>
                     <input type="number" name="cantidades[{{ $libro->id }}]"
                         value="1" min="1" max="999"
-                        disabled
                         class="cantidad-input w-14 border border-amber-200 rounded-lg px-2 py-1 text-sm text-center">
                 </div>
 
