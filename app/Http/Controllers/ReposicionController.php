@@ -31,7 +31,13 @@ class ReposicionController extends Controller
         $totalLibros = $libros->count();
         $librosEnSesion = session('reposicion.libros', []);
         $totalSeleccionados = count($librosEnSesion);
-        $inversionEstimada = 0; 
+        $inversionEstimada = 0;
+        foreach ($libros as $libro) {
+            if (in_array($libro->id, $librosEnSesion)) {
+                $cant = session("reposicion.cantidades.{$libro->id}", 1);
+                $inversionEstimada += ($libro->precio * $cant);
+            }
+        } 
 
         // Abre tu archivo físico en admin/inventario/reposicioninteligente/primerpaso.blade.php
         return view('admin.inventario.reposicioninteligente.primerpaso', compact(

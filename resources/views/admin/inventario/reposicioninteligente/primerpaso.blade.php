@@ -40,7 +40,7 @@
         </div>
         <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl shadow-sm">
             <p class="text-xs text-amber-700 font-semibold uppercase tracking-wide">Inversión Estimada</p>
-            <p class="text-2xl font-bold text-amber-900 mt-1">S/ {{ number_format($inversionEstimada, 2) }}</p>
+            <p class="text-2xl font-bold text-amber-900 mt-1" id="monto-inversion">S/ {{ number_format($inversionEstimada, 2) }}</p>
         </div>
     </div>
 
@@ -58,7 +58,7 @@
 
                 {{-- Checkbox e info básica --}}
                 <div class="flex items-center gap-3">
-                    <input type="checkbox" name="libros[]" value="{{ $libro->id }}"
+                    <input type="checkbox" name="libros[]" value="{{ $libro->id }}" data-precio="{{ $libro->precio ?? 0 }}"
                         class="checkbox-libro rounded border-amber-300 text-[#B8500C] focus:ring-amber-500 w-5 h-5">
                     <div>
                         <p class="font-semibold text-stone-800 text-sm">{{ $libro->titulo }}</p>
@@ -108,24 +108,60 @@
 
 <script>
     const checkboxes = document.querySelectorAll('.checkbox-libro');
-    const contador = document.getElementById('contador-seleccionados');
+    const contador   = document.getElementById('contador-seleccionados');
+    const inversion  = document.getElementById('monto-inversion');
 
-    function actualizarContador() {
-        contador.textContent = document.querySelectorAll('.checkbox-libro:checked').length;
+    function calcularTotales() {
+        let totalSeleccionados = 0;
+        let totalInversion = 0;
+
+        checkboxes.forEach(cb => {
+            if (cb.checked) {
+                totalSeleccionados++;
+                
+                // Extrae el precio del atributo data-precio
+                const precio = parseFloat(cb.getAttribute('data-precio')) || 0;
+                
+                // Busca el input de cantidad de esta misma fila
+                const inputCantidad = document.querySelector(`input[name="cantidades[${cb.value}]"]`);
+                const cantidad = inputCantidad ? parseInt(inputCantidad.value) || 1 : 1;
+
+                totalInversion += (precio * cantidad);
+            }
+        });
+
+        if(contador) contador.textContent = totalSeleccionados;
+        if(inversion) inversion.textContent = `S/ ${totalInversion.toFixed(2)}`;
     }
 
     function actualizarCantidad(cb) {
         const input = document.querySelector(`input[name="cantidades[${cb.value}]"]`);
         if (!input) return;
+        
         input.disabled = !cb.checked;
-        if (!cb.checked) input.value = 1;
+        if (!cb.checked) {
+            input.value = 1;
+        }
     }
 
     checkboxes.forEach(cb => {
         cb.addEventListener('change', () => {
-            actualizarContador();
             actualizarCantidad(cb);
+            calcularTotales();
         });
     });
+
+    // Escuchar cambios en los inputs de cantidad
+    document.querySelectorAll('.cantidad-input').forEach(input => {
+        input.addEventListener('input', () => {
+            if (parseInt(input.value) < 1 || input.value === "") {
+                input.value = 1;
+            }
+            calcularTotales();
+        });
+    });
+
+    // 🚀 EJECUTAR AL CARGAR: Para que sincronice con lo que mandó el controlador
+    calcularTotales();
 </script>
 @endsection
