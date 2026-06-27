@@ -49,6 +49,12 @@ class ReposicionController extends Controller
             'libros'       => 'required|array|min:1',
             'cantidades'   => 'nullable|array',
             'cantidades.*' => 'nullable|integer|min:1|max:999',
+        ], [
+            'libros.required' => 'Debes seleccionar al menos un libro.',
+            'libros.min'      => 'Debes seleccionar al menos un libro.',
+            'cantidades.*.integer' => 'La cantidad debe ser un número entero.',
+            'cantidades.*.min'     => 'La cantidad mínima es 1.',
+            'cantidades.*.max'     => 'La cantidad máxima es 999.',
         ]);
 
         $cantidades = $request->cantidades ?? [];
@@ -87,6 +93,9 @@ class ReposicionController extends Controller
     {
         $request->validate([
             'proveedor_id' => 'required|exists:proveedores,id',
+        ], [
+            'proveedor_id.required' => 'Debes seleccionar un proveedor.',
+            'proveedor_id.exists'   => 'El proveedor seleccionado no es válido.',
         ]);
 
         session(['reposicion.proveedor_id' => $request->proveedor_id]);
@@ -141,9 +150,16 @@ class ReposicionController extends Controller
     public function procesarpaso3(Request $request)
     {
         $request->validate([
-            'estrategia'            => 'required|in:rapida,economica',
-            'proveedor_id_rapida'   => 'required|exists:proveedores,id',
+            'estrategia'             => 'required|in:rapida,economica',
+            'proveedor_id_rapida'    => 'required|exists:proveedores,id',
             'proveedor_id_economica' => 'required|exists:proveedores,id',
+        ], [
+            'estrategia.required'              => 'Debes seleccionar una opción de entrega.',
+            'estrategia.in'                    => 'La opción de entrega seleccionada no es válida.',
+            'proveedor_id_rapida.required'     => 'No se pudo identificar el proveedor de la opción rápida.',
+            'proveedor_id_rapida.exists'       => 'El proveedor de la opción rápida no es válido.',
+            'proveedor_id_economica.required'  => 'No se pudo identificar el proveedor de la opción económica.',
+            'proveedor_id_economica.exists'    => 'El proveedor de la opción económica no es válido.',
         ]);
 
         $proveedorId = $request->estrategia === 'rapida'
@@ -206,6 +222,11 @@ class ReposicionController extends Controller
         $request->validate([
             'numero_orden' => 'required|string|max:30',
             'metodo_pago'  => 'required|in:transferencia,credito_30,credito_60,efectivo',
+        ], [
+            'numero_orden.required' => 'El número de orden es obligatorio.',
+            'numero_orden.max'      => 'El número de orden no puede superar los 30 caracteres.',
+            'metodo_pago.required'  => 'Debes seleccionar un método de pago.',
+            'metodo_pago.in'        => 'El método de pago seleccionado no es válido.',
         ]);
 
         $metodoTexto = [

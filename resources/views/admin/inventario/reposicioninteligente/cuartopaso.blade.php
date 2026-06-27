@@ -161,8 +161,12 @@
                         N° de Orden de Compra
                     </label>
                     <input type="text" name="numero_orden"
-                           value="OC-{{ date('Y') }}-{{ str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT) }}"
-                           class="w-full border border-amber-200 rounded-xl px-3 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-300 font-mono tracking-wider">
+                           value="{{ old('numero_orden', 'OC-' . date('Y') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT)) }}"
+                           class="w-full border rounded-xl px-3 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-300 font-mono tracking-wider
+                           {{ $errors->has('numero_orden') ? 'border-red-400 bg-red-50' : 'border-amber-200' }}">
+                    @error('numero_orden')
+                        <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 {{-- Método de pago --}}
@@ -171,12 +175,16 @@
                         Método de Pago al Proveedor
                     </label>
                     <select name="metodo_pago"
-                            class="w-full border border-amber-200 rounded-xl px-3 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-300 bg-white">
-                        <option value="transferencia">Transferencia bancaria</option>
-                        <option value="credito_30">Crédito a 30 días</option>
-                        <option value="credito_60">Crédito a 60 días</option>
-                        <option value="efectivo">Efectivo</option>
+                            class="w-full border rounded-xl px-3 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-300 bg-white
+                            {{ $errors->has('metodo_pago') ? 'border-red-400 bg-red-50' : 'border-amber-200' }}">
+                        <option value="transferencia" {{ old('metodo_pago') === 'transferencia' ? 'selected' : '' }}>Transferencia bancaria</option>
+                        <option value="credito_30"    {{ old('metodo_pago') === 'credito_30'    ? 'selected' : '' }}>Crédito a 30 días</option>
+                        <option value="credito_60"    {{ old('metodo_pago') === 'credito_60'    ? 'selected' : '' }}>Crédito a 60 días</option>
+                        <option value="efectivo"      {{ old('metodo_pago') === 'efectivo'      ? 'selected' : '' }}>Efectivo</option>
                     </select>
+                    @error('metodo_pago')
+                        <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
         </div>

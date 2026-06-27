@@ -3,7 +3,7 @@
 @section('title', 'Pagar Pedido #'.$pedido->id.' - BookShop')
 
 @section('content')
-<main class="px-[4%] sm:px-[7%] py-12 flex-grow bg-[#F9F6F3] flex items-center justify-center">
+<main class="px-[4%] sm:px-[7%] py-12 flex-grow flex items-center justify-center" style="background-color: #F9F6F3;">
     <div class="max-w-md w-full mx-auto text-center space-y-6">
 
         {{-- Ícono --}}
