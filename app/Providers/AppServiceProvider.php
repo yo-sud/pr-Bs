@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\CarritoService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,6 +16,8 @@ class AppServiceProvider extends ServiceProvider
     }
     public function boot(): void
     {
+        Carbon::setLocale('es');
+
         View::composer('layouts.app', function ($view) {
             $servicio = app(CarritoService::class);
             $carrito = $servicio->contenido();

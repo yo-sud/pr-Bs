@@ -161,6 +161,15 @@ class AdminRepartidorController extends Controller
         }
     }
 
+    public function toggleStatus(Repartidor $repartidor)
+    {
+        $repartidor->activo = !$repartidor->activo;
+        $repartidor->save();
+
+        $msg = $repartidor->activo ? 'Empresa activada correctamente.' : 'Empresa desactivada correctamente.';
+        return back()->with('success', $msg);
+    }
+
     /**
      * Remove the specified resource from storage (Borrado Lógico / Solo Desactivar).
      */
