@@ -1,11 +1,15 @@
 @extends('layouts.admin')
 @section('title', 'Dashboard - BookShop')
+@section('mainClass', 'bg-white')
 @section('contenido')
 
 <div class="space-y-8">
-    <div>
-        <h2 class="text-2xl font-bold text-[#2C1B12]">Dashboard</h2>
-        <p class="text-sm text-gray-500 mt-1">Resumen general de BookShop</p>
+    <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-4xl text-amber-600">leaderboard</span>
+        <div>
+            <h2 class="font-serif text-2xl font-semibold text-amber-900">Dashboard</h2>
+            <p class="text-sm text-stone-500 mt-0.5">Resumen general de BookShop</p>
+        </div>
     </div>
 
     {{-- Rejilla responsiva optimizada --}}
@@ -23,7 +27,7 @@
 
         {{-- Si la tarjeta tiene ruta, se vuelve dinámica, si no, se queda estática --}}
             @if($ruta)
-                <a href="{{ route($ruta) }}" class="block bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all flex flex-col justify-between min-h-[140px]">
+                <a href="{{ route($ruta) }}" class="block bg-white p-5 rounded-xl shadow-sm border border-amber-700/30 hover:shadow-md hover:border-amber-700/50 transition-all flex flex-col justify-between min-h-[140px]">
                     <div class="flex items-start justify-between">
                         <span class="material-symbols-outlined text-2xl {{ $color }} p-2 rounded-xl">{{ $icono }}</span>
                     </div>
@@ -33,7 +37,7 @@
                     </div>
                 </a>
             @else
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between min-h-[140px]">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-amber-700/30 flex flex-col justify-between min-h-[140px]">
                     <div class="flex items-start justify-between">
                         <span class="material-symbols-outlined text-2xl {{ $color }} p-2 rounded-xl">{{ $icono }}</span>
                     </div>

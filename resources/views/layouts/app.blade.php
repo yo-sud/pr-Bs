@@ -200,6 +200,11 @@
     </div>
 
     <div class="flex-grow flex flex-col">
+        @if (session('status'))
+            <div class="bg-green-50 border-b border-green-200 px-[7%] py-3 text-sm text-green-800 font-medium">
+                {{ session('status') }}
+            </div>
+        @endif
         @yield('content')
     </div>
 

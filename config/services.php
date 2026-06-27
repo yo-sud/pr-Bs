@@ -39,4 +39,9 @@ return [
         'webhook_secret' => env('FAKE_PAYMENT_WEBHOOK_SECRET', 'bookshop-local-secret'),
     ],
 
+    'mercadopago' => [
+        'access_token' => env('MERCADOPAGO_ACCESS_TOKEN'),
+        'public_key'   => env('MERCADOPAGO_PUBLIC_KEY'),
+    ],
+
 ];

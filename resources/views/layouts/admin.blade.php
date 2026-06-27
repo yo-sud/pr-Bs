@@ -11,42 +11,44 @@
 
     <div class="min-h-screen flex flex-col lg:flex-row">
         
-        {{-- HEADER MÓVIL: Mantiene la barra superior en pantallas pequeñas --}}
-        <div class="bg-[#1F130B] text-white h-16 flex items-center justify-between px-4 lg:hidden w-full fixed top-0 left-0 z-50 border-b border-[#3D281C]">
-            <div class="flex items-center">
-                {{-- Corrección 1: Icono del libro en color naranja/terracota cálido --}}
-                <span class="material-symbols-outlined text-[#e07a16] mr-2 text-2xl">menu_book</span>
-                <span class="font-bold tracking-wider text-sm">BookShop Admin</span>
-            </div>
-            
-            <button id="btn-menu" class="text-white hover:text-[#e07a16] focus:outline-none">
-                <span class="material-symbols-outlined text-3xl">menu</span>
+        {{-- HEADER MÓVIL --}}
+        <div class="bg-white h-14 flex items-center gap-3 px-4 lg:hidden w-full fixed top-0 left-0 z-50 border-b border-gray-200 shadow-sm">
+            <button id="btn-menu" class="text-gray-700 hover:text-[#e07a16] focus:outline-none flex-shrink-0">
+                <span class="material-symbols-outlined text-2xl leading-none">menu</span>
             </button>
+            <div class="flex items-center gap-2">
+                <div class="w-9 h-9 bg-[#e07a16] rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
+                    <span class="material-symbols-outlined text-white text-xl leading-none [font-variation-settings:'FILL'_1]">menu_book</span>
+                </div>
+                <span class="font-serif font-semibold text-amber-900 text-base tracking-tight">BookShop Admin</span>
+            </div>
         </div>
 
-        {{-- ASIDE / BARRA LATERAL: El menú izquierdo principal --}}
-        <aside id="menu-lateral" class="bg-[#2C1B12] text-white w-64 fixed inset-y-0 left-0 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out border-r border-[#1F130B] flex flex-col pt-16 lg:pt-0">
+        {{-- ASIDE / BARRA LATERAL --}}
+        <aside id="menu-lateral" class="bg-[#2C1B12] text-white w-64 fixed inset-y-0 left-0 z-[60] transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out border-r border-[#1F130B] flex flex-col">
 
-            {{-- LOGO DE ESCRITORIO --}}
-            <div class="h-24 hidden lg:flex items-center px-6 border-b border-[#2A190E] bg-[#150B05]">
-                <div class="w-10 h-10 bg-[#e07a16] rounded-xl flex items-center justify-center mr-3 shadow-md">
-                    <span class="material-symbols-outlined text-white text-2xl">menu_book</span>
+            {{-- LOGO (visible siempre) --}}
+            <div class="flex items-center justify-between px-6 border-b border-[#2A190E] bg-[#150B05] h-20 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-[#e07a16] rounded-xl flex items-center justify-center shadow-md flex-shrink-0">
+                        <span class="material-symbols-outlined text-white text-2xl [font-variation-settings:'FILL'_1]">menu_book</span>
+                    </div>
+                    <div>
+                        <h1 class="font-serif font-semibold text-lg text-white leading-tight">BookShop</h1>
+                        <p class="text-[10px] text-[#e07a16] font-semibold uppercase tracking-widest">Panel Admin</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-lg font-black tracking-tight text-white leading-tight">BookShop</h1>
-                    <p class="text-xs text-[#e07a16] font-bold uppercase tracking-widest text-[10px]">Panel Admin</p>
-                </div>
+                {{-- Botón X solo en móvil --}}
+                <button id="btn-cerrar-menu" class="lg:hidden text-white/50 hover:text-white focus:outline-none">
+                    <span class="material-symbols-outlined text-2xl">close</span>
+                </button>
             </div>
 
-            <div class="px-6 py-5 border-b border-[#2A190E] bg-[#1A0F08] flex items-center space-x-3">
-                {{-- Foto circular con borde dorado --}}
-                <div class="relative flex-shrink-0">
-                        {{-- Ponemos un avatar genérico pulcro por si no tienes imagen real en la BD --}}
-                        <div class="w-12 h-12 rounded-full bg-[#E8DED5] text-[#1A0F08] flex items-center justify-center border-2 border-[#e07a16] shadow-md">
-                            <span class="material-symbols-outlined text-2xl font-bold">person</span>
-                        </div>
+            {{-- USUARIO AUTENTICADO --}}
+            <div class="px-6 py-5 border-b border-[#2A190E] bg-[#1A0F08] flex items-center gap-3 flex-shrink-0">
+                <div class="w-12 h-12 rounded-full bg-[#E8DED5] text-[#1A0F08] flex items-center justify-center border-2 border-[#e07a16] shadow-md flex-shrink-0">
+                    <span class="material-symbols-outlined text-2xl">person</span>
                 </div>
-                {{-- Nombre y la etiqueta naranja de la imagen --}}
                 <div class="overflow-hidden flex-1">
                     <p class="text-sm font-bold text-white truncate leading-tight">{{ auth()->user()->name }}</p>
                     <div class="mt-1">
@@ -57,16 +59,8 @@
                 </div>
             </div>
 
-            {{-- BLOQUE DEL USUARIO AUTENTICADO --}}
-            {{-- Corrección 3: Color de fondo adaptado para armonizar mejor con la barra lateral --}}
-            <div class="px-6 py-4 border-b border-[#3D281C] bg-[#21140d] lg:bg-transparent">
-                <p class="text-sm font-semibold truncate">{{ auth()->user()->name }}</p>
-                <p class="text-xs text-[#A89284] truncate">{{ auth()->user()->email }}</p>
-            </div>
-
             {{-- CONFIGURACIÓN DE ESTILOS DEL MENÚ --}}
             @php
-                // Corrección 4: Botón activo ahora es naranja/terracota con texto blanco y bordes más redondos (rounded-xl)
                 $link = 'flex items-center px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200';
                 $active = 'bg-[#e07a16] text-white shadow-md'; 
                 $inactive = 'text-[#e6d5c3] hover:bg-[#3D281C] hover:text-[#e3a857]';
@@ -101,7 +95,7 @@
                 
                 {{-- BOTÓN CERRAR SESIÓN --}}
                 <form method="POST" action="{{ route('logout') }}">
-                    
+                    @csrf
                     <button class="{{ $link }} {{ $inactive }} w-full text-left">
                         <span class="material-symbols-outlined mr-2 text-xl">logout</span> Cerrar sesión
                     </button>
@@ -112,8 +106,8 @@
         {{-- FONDO OSCURO PARA MENÚ MÓVIL --}}
         <div id="fondo-menu" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"></div>
 
-        {{-- CONTENEDOR PRINCIPAL DE LAS VISTAS (@yield) --}}
-        <main class="flex-1 lg:ml-64 p-4 md:p-8 pt-24 lg:pt-8 w-full @yield('mainClass')" >
+        {{-- CONTENEDOR PRINCIPAL DE LAS VISTAS --}}
+        <main class="flex-1 lg:ml-64 p-4 md:p-8 mt-16 lg:mt-0 w-full @yield('mainClass')">
             @if (session('status'))
                 <div class="mb-6 rounded-xl bg-green-50 border border-green-200 text-green-800 px-4 py-3 text-sm">
                     {{ session('status') }}
@@ -148,6 +142,7 @@
 
         btnMenu.addEventListener('click', toggleMenu);
         fondoMenu.addEventListener('click', toggleMenu);
+        document.getElementById('btn-cerrar-menu').addEventListener('click', toggleMenu);
     </script>
 </body>
 </html>

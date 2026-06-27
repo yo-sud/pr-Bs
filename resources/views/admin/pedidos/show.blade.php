@@ -69,6 +69,20 @@
             </div>
         </section>
 
+        @if ($pedido->repartidor)
+            <section class="bg-white rounded-xl border p-6">
+                <h3 class="font-bold text-lg mb-3">Empresa de reparto</h3>
+                <p class="text-sm font-semibold text-[#421605]">{{ $pedido->repartidor->nombre_empresa }}</p>
+                <p class="text-xs text-gray-500 mt-1">RUC: {{ $pedido->repartidor->ruc }}</p>
+                @if ($pedido->repartidor->tiempo_entrega_estimado)
+                    <p class="text-xs text-gray-500">Tiempo estimado: {{ $pedido->repartidor->tiempo_entrega_estimado }}</p>
+                @endif
+                @if ($pedido->repartidor->telefono)
+                    <p class="text-xs text-gray-500">Tel: {{ $pedido->repartidor->telefono }}</p>
+                @endif
+            </section>
+        @endif
+
         @if ($pedido->estado_pago === 'pagado' && in_array($pedido->estado_pedido, ['pagado', 'preparando', 'enviado'], true))
             @php
                 $siguienteEstado = match ($pedido->estado_pedido) {
@@ -78,13 +92,29 @@
                 };
             @endphp
             <form method="POST" action="{{ route('admin.pedidos.update-status', $pedido) }}" class="bg-white rounded-xl border p-6 space-y-4">
-                
+                @csrf
                 @method('PATCH')
                 <input type="hidden" name="estado" value="{{ $siguienteEstado }}">
                 <h3 class="font-bold text-lg">Actualizar despacho</h3>
                 <p class="text-sm text-gray-600">
                     Siguiente estado: <strong class="uppercase">{{ $siguienteEstado }}</strong>
                 </p>
+                @if ($siguienteEstado === 'enviado')
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Empresa de reparto</label>
+                        <select name="repartidor_id" class="w-full rounded-lg border-gray-300 text-sm">
+                            <option value="">— Sin asignar —</option>
+                            @foreach ($repartidores as $rep)
+                                <option value="{{ $rep->id }}" {{ $pedido->repartidor_id == $rep->id ? 'selected' : '' }}>
+                                    {{ $rep->nombre_empresa }}
+                                    @if ($rep->tiempo_entrega_estimado)
+                                        ({{ $rep->tiempo_entrega_estimado }})
+                                    @endif
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
                 <textarea name="observacion" rows="3" required minlength="3" maxlength="500" placeholder="Describe la preparacion, envio o entrega" class="w-full rounded-lg border-gray-300 text-sm"></textarea>
                 <button class="w-full rounded-lg bg-[#B8500C] text-white py-2.5 text-sm font-semibold">
                     Marcar como {{ $siguienteEstado }}

@@ -55,10 +55,52 @@ class DatabaseSeeder extends Seeder
         $proveedor = Proveedor::query()->updateOrCreate(
             ['correo' => 'catalogo@distribuidorape.pe'],
             [
-                'nombre_empresa'     => 'Distribuidora Peruana de Libros',
-                'telefono'           => '+51 999 555 111',
-                'contacto_ejecutivo' => 'Carlos Mendoza',
-                'direccion'          => 'Av. Arequipa 1234, Lima',
+                'nombre_empresa'      => 'Distribuidora Peruana de Libros',
+                'ruc'                 => '20100123456',
+                'telefono'            => '+51 999 555 111',
+                'contacto_ejecutivo'  => 'Carlos Mendoza',
+                'direccion'           => 'Av. Arequipa 1234, Lima',
+                'tiempo_entrega_dias' => 4,   // Lima metropolitana, almacén propio
+                'costo_envio'         => 18.00,
+            ],
+        );
+
+        Proveedor::query()->updateOrCreate(
+            ['correo' => 'ventas@libreriamejia.pe'],
+            [
+                'nombre_empresa'      => 'Librería Mejía Baca',
+                'ruc'                 => '20456789012',
+                'telefono'            => '+51 998 444 222',
+                'contacto_ejecutivo'  => 'Rosa Baca Torres',
+                'direccion'           => 'Jr. Ica 410, Lima Centro',
+                'tiempo_entrega_dias' => 2,   // Lima, entrega express
+                'costo_envio'         => 35.00,
+            ],
+        );
+
+        Proveedor::query()->updateOrCreate(
+            ['correo' => 'pedidos@crisol.pe'],
+            [
+                'nombre_empresa'      => 'Crisol Distribuciones',
+                'ruc'                 => '20301456789',
+                'telefono'            => '+51 997 333 666',
+                'contacto_ejecutivo'  => 'Marco Villanueva',
+                'direccion'           => 'Av. Petit Thouars 3150, San Isidro',
+                'tiempo_entrega_dias' => 6,   // Lima + provincias cercanas
+                'costo_envio'         => 22.00,
+            ],
+        );
+
+        Proveedor::query()->updateOrCreate(
+            ['correo' => 'logistica@selvabooks.pe'],
+            [
+                'nombre_empresa'      => 'Selva Books Perú',
+                'ruc'                 => '20601234567',
+                'telefono'            => '+51 965 777 888',
+                'contacto_ejecutivo'  => 'Lucía Quispe Mamani',
+                'direccion'           => 'Av. La Marina 2400, San Miguel',
+                'tiempo_entrega_dias' => 12,  // Envío a provincias del interior
+                'costo_envio'         => 12.00,
             ],
         );
 

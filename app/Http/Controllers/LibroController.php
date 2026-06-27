@@ -63,8 +63,8 @@ class LibroController extends Controller
             'libros' => Libro::query()
                 ->activos()
                 ->with('categoria')
-                ->orderByDesc('fecha_publicacion')
-                ->orderByDesc('id')
+                ->orderByDesc('created_at')      // primero: cuándo se subió al sistema
+                ->orderByDesc('fecha_publicacion') // desempate: fecha real del libro
                 ->paginate(12),
         ]);
     }

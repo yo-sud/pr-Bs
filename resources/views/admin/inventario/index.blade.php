@@ -15,7 +15,7 @@
         </div>
         <div class="flex-shrink-0 pt-1">
             <a href="{{ route('admin.reposicion.paso1') }}"
-               class="inline-flex items-center gap-2 bg-[#FF6B00] text-white hover:bg-[#E05E00] px-5 py-2.5 rounded-xl font-semibold text-sm shadow-sm transition-colors whitespace-nowrap">
+               class="inline-flex items-center gap-2 bg-[#C94E00] text-white hover:bg-[#A83F00] px-5 py-2.5 rounded-xl font-semibold text-sm shadow-sm transition-colors whitespace-nowrap">
                 <span class="material-symbols-outlined text-lg">trending_up</span>
                 Cálculo de Reposición Inteligente
             </a>
@@ -26,9 +26,9 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {{-- Disponibles --}}
         <a href="{{ route('admin.inventario.index', ['estado' => 'disponibles']) }}"
-           class="bg-[#F0FDF4] rounded-xl p-4 flex flex-col items-center gap-1 hover:shadow-md transition-shadow cursor-pointer {{ $estado === 'disponibles' ? 'border-2 border-[#16A34A]' : 'border border-[#BBF7D0]' }}">
-            <span class="material-symbols-outlined text-2xl text-[#16A34A]">check_circle</span>
-            <span class="text-3xl font-bold text-[#16A34A]">{{ $totales['disponibles'] }}</span>
+           class="bg-[#FFF7ED] rounded-xl p-4 flex flex-col items-center gap-1 hover:shadow-md transition-shadow cursor-pointer {{ $estado === 'disponibles' ? 'border-2 border-[#EA580C]' : 'border border-[#FED7AA]' }}">
+            <span class="material-symbols-outlined text-2xl text-[#EA580C]">check_circle</span>
+            <span class="text-3xl font-bold text-[#EA580C]">{{ $totales['disponibles'] }}</span>
             <span class="text-xs text-gray-500 font-medium">Disponibles</span>
         </a>
 
@@ -42,9 +42,9 @@
 
         {{-- Agotados --}}
         <a href="{{ route('admin.inventario.index', ['estado' => 'agotados']) }}"
-           class="bg-[#FFF1F2] rounded-xl p-4 flex flex-col items-center gap-1 hover:shadow-md transition-shadow cursor-pointer {{ $estado === 'agotados' ? 'border-2 border-[#DC2626]' : 'border border-[#FECDD3]' }}">
-            <span class="material-symbols-outlined text-2xl text-[#DC2626]">warning</span>
-            <span class="text-3xl font-bold text-[#DC2626]">{{ $totales['agotados'] }}</span>
+           class="bg-[#FFF0E5] rounded-xl p-4 flex flex-col items-center gap-1 hover:shadow-md transition-shadow cursor-pointer {{ $estado === 'agotados' ? 'border-2 border-[#B8500C]' : 'border border-[#FDCBA0]' }}">
+            <span class="material-symbols-outlined text-2xl text-[#B8500C]">warning</span>
+            <span class="text-3xl font-bold text-[#B8500C]">{{ $totales['agotados'] }}</span>
             <span class="text-xs text-gray-500 font-medium">Agotados</span>
         </a>
     </div>

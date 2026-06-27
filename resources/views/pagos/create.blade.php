@@ -47,7 +47,7 @@
                 </div>
                 
                 <form method="POST" action="{{ route('pagos.store', $pedido) }}" class="w-full sm:w-auto">
-                    
+                    @csrf
                     <button type="submit" class="w-full sm:w-auto text-center bg-[#B8500C] hover:bg-[#963F07] text-white px-6 py-3 rounded-full text-sm font-semibold transition-colors shadow-sm whitespace-nowrap">
                         Pagar pedido
                     </button>
@@ -113,7 +113,7 @@
                 {{-- Acción Cancelar Pedido --}}
                 @if (in_array($pedido->estado_pedido, ['pendiente', 'pagado', 'preparando'], true))
                     <form method="POST" action="{{ route('pedidos.cancel', $pedido) }}">
-                        
+                        @csrf
                         <button class="w-full border border-red-200 hover:border-red-300 text-red-700 hover:bg-red-50/50 bg-white rounded-full py-3 text-sm font-semibold transition-colors shadow-sm">
                             Cancelar pedido
                         </button>

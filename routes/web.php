@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/mis-pedidos/{pedido}/cancelar', [PedidoController::class, 'cancel'])->name('pedidos.cancel');
     Route::get('/mis-pedidos/{pedido}/pagar', [PagoController::class, 'create'])->name('pagos.create');
     Route::post('/mis-pedidos/{pedido}/pagar', [PagoController::class, 'store'])->name('pagos.store');
+    Route::post('/mis-pedidos/{pedido}/verificar-pago', [PagoController::class, 'verificar'])->name('pagos.verificar');
 });
 
 // Panel de Administración (Restringido para Administradores)
@@ -73,6 +74,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::get('/paso1', [ReposicionController::class, 'primerpaso'])->name('paso1');
         Route::post('/procesarpaso1', [ReposicionController::class, 'procesarpaso1'])->name('procesarpaso1');
         Route::get('/paso2', [ReposicionController::class, 'segundopaso'])->name('paso2');
+        Route::post('/procesarpaso2', [ReposicionController::class, 'procesarpaso2'])->name('procesarpaso2');
+        Route::get('/paso3', [ReposicionController::class, 'tercerpaso'])->name('paso3');
+        Route::post('/procesarpaso3', [ReposicionController::class, 'procesarpaso3'])->name('procesarpaso3');
+        Route::get('/paso4', [ReposicionController::class, 'cuartopaso'])->name('paso4');
+        Route::post('/confirmar', [ReposicionController::class, 'confirmarOrdenes'])->name('confirmar');
+        Route::get('/confirmado', [ReposicionController::class, 'confirmado'])->name('confirmado');
     });
 });
 

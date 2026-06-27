@@ -47,16 +47,10 @@ class ReposicionController extends Controller
     {
         $request->validate([
             'libros' => 'required|array|min:1',
-            'cantidades' => 'required|array'
         ]);
 
-        // Guardamos de forma invisible en la sesión del servidor
-        session([
-            'reposicion.libros' => $request->libros,       // Array de IDs seleccionados
-            'reposicion.cantidades' => $request->cantidades // Array asociativo [ID => Cantidad]
-        ]);
+        session(['reposicion.libros' => $request->libros]);
 
-        // Redirecciona al paso2
         return redirect()->route('admin.reposicion.paso2');
     }
     
@@ -68,28 +62,10 @@ class ReposicionController extends Controller
         }
 
         $librosIds = session('reposicion.libros');
-        $cantidades = session('reposicion.cantidades');
-
-        // 2. Calcular los totales para la tarjeta informativa superior
-        $totalTitulos = 0;
-        $totalUnidades = 0;
-
-        foreach ($librosIds as $id) {
-            $cant = intval($cantidades[$id] ?? 0);
-            if ($cant > 0) {
-                $totalTitulos++;
-                $totalUnidades += $cant;
-            }
-        }
-
-        // Si no seleccionó cantidades válidas, regresar al paso 1
-        if ($totalTitulos === 0) {
-            return redirect()->route('admin.reposicion.paso1');
-        }
 
         $resumen = [
-            'titulos' => $totalTitulos,
-            'unidades' => $totalUnidades
+            'titulos'   => count($librosIds),
+            'unidades'  => count($librosIds),
         ];
 
         // 3. Traer todos los proveedores con sus datos logísticos
@@ -97,5 +73,147 @@ class ReposicionController extends Controller
 
         // 4. Renderizar la vista con el diseño idéntico
         return view('admin.inventario.reposicioninteligente.segundopaso', compact('resumen', 'proveedores'));
+    }
+
+    public function procesarpaso2(Request $request)
+    {
+        $request->validate([
+            'proveedor_id' => 'required|exists:proveedores,id',
+        ]);
+
+        session(['reposicion.proveedor_id' => $request->proveedor_id]);
+
+        return redirect()->route('admin.reposicion.paso3');
+    }
+
+    public function tercerpaso()
+    {
+        if (!session()->has('reposicion.libros') || !session()->has('reposicion.proveedor_id')) {
+            return redirect()->route('admin.reposicion.paso1');
+        }
+
+        $librosIds    = session('reposicion.libros');
+        $proveedorId  = session('reposicion.proveedor_id');
+
+        $proveedor = \App\Models\Proveedor::findOrFail($proveedorId);
+        $librosBD  = Libro::whereIn('id', $librosIds)->get();
+
+        $unidadesTotales  = $librosBD->count();
+        $costoLibrosTotal = $librosBD->sum(fn($libro) => floatval($libro->precio));
+
+        $costoEnvioReal          = floatval($proveedor->costo_envio);
+        $diasEntregaReal         = intval($proveedor->tiempo_entrega_dias);
+        $inversionFinalCalculada = $costoLibrosTotal + $costoEnvioReal;
+
+        $opcionRapida = [
+            'inversion_total'  => $inversionFinalCalculada,
+            'entrega_promedio' => $diasEntregaReal,
+            'costo_envio'      => $costoEnvioReal,
+            'unidades_totales' => $unidadesTotales,
+            'proveedor_nombre' => $proveedor->nombre_empresa,
+            'costo_libros'     => $costoLibrosTotal,
+        ];
+
+        $opcionEconomica = [
+            'inversion_total'  => $inversionFinalCalculada,
+            'entrega_promedio' => $diasEntregaReal,
+            'costo_envio'      => $costoEnvioReal,
+            'unidades_totales' => $unidadesTotales,
+            'proveedor_nombre' => $proveedor->nombre_empresa,
+            'costo_libros'     => $costoLibrosTotal,
+        ];
+
+        return view('admin.inventario.reposicioninteligente.tercerpaso', compact('opcionRapida', 'opcionEconomica'));
+    }
+
+    public function procesarpaso3(Request $request)
+    {
+        $request->validate([
+            'estrategia' => 'required|in:rapida,economica',
+        ]);
+
+        session(['reposicion.estrategia' => $request->estrategia]);
+
+        return redirect()->route('admin.reposicion.paso4');
+    }
+
+    public function cuartopaso()
+    {
+        if (!session()->has('reposicion.libros') || !session()->has('reposicion.proveedor_id') || !session()->has('reposicion.estrategia')) {
+            return redirect()->route('admin.reposicion.paso1');
+        }
+
+        $librosIds   = session('reposicion.libros');
+        $proveedorId = session('reposicion.proveedor_id');
+        $estrategia  = session('reposicion.estrategia');
+
+        $proveedor = \App\Models\Proveedor::findOrFail($proveedorId);
+        $librosBD  = Libro::whereIn('id', $librosIds)->get();
+
+        $itemsSeleccionados = $librosBD->map(fn($libro) => [
+            'titulo'   => $libro->titulo,
+            'autor'    => $libro->autor,
+            'cantidad' => 1,
+            'subtotal' => floatval($libro->precio),
+        ])->values()->all();
+
+        $costoLibrosTotal = $librosBD->sum(fn($libro) => floatval($libro->precio));
+        $costoEnvio       = floatval($proveedor->costo_envio);
+        $inversionTotal   = $costoLibrosTotal + $costoEnvio;
+        $fechaEstimada    = Carbon::now()->addDays($proveedor->tiempo_entrega_dias);
+
+        $resumenFinal = [
+            'inversion_total'  => $inversionTotal,
+            'costo_envio'      => $costoEnvio,
+            'costo_libros'     => $costoLibrosTotal,
+            'fecha_entrega'    => $fechaEstimada->translatedFormat('d \d\e M. Y'),
+            'dias_habiles'     => $proveedor->tiempo_entrega_dias,
+            'total_unidades'   => $librosBD->count(),
+            'total_titulos'    => $librosBD->count(),
+            'proveedor_nombre' => $proveedor->nombre_empresa,
+            'estrategia_texto' => $estrategia === 'rapida' ? 'Opción Más Rápida' : 'Opción Más Económica',
+            'libros'           => $itemsSeleccionados,
+        ];
+
+        return view('admin.inventario.reposicioninteligente.cuartopaso', compact('resumenFinal'));
+    }
+
+    // Acción final: Guarda las órdenes de compra reales y limpia la sesión
+    public function confirmarOrdenes(Request $request)
+    {
+        $request->validate([
+            'numero_orden' => 'required|string|max:30',
+            'metodo_pago'  => 'required|in:transferencia,credito_30,credito_60,efectivo',
+        ]);
+
+        $metodoTexto = [
+            'transferencia' => 'Transferencia bancaria',
+            'credito_30'    => 'Crédito a 30 días',
+            'credito_60'    => 'Crédito a 60 días',
+            'efectivo'      => 'Efectivo',
+        ][$request->metodo_pago];
+
+        session([
+            'reposicion.orden_confirmada' => [
+                'numero_orden' => $request->numero_orden,
+                'metodo_pago'  => $metodoTexto,
+            ],
+        ]);
+
+        session()->forget(['reposicion.libros', 'reposicion.proveedor_id', 'reposicion.estrategia']);
+
+        return redirect()->route('admin.reposicion.confirmado');
+    }
+
+    public function confirmado()
+    {
+        $orden = session('reposicion.orden_confirmada', [
+            'numero_orden' => '—',
+            'metodo_pago'  => '—',
+        ]);
+
+        session()->forget('reposicion.orden_confirmada');
+
+        return view('admin.inventario.reposicioninteligente.confirmado', compact('orden'));
     }
 }

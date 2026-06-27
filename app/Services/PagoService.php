@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\EventoPago;
+use App\Models\Repartidor;
 use App\Models\TransaccionPago;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -84,7 +85,18 @@ class PagoService
                     ]);
                 }
 
-                $pedido->update(['estado_pago' => 'pagado']);
+                // Asignar el repartidor activo con menos pedidos en curso
+                $repartidor = Repartidor::where('activo', true)
+                    ->withCount(['pedidos as pedidos_activos_count' => function ($q) {
+                        $q->whereNotIn('estado_pedido', ['entregado', 'cancelado']);
+                    }])
+                    ->orderBy('pedidos_activos_count')
+                    ->first();
+
+                $pedido->update([
+                    'estado_pago'    => 'pagado',
+                    'repartidor_id'  => $repartidor?->id,
+                ]);
                 app(PedidoEstadoService::class)->cambiar(
                     $pedido,
                     'pagado',

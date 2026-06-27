@@ -30,7 +30,7 @@ class PagoController extends Controller
         ]);
     }
 
-    public function store(Request $request, Pedido $pedido): RedirectResponse
+    public function store(Request $request, Pedido $pedido): RedirectResponse|View
     {
         $this->autorizar($request, $pedido);
 
@@ -41,7 +41,12 @@ class PagoController extends Controller
 
         abort_if($pedido->estado_pedido === 'cancelado', 404);
 
-        $referenciaUuid = (string) Str::uuid(); 
+        // Cancelar transacciones pendientes anteriores para evitar ambigüedad en verificar()
+        TransaccionPago::where('pedido_id', $pedido->id)
+            ->where('estado', 'pendiente')
+            ->update(['estado' => 'cancelado']);
+
+        $referenciaUuid = (string) Str::uuid();
 
         $transaccion = TransaccionPago::query()->create([
             'pedido_id' => $pedido->id,
@@ -51,40 +56,48 @@ class PagoController extends Controller
             'estado' => 'pendiente',
         ]);
 
+        session(['pago_ref_' . $pedido->id => $referenciaUuid]);
+
+        $retornoUrl = app()->environment('local')
+            ? str_replace('127.0.0.1', 'localhost', route('pago.retorno'))
+            : route('pago.retorno');
+
         $datosPago = [
             'items' => [
                 [
-                    'title' => 'Pedido #' . $pedido->id, 
-                    'quantity' => 1,
+                    'title'      => 'Pedido #' . $pedido->id,
+                    'quantity'   => 1,
                     'unit_price' => (float) $pedido->total,
-                    'currency_id' => 'PEN'
+                    'currency_id'=> 'PEN',
                 ]
             ],
-            'external_reference' => $referenciaUuid, 
-            
+            'external_reference' => $referenciaUuid,
             'back_urls' => [
-                'success' => 'https://pounce-relatable-snooper.ngrok-free.dev/pago/retorno',
-                'failure' => 'https://pounce-relatable-snooper.ngrok-free.dev/pago/retorno',
-                'pending' => 'https://pounce-relatable-snooper.ngrok-free.dev/pago/retorno',
+                'success' => $retornoUrl,
+                'failure' => $retornoUrl,
+                'pending' => $retornoUrl,
             ],
-            'auto_return' => 'approved',
         ];
 
-        $respuesta = Http::withoutVerifying()
-            ->withToken(env('MERCADOPAGO_ACCESS_TOKEN'))
-            ->post('https://api.mercadopago.com/checkout/preferences', $datosPago);
+        $http = Http::withToken(config('services.mercadopago.access_token'));
+
+        if (app()->environment('local')) {
+            $http = $http->withoutVerifying();
+        }
+
+        $respuesta = $http->post('https://api.mercadopago.com/checkout/preferences', $datosPago);
 
         if ($respuesta->successful()) {
             $preferencia = $respuesta->json();
-            return redirect()->away($preferencia['init_point']); 
+            return view('pagos.redirect', [
+                'pedido'     => $pedido,
+                'mpUrl'      => $preferencia['init_point'],
+                'referencia' => $referenciaUuid,
+            ]);
         }
 
-        dd([
-            'Mensaje' => 'Falló la conexión con Mercado Pago',
-            'Codigo_Estado_HTTP' => $respuesta->status(),
-            'Respuesta_API' => $respuesta->json(),
-            'Token_Usado' => env('MERCADOPAGO_ACCESS_TOKEN') 
-        ]);
+        return redirect()->route('pedidos.show', $pedido)
+            ->with('status', 'Hubo un problema al conectar con MercadoPago. Por favor intenta nuevamente.');
     } 
 
     public function retorno(Request $request, PagoService $pagos): RedirectResponse
@@ -99,6 +112,7 @@ class PagoController extends Controller
             $usuario = \App\Models\User::find($pedido->user_id);
             if ($usuario) {
                 Auth::login($usuario);
+                $request->session()->regenerate();
             }
         }
 
@@ -116,10 +130,96 @@ class PagoController extends Controller
             'estado' => $estadoFinal,
         ]);
 
+        if ($estadoFinal === 'aprobado') {
+            return redirect()->route('libros.index')
+                ->with('status', '¡Pago aprobado! Tu pedido está confirmado.');
+        }
+
         $mensaje = match ($estadoFinal) {
-            'aprobado' => '¡Pago aprobado correctamente!',
             'rechazado' => 'El pago fue rechazado. Puedes intentarlo nuevamente.',
-            default => 'El pago quedó pendiente de confirmación.',
+            default     => 'El pago quedó pendiente de confirmación.',
+        };
+
+        return redirect()->route('pedidos.show', $pedido)->with('status', $mensaje);
+    }
+
+    public function verificar(Request $request, Pedido $pedido, PagoService $pagos): RedirectResponse
+    {
+        $this->autorizar($request, $pedido);
+
+        // Si ya fue pagado (ej: retorno() lo procesó en otra pestaña)
+        if ($pedido->estado_pago === 'pagado') {
+            return redirect()->route('pedidos.show', $pedido)
+                ->with('status', '¡Tu pago ya fue confirmado! Tu pedido está en proceso.');
+        }
+
+        // Buscar la transacción por referencia guardada en sesión, o la única pendiente
+        $referencia = $request->input('referencia') ?? session('pago_ref_' . $pedido->id);
+
+        $transaccion = $referencia
+            ? TransaccionPago::where('pedido_id', $pedido->id)
+                ->where('referencia', $referencia)
+                ->where('estado', 'pendiente')
+                ->first()
+            : null;
+
+        if (!$transaccion) {
+            $transaccion = TransaccionPago::where('pedido_id', $pedido->id)
+                ->where('estado', 'pendiente')
+                ->latest()
+                ->first();
+        }
+
+        if (!$transaccion) {
+            return redirect()->route('pedidos.show', $pedido)
+                ->with('status', 'No se encontró un pago pendiente para este pedido.');
+        }
+
+        $http = Http::withToken(config('services.mercadopago.access_token'));
+        if (app()->environment('local')) {
+            $http = $http->withoutVerifying();
+        }
+
+        $respuesta = $http->get('https://api.mercadopago.com/v1/payments/search', [
+            'external_reference' => $transaccion->referencia,
+        ]);
+
+        if (!$respuesta->successful()) {
+            return redirect()->route('pedidos.show', $pedido)
+                ->with('status', 'No se pudo verificar el pago. Intenta nuevamente.');
+        }
+
+        $resultados = $respuesta->json('results', []);
+
+        if (empty($resultados)) {
+            return redirect()->route('pedidos.show', $pedido)
+                ->with('status', 'Aún no se registró el pago. Espera unos segundos e intenta de nuevo.');
+        }
+
+        $estadoMP = $resultados[0]['status'] ?? 'pending';
+
+        $estadoFinal = match ($estadoMP) {
+            'approved' => 'aprobado',
+            'rejected' => 'rechazado',
+            default    => 'pendiente',
+        };
+
+        $pagos->procesar([
+            'evento_id' => (string) Str::uuid(),
+            'referencia' => $transaccion->referencia,
+            'monto'      => $transaccion->monto,
+            'moneda'     => 'PEN',
+            'estado'     => $estadoFinal,
+        ]);
+
+        if ($estadoFinal === 'aprobado') {
+            return redirect()->route('libros.index')
+                ->with('status', '¡Pago aprobado! Tu pedido está confirmado.');
+        }
+
+        $mensaje = match ($estadoFinal) {
+            'rechazado' => 'El pago fue rechazado. Puedes intentarlo nuevamente.',
+            default     => 'El pago aún no fue confirmado. Intenta verificar más tarde.',
         };
 
         return redirect()->route('pedidos.show', $pedido)->with('status', $mensaje);

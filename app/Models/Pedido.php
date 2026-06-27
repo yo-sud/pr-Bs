@@ -29,6 +29,7 @@ class Pedido extends Model
 
     protected $fillable = [
         'user_id',
+        'repartidor_id',
         'direccion',
         'subtotal',
         'envio',
@@ -57,6 +58,11 @@ class Pedido extends Model
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function repartidor(): BelongsTo
+    {
+        return $this->belongsTo(Repartidor::class);
     }
 
     public function detalles(): HasMany

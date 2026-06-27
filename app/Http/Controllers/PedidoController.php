@@ -30,6 +30,8 @@ class PedidoController extends Controller
 
         return view('pedidos.show', [
             'pedido' => $pedido->load([
+                'usuario',
+                'repartidor',
                 'detalles.libro',
                 'transaccionesPago',
                 'historialEstados.usuario',

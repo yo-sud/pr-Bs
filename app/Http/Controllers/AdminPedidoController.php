@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pedido;
+use App\Models\Repartidor;
 use App\Services\PedidoEstadoService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,10 +28,12 @@ class AdminPedidoController extends Controller
         return view('admin.pedidos.show', [
             'pedido' => $pedido->load([
                 'usuario',
+                'repartidor',
                 'detalles',
                 'transaccionesPago',
                 'historialEstados.usuario',
             ]),
+            'repartidores' => Repartidor::where('activo', true)->orderBy('nombre_empresa')->get(),
         ]);
     }
 
@@ -48,6 +51,7 @@ class AdminPedidoController extends Controller
         $datosValidados = $request->validate([
             'estado' => ['required', Rule::in(['preparando', 'enviado', 'entregado'])],
             'observacion' => ['required', 'string', 'min:3', 'max:500'],
+            'repartidor_id' => ['nullable', 'exists:repartidores,id'],
         ]);
 
         // 3. Reglas de negocio existentes
@@ -73,6 +77,10 @@ class AdminPedidoController extends Controller
         }
 
         // 4. Ejecución del cambio de estado usando los datos validados internamente
+        if ($siguienteEstado === 'enviado' && !empty($datosValidados['repartidor_id'])) {
+            $pedido->update(['repartidor_id' => $datosValidados['repartidor_id']]);
+        }
+
         $estados->cambiar(
             $pedido,
             $siguienteEstado,
