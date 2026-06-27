@@ -82,27 +82,23 @@
                     </svg>
 
                     @elseif($categoria->nombre === 'Misterio')
-                    {{-- Icono: Lupa de investigación (Search) con el lente relleno en contraste --}}
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8" fill="currentColor" fill-opacity="0.1" />
                         <path d="m21 21-4.3-4.3" />
                     </svg>
 
                     @elseif($categoria->nombre === 'Desarrollo Personal')
-                    {{-- Icono: Gráfico de crecimiento/superación (Trending Up) optimizado --}}
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
                         <polyline points="17 6 23 6 23 12" fill="currentColor" />
                     </svg>
 
                     @elseif($categoria->nombre === 'Romance')
-                    {{-- Icono: Corazón (Heart) con relleno romántico suave --}}
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" fill-opacity="0.15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                     </svg>
 
                     @elseif($categoria->nombre === 'Historia')
-                    {{-- Icono: Reloj de arena (Hourglass) con la arena simulada abajo --}}
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 2h14" />
                         <path d="M5 22h14" />
@@ -111,7 +107,6 @@
                     </svg>
 
                     @elseif($categoria->nombre === 'Terror')
-                    {{-- Icono: Fantasmita (Ghost) con relleno místico --}}
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M9 10h.01" />
                         <path d="M15 10h.01" />
@@ -119,7 +114,6 @@
                     </svg>
 
                     @else
-                    {{-- Icono por defecto: Libro (Book) con páginas rellenas --}}
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                         <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"></path>
