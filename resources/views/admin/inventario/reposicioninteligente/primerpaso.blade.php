@@ -66,6 +66,15 @@
                         </div>
                     </div>
 
+                    {{-- Cantidad a reponer --}}
+                    <div class="flex items-center gap-1.5">
+                        <label class="text-[10px] text-stone-400 uppercase font-semibold tracking-wide">Cant.</label>
+                        <input type="number" name="cantidades[{{ $libro->id }}]"
+                               value="1" min="1" max="999"
+                               disabled
+                               class="cantidad-input w-14 border border-amber-200 rounded-lg px-2 py-1 text-sm text-center text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 transition-colors">
+                    </div>
+
                     {{-- Stock y ventas/día --}}
                     <div class="flex items-center gap-6">
 
@@ -106,6 +115,18 @@
         contador.textContent = document.querySelectorAll('.checkbox-libro:checked').length;
     }
 
-    checkboxes.forEach(cb => cb.addEventListener('change', actualizarContador));
+    function actualizarCantidad(cb) {
+        const input = document.querySelector(`input[name="cantidades[${cb.value}]"]`);
+        if (!input) return;
+        input.disabled = !cb.checked;
+        if (!cb.checked) input.value = 1;
+    }
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+            actualizarContador();
+            actualizarCantidad(cb);
+        });
+    });
 </script>
 @endsection

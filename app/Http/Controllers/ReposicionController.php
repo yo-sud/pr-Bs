@@ -46,10 +46,18 @@ class ReposicionController extends Controller
     public function procesarpaso1(Request $request)
     {
         $request->validate([
-            'libros' => 'required|array|min:1',
+            'libros'       => 'required|array|min:1',
+            'cantidades'   => 'nullable|array',
+            'cantidades.*' => 'nullable|integer|min:1|max:999',
         ]);
 
-        session(['reposicion.libros' => $request->libros]);
+        $cantidades = $request->cantidades ?? [];
+        $librosConCantidad = [];
+        foreach ($request->libros as $id) {
+            $librosConCantidad[(int)$id] = max(1, (int)($cantidades[$id] ?? 1));
+        }
+
+        session(['reposicion.libros' => $librosConCantidad]);
 
         return redirect()->route('admin.reposicion.paso2');
     }
@@ -61,11 +69,11 @@ class ReposicionController extends Controller
             return redirect()->route('admin.reposicion.paso1');
         }
 
-        $librosIds = session('reposicion.libros');
+        $librosData = session('reposicion.libros'); // [id => cantidad]
 
         $resumen = [
-            'titulos'   => count($librosIds),
-            'unidades'  => count($librosIds),
+            'titulos'  => count($librosData),
+            'unidades' => array_sum($librosData),
         ];
 
         // 3. Traer todos los proveedores con sus datos logísticos
@@ -92,34 +100,38 @@ class ReposicionController extends Controller
             return redirect()->route('admin.reposicion.paso1');
         }
 
-        $librosIds    = session('reposicion.libros');
-        $proveedorId  = session('reposicion.proveedor_id');
+        $librosData = session('reposicion.libros'); // [id => cantidad]
+        $librosIds  = array_keys($librosData);
 
-        $proveedor = \App\Models\Proveedor::findOrFail($proveedorId);
-        $librosBD  = Libro::whereIn('id', $librosIds)->get();
+        $librosBD         = Libro::whereIn('id', $librosIds)->get();
+        $unidadesTotales  = array_sum($librosData);
+        $costoLibrosTotal = $librosBD->sum(fn($libro) => floatval($libro->precio) * ($librosData[$libro->id] ?? 1));
 
-        $unidadesTotales  = $librosBD->count();
-        $costoLibrosTotal = $librosBD->sum(fn($libro) => floatval($libro->precio));
+        $proveedores = \App\Models\Proveedor::all();
+        if ($proveedores->isEmpty()) {
+            return redirect()->route('admin.reposicion.paso2');
+        }
 
-        $costoEnvioReal          = floatval($proveedor->costo_envio);
-        $diasEntregaReal         = intval($proveedor->tiempo_entrega_dias);
-        $inversionFinalCalculada = $costoLibrosTotal + $costoEnvioReal;
+        $proveedorRapido    = $proveedores->sortBy('tiempo_entrega_dias')->first();
+        $proveedorEconomico = $proveedores->sortBy('costo_envio')->first();
 
         $opcionRapida = [
-            'inversion_total'  => $inversionFinalCalculada,
-            'entrega_promedio' => $diasEntregaReal,
-            'costo_envio'      => $costoEnvioReal,
+            'proveedor_id'     => $proveedorRapido->id,
+            'inversion_total'  => $costoLibrosTotal + floatval($proveedorRapido->costo_envio),
+            'entrega_promedio' => intval($proveedorRapido->tiempo_entrega_dias),
+            'costo_envio'      => floatval($proveedorRapido->costo_envio),
             'unidades_totales' => $unidadesTotales,
-            'proveedor_nombre' => $proveedor->nombre_empresa,
+            'proveedor_nombre' => $proveedorRapido->nombre_empresa,
             'costo_libros'     => $costoLibrosTotal,
         ];
 
         $opcionEconomica = [
-            'inversion_total'  => $inversionFinalCalculada,
-            'entrega_promedio' => $diasEntregaReal,
-            'costo_envio'      => $costoEnvioReal,
+            'proveedor_id'     => $proveedorEconomico->id,
+            'inversion_total'  => $costoLibrosTotal + floatval($proveedorEconomico->costo_envio),
+            'entrega_promedio' => intval($proveedorEconomico->tiempo_entrega_dias),
+            'costo_envio'      => floatval($proveedorEconomico->costo_envio),
             'unidades_totales' => $unidadesTotales,
-            'proveedor_nombre' => $proveedor->nombre_empresa,
+            'proveedor_nombre' => $proveedorEconomico->nombre_empresa,
             'costo_libros'     => $costoLibrosTotal,
         ];
 
@@ -129,10 +141,19 @@ class ReposicionController extends Controller
     public function procesarpaso3(Request $request)
     {
         $request->validate([
-            'estrategia' => 'required|in:rapida,economica',
+            'estrategia'            => 'required|in:rapida,economica',
+            'proveedor_id_rapida'   => 'required|exists:proveedores,id',
+            'proveedor_id_economica' => 'required|exists:proveedores,id',
         ]);
 
-        session(['reposicion.estrategia' => $request->estrategia]);
+        $proveedorId = $request->estrategia === 'rapida'
+            ? $request->proveedor_id_rapida
+            : $request->proveedor_id_economica;
+
+        session([
+            'reposicion.estrategia'   => $request->estrategia,
+            'reposicion.proveedor_id' => $proveedorId,
+        ]);
 
         return redirect()->route('admin.reposicion.paso4');
     }
@@ -143,7 +164,8 @@ class ReposicionController extends Controller
             return redirect()->route('admin.reposicion.paso1');
         }
 
-        $librosIds   = session('reposicion.libros');
+        $librosData  = session('reposicion.libros'); // [id => cantidad]
+        $librosIds   = array_keys($librosData);
         $proveedorId = session('reposicion.proveedor_id');
         $estrategia  = session('reposicion.estrategia');
 
@@ -153,11 +175,11 @@ class ReposicionController extends Controller
         $itemsSeleccionados = $librosBD->map(fn($libro) => [
             'titulo'   => $libro->titulo,
             'autor'    => $libro->autor,
-            'cantidad' => 1,
-            'subtotal' => floatval($libro->precio),
+            'cantidad' => $librosData[$libro->id] ?? 1,
+            'subtotal' => floatval($libro->precio) * ($librosData[$libro->id] ?? 1),
         ])->values()->all();
 
-        $costoLibrosTotal = $librosBD->sum(fn($libro) => floatval($libro->precio));
+        $costoLibrosTotal = $librosBD->sum(fn($libro) => floatval($libro->precio) * ($librosData[$libro->id] ?? 1));
         $costoEnvio       = floatval($proveedor->costo_envio);
         $inversionTotal   = $costoLibrosTotal + $costoEnvio;
         $fechaEstimada    = Carbon::now()->addDays($proveedor->tiempo_entrega_dias);
@@ -168,8 +190,8 @@ class ReposicionController extends Controller
             'costo_libros'     => $costoLibrosTotal,
             'fecha_entrega'    => $fechaEstimada->translatedFormat('d \d\e M. Y'),
             'dias_habiles'     => $proveedor->tiempo_entrega_dias,
-            'total_unidades'   => $librosBD->count(),
-            'total_titulos'    => $librosBD->count(),
+            'total_unidades'   => array_sum($librosData),
+            'total_titulos'    => count($librosIds),
             'proveedor_nombre' => $proveedor->nombre_empresa,
             'estrategia_texto' => $estrategia === 'rapida' ? 'Opción Más Rápida' : 'Opción Más Económica',
             'libros'           => $itemsSeleccionados,
@@ -193,11 +215,9 @@ class ReposicionController extends Controller
             'efectivo'      => 'Efectivo',
         ][$request->metodo_pago];
 
-        session([
-            'reposicion.orden_confirmada' => [
-                'numero_orden' => $request->numero_orden,
-                'metodo_pago'  => $metodoTexto,
-            ],
+        session()->flash('reposicion.orden_confirmada', [
+            'numero_orden' => $request->numero_orden,
+            'metodo_pago'  => $metodoTexto,
         ]);
 
         session()->forget(['reposicion.libros', 'reposicion.proveedor_id', 'reposicion.estrategia']);
@@ -211,8 +231,6 @@ class ReposicionController extends Controller
             'numero_orden' => '—',
             'metodo_pago'  => '—',
         ]);
-
-        session()->forget('reposicion.orden_confirmada');
 
         return view('admin.inventario.reposicioninteligente.confirmado', compact('orden'));
     }
