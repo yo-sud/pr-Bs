@@ -87,13 +87,23 @@
                        class="w-full rounded-xl border-gray-300 text-sm py-2.5 px-4 focus:border-[#B8500C] focus:ring-[#B8500C] transition-all placeholder:text-stone-300">
             </div>
 
-            {{-- Campo: Zona de Reparto --}}
+            {{-- Campo: Ciudad / Zona de Reparto --}}
+            <div class="space-y-1.5">
+                <label for="ciudad" class="block text-xs font-bold text-stone-700 uppercase tracking-wide">
+                    Ciudad / Zona de Reparto
+                </label>
+                <input type="text" name="ciudad" id="ciudad" value="{{ old('ciudad') }}"
+                       placeholder="Ej: Lima, Arequipa, Norte, Sur..."
+                       class="w-full rounded-xl border-gray-300 text-sm py-2.5 px-4 focus:border-[#B8500C] focus:ring-[#B8500C] transition-all placeholder:text-stone-300">
+            </div>
+
+            {{-- Campo: Tiempo de Entrega Estimado --}}
             <div class="space-y-1.5">
                 <label for="tiempo_entrega_estimado" class="block text-xs font-bold text-stone-700 uppercase tracking-wide">
-                    Zona de Reparto <span class="text-red-500">*</span>
+                    Tiempo de Entrega Estimado
                 </label>
-                <input type="text" name="tiempo_entrega_estimado" id="tiempo_entrega_estimado" value="{{ old('tiempo_entrega_estimado') }}" required
-                       placeholder="Ej: Norte, Sur, Centro..."
+                <input type="text" name="tiempo_entrega_estimado" id="tiempo_entrega_estimado" value="{{ old('tiempo_entrega_estimado') }}"
+                       placeholder="Ej: 1-2 días hábiles, 24 horas..."
                        class="w-full rounded-xl border-gray-300 text-sm py-2.5 px-4 focus:border-[#B8500C] focus:ring-[#B8500C] transition-all placeholder:text-stone-300">
             </div>
 

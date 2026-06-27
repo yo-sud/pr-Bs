@@ -52,6 +52,7 @@ class AdminRepartidorController extends Controller
     {
         $request->validate([
             'nombre_empresa'           => ['required', 'string', 'max:150'],
+            'ciudad'                   => ['nullable', 'string', 'max:150'],
             'contacto_ejecutivo'       => ['nullable', 'string', 'max:150'],
             'ruc'                      => ['nullable', 'string', 'size:11', 'unique:repartidores,ruc'],
             'telefono'                 => ['nullable', 'string', 'max:20'],
@@ -63,6 +64,7 @@ class AdminRepartidorController extends Controller
         try {
             Repartidor::create([
                 'nombre_empresa'          => $request->nombre_empresa,
+                'ciudad'                  => $request->ciudad,
                 'contacto_ejecutivo'      => $request->contacto_ejecutivo,
                 'ruc'                     => $request->ruc,
                 'telefono'                => $request->telefono,
@@ -114,6 +116,7 @@ class AdminRepartidorController extends Controller
     {
         $request->validate([
             'nombre_empresa'           => ['required', 'string', 'max:150'],
+            'ciudad'                   => ['nullable', 'string', 'max:150'],
             'contacto_ejecutivo'       => ['nullable', 'string', 'max:150'],
             'ruc'                      => ['nullable', 'string', 'size:11', Rule::unique('repartidores', 'ruc')->ignore($id)],
             'telefono'                 => ['nullable', 'string', 'max:20'],
@@ -127,6 +130,7 @@ class AdminRepartidorController extends Controller
             $repartidor = Repartidor::find($id);
 
             $repartidor->nombre_empresa          = $request->nombre_empresa;
+            $repartidor->ciudad                  = $request->ciudad;
             $repartidor->contacto_ejecutivo      = $request->contacto_ejecutivo;
             $repartidor->ruc                     = $request->ruc;
             $repartidor->telefono                = $request->telefono;
