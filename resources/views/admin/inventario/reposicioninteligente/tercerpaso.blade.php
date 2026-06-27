@@ -33,7 +33,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             {{-- TARJETA 1: OPCIÓN MÁS RÁPIDA --}}
-            <label class="relative bg-white rounded-2xl block cursor-pointer overflow-hidden shadow-sm hover:shadow-lg transition-all select-none border-2 border-transparent has-[:checked]:border-blue-500">
+            <label class="relative bg-white rounded-2xl block cursor-pointer overflow-hidden shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 select-none border-2 border-transparent has-[:checked]:border-blue-500">
                 <input type="radio" name="estrategia" value="rapida" class="absolute top-4 right-4 w-5 h-5 accent-blue-600 z-10" checked>
                 <input type="hidden" name="proveedor_id_rapida" value="{{ $opcionRapida['proveedor_id'] }}">
 
@@ -99,7 +99,7 @@
             </label>
 
             {{-- TARJETA 2: OPCIÓN MÁS ECONÓMICA --}}
-            <label class="relative bg-white rounded-2xl block cursor-pointer overflow-hidden shadow-sm hover:shadow-lg transition-all select-none border-2 border-transparent has-[:checked]:border-emerald-500">
+            <label class="relative bg-white rounded-2xl block cursor-pointer overflow-hidden shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 select-none border-2 border-transparent has-[:checked]:border-emerald-500">
                 <input type="radio" name="estrategia" value="economica" class="absolute top-4 right-4 w-5 h-5 accent-emerald-600 z-10">
                 <input type="hidden" name="proveedor_id_economica" value="{{ $opcionEconomica['proveedor_id'] }}">
 

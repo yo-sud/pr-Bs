@@ -13,8 +13,6 @@ class CarritoController extends Controller
         $subtotal = 0;
 
         foreach ($carrito as $id => $item) {
-            // Si por residuos de pruebas viejas algún elemento no es un array válido, 
-            // lo eliminamos automáticamente para que no rompa la app.
             if (!is_array($item) || !isset($item['precio'], $item['cantidad'])) {
                 unset($carrito[$id]);
                 session()->put('carrito', $carrito);
@@ -61,8 +59,7 @@ class CarritoController extends Controller
 
         session()->put('carrito', $carrito);
 
-        // 🛠️ SOLUCIÓN REAL: Forzamos la redirección directa al catálogo de libros.
-        // Así no dependemos del historial del navegador y no hay forma de que te mande a la de inicio.
+
         return redirect()->route('libros.index')->with('status', "Se añadió '{$libro->titulo}' al carrito.");
     }
 
