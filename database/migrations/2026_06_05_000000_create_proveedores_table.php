@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('correo')->nullable();
             $table->string('contacto_ejecutivo')->nullable();
             $table->text('observaciones')->nullable();
-            $table->boolean('activo')->default(true); // Por defecto inicia activo
+            $table->boolean('activo')->default(true); 
             $table->timestamps();
         });
     }
