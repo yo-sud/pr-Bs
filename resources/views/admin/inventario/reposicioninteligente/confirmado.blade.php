@@ -57,9 +57,7 @@
         </div>
         @foreach([
             'Órdenes de compra generadas automáticamente',
-            'Proveedores notificados por email',
             'Inventario actualizado con estado "En Tránsito"',
-            'Sistema de seguimiento activado',
         ] as $item)
             <div class="flex items-start gap-2.5">
                 <span class="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0 mt-1.5"></span>
