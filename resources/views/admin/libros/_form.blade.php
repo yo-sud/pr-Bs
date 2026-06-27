@@ -29,7 +29,7 @@
         <span class="block text-sm font-semibold mb-1">Proveedor *</span>
         <select name="proveedor_id" required class="w-full rounded-lg border-gray-300">
             @foreach ($proveedores as $proveedor)
-                <option value="{{ $proveedor->id }}" @selected((string) old('proveedor_id', $libro->proveedor_id ?? '') === (string) $proveedor->id)>{{ $proveedor->nombre }}</option>
+                <option value="{{ $proveedor->id }}" @selected((string) old('proveedor_id', $libro->proveedor_id ?? '') === (string) $proveedor->id)>{{ $proveedor->nombre_empresa }}</option>
             @endforeach
         </select>
     </label>
