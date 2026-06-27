@@ -27,7 +27,7 @@ class ReposicionController extends Controller
             $libro->ventas_diarias = round($totalUnidades / 30, 2);
         }
 
-        // 📊 Datos informativos para las tarjetas superiores
+        //  Datos informativos para las tarjetas superiores
         $totalLibros = $libros->count();
         $librosEnSesion = session('reposicion.libros', []);
         $totalSeleccionados = count($librosEnSesion);
