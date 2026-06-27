@@ -19,6 +19,7 @@ class PedidoController extends Controller
         return view('pedidos.index', [
             'pedidos' => $request->user()->pedidos()
                 ->withCount('detalles')
+                ->with(['detalles' => fn($q) => $q->with('libro:id,titulo')->limit(2)])
                 ->latest()
                 ->paginate(10),
         ]);
