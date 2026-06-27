@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head><style>body {overflow-x: hidden;}</style>
-</head>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +13,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-[#FDFBF7] text-[#421605] font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-[#FDFBF7] text-[#421605] font-sans antialiased min-h-screen flex flex-col overflow-x-hidden">
 
     <nav class="bg-[#FDFBF7] border-b border-[#6E7E80]/10 py-4 sticky top-0 z-50 flex justify-center px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl w-full flex items-center justify-between gap-4">
@@ -68,8 +66,7 @@
                              x-transition:leave="transition ease-in duration-75"
                              x-transition:leave-start="transform opacity-100 scale-100"
                              x-transition:leave-end="transform opacity-0 scale-95"
-                             class="absolute right-0 mt-3 w-72 bg-white border border-[#421605]/10 rounded-2xl shadow-xl p-4"
-                             style="display: none;">
+                             class="absolute right-0 mt-3 w-72 bg-white border border-[#421605]/10 rounded-2xl shadow-xl p-4 hidden">
                             
                             <div class="flex items-center gap-3 pb-3 mb-2 border-b border-gray-100">
                                 <div class="h-10 w-10 rounded-full bg-[#F3ECE0]/50 text-[#421605] flex items-center justify-center font-bold text-base">

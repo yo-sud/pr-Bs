@@ -15,10 +15,10 @@
                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                 </svg>
-                <span class="text-xl font-semibold text-[#9A5214]" style="font-family: serif; letter-spacing: -0.3px;">BookShop</span>
+                <span class="text-xl font-semibold text-[#9A5214] font-serif tracking-tight">BookShop</span>
             </div>
 
-            <h1 class="w-full text-3xl font-bold text-center text-[#9A5214] mb-4" style="font-family: serif;">
+            <h1 class="w-full text-3xl font-bold text-center text-[#9A5214] mb-4 font-serif">
                 {{ __('¿Olvidaste tu contraseña?') }}
             </h1>
             

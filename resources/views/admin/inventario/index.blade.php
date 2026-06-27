@@ -37,7 +37,7 @@
            class="bg-[#FFFBEB] rounded-xl p-4 flex flex-col items-center gap-1 hover:shadow-md transition-shadow cursor-pointer {{ $estado === 'bajo' ? 'border-2 border-[#D97706]' : 'border border-[#FDE68A]' }}">
             <span class="material-symbols-outlined text-2xl text-[#D97706]">trending_down</span>
             <span class="text-3xl font-bold text-[#D97706]">{{ $totales['bajo'] }}</span>
-            <span class="text-xs text-gray-500 font-medium">Stock bajo (&lt;10)</span>
+            <span class="text-xs text-gray-500 font-medium">Stock bajo</span>
         </a>
 
         {{-- Agotados --}}
@@ -74,7 +74,6 @@
                     <th class="px-5 py-4 text-left">Stock Actual</th>
                     <th class="px-5 py-4 text-left">Indicador</th>
                     <th class="px-5 py-4 text-left">Estado</th>
-                    <th class="px-5 py-4 text-left">Acción</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
@@ -146,18 +145,11 @@
                             </span>
                         </td>
 
-                        {{-- Acción --}}
-                        <td class="px-5 py-4">
-                            <a href="{{ route('admin.libros.edit', $libro) }}"
-                               class="inline-flex items-center gap-1 text-[#FF6B00] hover:text-[#E05E00] text-xs font-semibold transition-colors">
-                                <span class="material-symbols-outlined text-base">edit</span>
-                                Editar
-                            </a>
-                        </td>
+
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="px-5 py-12 text-center text-gray-400">
+                        <td colspan="6" class="px-5 py-12 text-center text-gray-400">
                             No se encontraron libros.
                         </td>
                     </tr>
