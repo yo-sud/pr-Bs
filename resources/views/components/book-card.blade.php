@@ -1,6 +1,6 @@
 @props(['libro', 'badge' => null])
 
-<article class="bg-white rounded-[20px] overflow-hidden border border-[#421605]/10 shadow-[0_8px_20px_rgba(66,22,5,0.04)] flex flex-col group">
+<article class="bg-white rounded-[20px] overflow-hidden border border-[#421605]/10 shadow-[0_8px_20px_rgba(66,22,5,0.04)] flex flex-col group hover:-translate-y-1.5 hover:shadow-[0_20px_35px_rgba(66,22,5,0.08)] transition-all duration-300">
     <a href="{{ route('libros.show', $libro) }}" class="block w-full aspect-[4/5] bg-gray-100 overflow-hidden relative">
         @if ($badge)
             <span class="absolute top-3 left-3 bg-[#B8500C] text-white text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full z-10">
@@ -44,17 +44,16 @@
                 <form method="POST" action="{{ route('carrito.store', $libro) }}">
                     
                     <input type="hidden" name="cantidad" value="1">
-<button
-    class="w-8 h-8 bg-[#F09200] hover:bg-[#d68200] text-white rounded-full flex items-center justify-center transition-colors"
-    aria-label="Agregar {{ $libro->titulo }} al carrito"
->
-    {{-- Icono de Carrito de Compras --}}
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="9" cy="21" r="1"></circle>
-        <circle cx="20" cy="21" r="1"></circle>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-    </svg>
-</button>
+                    <button
+                        class="w-8 h-8 bg-[#F09200] hover:bg-[#d68200] text-white rounded-full flex items-center justify-center transition-colors"
+                        aria-label="Agregar {{ $libro->titulo }} al carrito">
+                        {{-- Icono d Carrito de Compras --}}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                    </button>
                 </form>
             @endif
         </div>

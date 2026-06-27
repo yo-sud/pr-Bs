@@ -3,20 +3,20 @@
 @section('title', 'BookShop - Inicio')
 
 @section('content')
-{{-- 1. SECCIÓN HERO --}}
-<div class="bg-[#EFE8DC] w-full flex-grow flex items-center border-b border-[#421605]/10">
-    <section class="grid grid-cols-1 md:grid-cols-2 items-center px-[7%] py-12 md:py-16 gap-12 w-full">
+{{-- 1. SECCIÓN HERO --}} 
+<div class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-[#FAF5E6] pt-10 pb-12">
+    <section class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center px-6 sm:px-8 py-12 md:py-16 gap-12 w-full">
         <div class="max-w-[540px] text-center md:text-left order-2 md:order-1">
-            <h1 class="font-serif text-[34px] sm:text-[42px] md:text-[56px] font-medium leading-[1.15] text-[#421605] mb-6">
+            <h1 class="font-serif text-[34px] sm:text-[42px] md:text-[56px] font-medium leading-[1.15] text-[#522912] leading-tight mb-6">
                 Descubre historias para todas las edades
             </h1>
-            <p class="text-sm sm:text-base leading-relaxed text-[#554138]/80 mb-8 max-w-[480px]">
+            <p class="text-lg md:text-xl text-gray-700 mb-8">
             Explora nuestra colección cuidadosamente seleccionada de libros que inspiran, educan y entretienen. Tu próxima aventura literaria te espera.
             </p>
 
-            <a href="{{ route('libros.index') }}" class="inline-flex items-center gap-2 bg-[#B8500C] hover:bg-[#963F07] text-white px-8 py-3.5 rounded-full font-medium text-sm transition-all hover:-translate-y-0.5 shadow-sm mb-12">
+            <a href="{{ route('libros.index') }}" class="inline-flex items-center gap-2 bg-[#B8500C] hover:bg-[#963F07] text-white px-10 py-4 rounded-full font-medium text-lg transition-all hover:-translate-y-0.5 shadow-sm mb-12">
                 Explorar libros
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path d="M5 12h14"></path>
                     <path d="m13 6 6 6-6 6"></path>
                 </svg>
@@ -24,19 +24,19 @@
 
             <div class="flex flex-wrap gap-6 sm:gap-10 justify-center md:justify-start border-t border-[#421605]/10 pt-8">
                 <div>
-                    <h3 class="font-serif text-[24px] sm:text-[28px] font-bold text-[#421605] mb-0.5">{{ number_format($totalLibros) }}</h3>
+                    <h3 class="text-3xl font-serif text-amber-900 text-center mb-1">{{ number_format($totalLibros) }}</h3>
                     <p class="text-[10px] sm:text-[11px] text-[#6E7E80] uppercase tracking-wider font-semibold">Libros disponibles</p>
                 </div>
             <div>
                  @php
-                   $totalCategorias = \App\Models\Categoria::count();
+                    $totalCategorias = \App\Models\Categoria::count();
                  @endphp
-                <h3 class="font-serif text-[24px] sm:text-[28px] font-bold text-[#421605] mb-0.5">{{ number_format($totalCategorias) }}</h3>
+                <h3 class="text-3xl font-serif text-amber-900 text-center mb-1">{{ number_format($totalCategorias) }}</h3>
                 <p class="text-[10px] sm:text-[11px] text-[#6E7E80] uppercase tracking-wider font-semibold">Categorías</p>
             </div>
                 <div>
-                    <h3 class="font-serif text-[24px] sm:text-[28px] font-bold text-[#421605] mb-0.5">24/7</h3>
-                    <p class="text-[10px] sm:text-[11px] text-[#6E7E80] uppercase tracking-wider font-semibold">Catálogo en línea</p>
+                    <h3 class="text-3xl font-serif text-amber-900 text-center mb-1">24/7</h3>
+                    <p class="text-[10px] sm:text-[11px] text-[#6E7E80] uppercase tracking-wider font-semibold">Servicio</p>
                 </div>
             </div>
         </div>
@@ -49,14 +49,14 @@
     </section>
 </div>
 
-{{-- CUERPO PRINCIPAL EN COLOR CLARO --}}
+{{-- CUERPO PRINCIPAL--}}
 <main class="w-full bg-[#FDFBF7]">
     
-    {{-- 2. SECCIÓN DE CATEGORÍAS (AHORA SIN EL COLOR DE FONDO OSCURO, LIMPIO) --}}
-    <section class="px-[7%] py-16 text-center">
+    {{-- 2. SECCIÓN DE CATEGORÍAS --}}
+    <section class="max-w-7xl mx-auto px-6 sm:px-8 py-16 text-center">
         <div class="mb-12">
-            <h2 class="font-serif text-3xl md:text-4xl text-[#421605] font-bold mb-3">Explora por Categorías</h2>
-            <p class="text-sm text-[#8A7A71] max-w-[600px] mx-auto">
+            <h2 class="text-3xl md:text-4xl font-serif text-amber-900 mb-4">Explora por Categorías</h2>
+            <p class="text-base text-[#8A7A71] max-w-[600px] mx-auto">
                 Encuentra exactamente lo que buscas en nuestra selección literaria.
             </p>
         </div>
@@ -116,7 +116,7 @@
                     </span>
 
                     <span>
-                        <strong class="block font-serif text-xl text-[#421605] mb-1">{{ $categoria->nombre }}</strong>
+                        <strong class="block font-serif text-xl text-amber-900 mb-1">{{ $categoria->nombre }}</strong>
                         <span class="text-xs text-[#8A7A71]">{{ $categoria->libros_count }} títulos disponibles</span>
                     </span>
                 </a>
@@ -125,15 +125,15 @@
     </section>
 
     {{-- 3. SECCIÓN DE LIBROS DESTACADOS --}}
-    <section class="px-[7%] py-16 text-center">
+    <section class="max-w-7xl mx-auto px-6 sm:px-8 py-16 text-center">
         <div class="mb-12">
-            <h2 class="font-serif text-3xl md:text-4xl text-[#421605] font-bold mb-3">Libros Destacados</h2>
-            <p class="text-sm text-[#8A7A71] max-w-[600px] mx-auto">
+            <h2 class="text-3xl md:text-4xl font-serif text-amber-900 mb-4">Libros Destacados</h2>
+            <p class="text-base text-[#8A7A71] max-w-[600px] mx-auto">
                 Una selección especial basada en los títulos favoritos de nuestros lectores.
             </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mb-12">
             @foreach ($destacados as $libro)
                 <x-book-card :libro="$libro" />
             @endforeach
