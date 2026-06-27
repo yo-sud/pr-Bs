@@ -20,7 +20,7 @@
     </div>
 
     {{-- Tarjetas de Estadísticas --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
         {{-- Total empresas --}}
         <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 flex items-center gap-4 shadow-sm">
@@ -47,20 +47,6 @@
                 <p class="text-2xl font-bold text-amber-700">{{ $repartidoresActivosCount ?? 0 }}</p>
                 <p class="text-sm font-semibold text-stone-700">Empresas activas</p>
                 <p class="text-xs text-stone-400">Operando actualmente</p>
-            </div>
-        </div>
-
-        {{-- Repartidores activos --}}
-        <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 flex items-center gap-4 shadow-sm">
-            <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                </svg>
-            </div>
-            <div>
-                <p class="text-2xl font-bold text-amber-700">{{ $repartidoresActivosCount ?? 0 }}</p>
-                <p class="text-sm font-semibold text-stone-700">Repartidores activos</p>
-                <p class="text-xs text-stone-400">Trabajando actualmente</p>
             </div>
         </div>
 
