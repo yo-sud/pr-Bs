@@ -87,7 +87,7 @@ class CheckoutController extends Controller
 
         if ($cantidades === []) {
             return redirect()->route('carrito.index')
-                ->withErrors(['carrito' => 'El carrito esta vacio.']);
+                ->withErrors(['carrito' => 'El carrito está vacío.']);
         }
 
         $pedido = DB::transaction(function () use ($request, $datosValidados, $carrito, $cantidades, $estados) {
@@ -99,7 +99,7 @@ class CheckoutController extends Controller
 
             if ($libros->count() !== count($cantidades)) {
                 throw ValidationException::withMessages([
-                    'carrito' => 'Uno de los libros ya no esta disponible.',
+                    'carrito' => 'Uno de los libros ya no está disponible.',
                 ]);
             }
 

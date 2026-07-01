@@ -17,38 +17,62 @@
 
     <div class="bg-white rounded-xl border shadow-sm divide-y">
         @foreach ($categorias as $categoria)
-        <div class="p-4 flex flex-col sm:flex-row sm:items-center gap-3">
-            <form method="POST" action="{{ route('admin.categorias.update', $categoria) }}" class="flex-1 flex gap-3">
-                
-                @method('PUT')
+        <div class="p-4 flex flex-col gap-2">
 
-                <input name="nombre" value="{{ $categoria->nombre }}" required maxlength="100" class="flex-1 rounded-lg border-gray-300">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                <form method="POST" action="{{ route('admin.categorias.update', $categoria) }}" class="flex-1 flex gap-3">
+                    @method('PUT')
+                    <input name="nombre" value="{{ $categoria->nombre }}" required maxlength="100"
+                           readonly
+                           class="flex-1 rounded-lg border-gray-300 text-sm bg-gray-50 cursor-default categoria-input">
+                    <button type="button"
+                            onclick="toggleEdicion(this)"
+                            class="text-sm font-semibold text-[#B8500C] hover:text-[#8c3c09] px-3 transition-colors whitespace-nowrap">
+                        Editar
+                    </button>
+                </form>
 
-                <button class="text-sm font-semibold text-[#B8500C] px-3">Guardar</button>
-
-            </form>
-
-            <span class="text-xs text-gray-500">{{ $categoria->libros_count }} libros</span>
-                
-                {{-- ACCIÓN DE DESACTIVAR / ACTIVAR (Sustituye al Delete antiguo) --}}
-                <form method="POST" action="{{ route('admin.categorias.destroy', $categoria) }}" 
+                <form method="POST" action="{{ route('admin.categorias.destroy', $categoria) }}"
                       onsubmit="return confirm('¿Seguro que deseas {{ $categoria->activo ? 'desactivar' : 'activar' }} esta categoría?')">
-                    
                     @method('DELETE')
-                    
                     @if($categoria->activo)
-                        <button type="submit" class="text-sm font-semibold text-red-600 hover:text-red-800 transition-colors">
-                            Desactivar
-                        </button>
+                        <button type="submit" class="text-sm font-semibold text-red-600 hover:text-red-800 transition-colors">Desactivar</button>
                     @else
-                        <button type="submit" class="text-sm font-semibold text-green-600 hover:text-green-800 transition-colors">
-                            Activar
-                        </button>
+                        <button type="submit" class="text-sm font-semibold text-green-600 hover:text-green-800 transition-colors">Activar</button>
                     @endif
                 </form>
             </div>
+
+            <span class="text-xs text-gray-400">
+                {{ $categoria->libros_count }} {{ $categoria->libros_count === 1 ? 'libro' : 'libros' }}
+            </span>
+
+        </div>
         @endforeach
     </div>
     {{ $categorias->links() }}
 </div>
+@push('scripts')
+<script>
+function toggleEdicion(btn) {
+    const form  = btn.closest('form');
+    const input = form.querySelector('.categoria-input');
+
+    if (!input.dataset.editando) {
+        // Activar edición
+        input.readOnly = false;
+        input.removeAttribute('readonly');
+        input.classList.remove('bg-gray-50', 'cursor-default');
+        input.classList.add('bg-white', 'cursor-text');
+        input.dataset.editando = '1';
+        input.focus();
+        input.select();
+        btn.textContent = 'Guardar';
+    } else {
+        // Guardar
+        form.submit();
+    }
+}
+</script>
+@endpush
 @endsection
