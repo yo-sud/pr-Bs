@@ -62,15 +62,21 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('usuarios', AdminUsuarioController::class);
     Route::patch('usuarios/{usuario}/toggle-status', [AdminUsuarioController::class, 'toggleStatus'])->name('usuarios.toggle-status');
     Route::resource('categorias', CategoriaController::class)->only(['index', 'store', 'update', 'destroy']);
+    
     Route::resource('proveedores', ProveedorController::class)
         ->parameters(['proveedores' => 'proveedor'])
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
     Route::patch('proveedores/{proveedor}/toggle-status', [ProveedorController::class, 'toggleStatus'])->name('proveedores.toggle-status');
-    Route::resource('repartidores', AdminRepartidorController::class);
+    
+    // CORRECCIÓN: Se agrega parameters() para evitar el error 404 con {repartidore}
+    Route::resource('repartidores', AdminRepartidorController::class)
+        ->parameters(['repartidores' => 'repartidor']);
     Route::patch('repartidores/{repartidor}/toggle-status', [AdminRepartidorController::class, 'toggleStatus'])->name('repartidores.toggle-status');
+    
     Route::get('pedidos', [AdminPedidoController::class, 'index'])->name('pedidos.index');
     Route::get('pedidos/{pedido}', [AdminPedidoController::class, 'show'])->name('pedidos.show');
     Route::patch('pedidos/{pedido}/estado', [AdminPedidoController::class, 'updateStatus'])->name('pedidos.update-status');
+    
     Route::prefix('inventario/reposicion')->name('reposicion.')->group(function () {
         Route::get('/paso1', [ReposicionController::class, 'primerpaso'])->name('paso1');
         Route::post('/procesarpaso1', [ReposicionController::class, 'procesarpaso1'])->name('procesarpaso1');
